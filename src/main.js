@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from './routers/index'
 // import store from '../src/store/index'
 
 import './adminlte/basic.css'
