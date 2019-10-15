@@ -1,120 +1,94 @@
 <template>
 
+    <section class="content container-fluid">
 
-    <div class="">
+        <div class="grid-btn">
+            <a class="btn btn-default" @click="add">新增</a>
+            <a type="button" class="btn btn-default" @click="update">修改</a>
+            <a class="btn btn-default " data-toggle="modal" data-target="#modal-warning" @click="del">删除</a>
+        </div>
 
-        <PageHeader/>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
 
-        <!--<AssignGoods/>-->
+        <router-view>
 
-        <section class="content container-fluid">
-
-            <div class="grid-btn">
-                <a class="btn btn-default" @click="add">新增</a>
-                <a type="button" class="btn btn-default" @click="update">修改</a>
-                <a class="btn btn-default " data-toggle="modal" data-target="#modal-warning" @click="del" >删除</a>
-            </div>
-
-            <table id="jqGrid"></table>
-            <div id="jqGridPager"></div>
-            <router-view ></router-view>
-        </section>
-    </div>
-
+        </router-view>
+    </section>
 
 
 </template>
 
 <script>
     import api from '../../api/purchase'
-    import PageHeader from '@/components/PageHeader.vue'
-    import { mapState, mapMutations } from "vuex";
 
     export default {
-        name: "assignGoods",
+        name: "goodsTable",
+        props:['fatherId'],
+
+        watch: {
+            fatherId: function(newVal,oldVal){
+                this.getJqtableData(newVal)
+
+            }
+        },
         data() {
             return {
                 page: 1,
                 limit: 20,
-                type: 1,
                 goodsList: [],
                 modal_title: "nih",
             }
         },
-       components:{
-           PageHeader,
-       },
-        computed:{
-            ...mapState({  //比如'movies/hotMovies
-                navTitle:  state => state.pageHeader.navTitle,
 
-            })
-        },
-
-
-        mounted() {
-
-            var data = "page=" + this.page + "&limit=" + this.limit + "&type=" + this.type;
-            api.getAssignGoods(data).then(res => {
-
-                this.goodsList = res.page.list;
-
-                //加载表格数据
-                this.jqtable()
-
-            });
-
-
-        },
 
 
         methods: {
 
-            updataGoods: function(){
-                console.log("zhixing updatGoods!!!!");
+            //获取表格数据
+            getJqtableData: function(newVal){
+                var data = "page=" + this.page + "&limit=" + this.limit + "&fatherId=" + newVal;
+                api.getCateGoodsList(data).then(res => {
+                    console.log(data);
 
-                var data = "page=" + this.page + "&limit=" + this.limit + "&type=" + this.type;
-                api.getAssignGoods(data).then(res => {
-                    console.log(res);
                     this.goodsList = res.page.list;
-                    this.currPage = res.page.currPage;
-                    this.pageSize= res.page.pageSize;
-                    this.totalCount = res.page.totalCount;
-                    this.totalPage = res.page.totalPage;
-
                     //加载表格数据
                     this.jqtable()
 
-                })
+                });
+
             },
+
 
             // 初始化表格
             jqtable() {
 
-                console.log("zhixing jqtable!!!");
-
 
                 // 清空jqGrid表格数据
-                // $("#jqGrid").jqGrid("clearGridData")
+                $("#jqGrid").jqGrid("clearGridData")
 
-                // 初始化jqgrid
-                // var _this = this
+               // 初始化jqgrid
+                var _this = this
+
+                $("#jqGrid").jqGrid('setGridParam',{
+                    datatype:'local',
+                    data:this.goodsList,//newData是符合格式要求的重新加载的数据
+                    page:this.currPage//哪一页的值
+                }).trigger("reloadGrid");
 
                 $("#jqGrid").jqGrid('setLabel', '0', '序号', 'labelstyle');
 
                 $("#jqGrid").jqGrid(
                     {
-                        // url: 'http://localhost:8080/chainPro_war_exploded/sys/ckgoods/typeGoods?limit=10&&type=1&&page=0',
-                        // data: [
-                        //     {"goodsId": 1, "goodsName": "aa", "standardName": "pol"}
-                        //     ],
-                        data: this.goodsList,
-                        datatype:  "local",
+                        data: _this.goodsList,
+                        datatype: "local",
                         colModel: [
                             {label: 'goodsId', name: 'goodsId', width: 50, key: true, hidden: true},
                             {label: '商品名称', name: 'goodsName', width: 120},
                             {label: '规格', name: 'standardName', width: 80},
                             {label: '申请规格', name: 'applyStandardName', width: 80},
+                            {label: '采购组', name: 'purGroupId', width: 100},
+                            {label: '报警重量', name: 'alarmWeight', width: 80},
                             {
                                 label: '是否称重',
                                 name: 'isWeight',
@@ -142,13 +116,17 @@
                                 }
                             }
                         ],
+
+
                         viewrecords: true,
                         height: 400,
                         rowNum: 10,
                         rowList: [10, 30, 50],
                         rownumbers: true,
                         rownumWidth: 25,
+                        shrinkToFit:false,
                         autowidth: true,
+                        autoScroll: true,
                         multiselect: true,
                         pager: "#jqGridPager",
                         jsonReader: {
@@ -162,16 +140,17 @@
                             rows: "limit",
                             order: "order"
                         },
-                        gridComplete: function () {
-                            //隐藏grid底部滚动条
-                            $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
-                        }
+                        // gridComplete: function () {
+                        //     //隐藏grid底部滚动条
+                        //     $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "scroll"});
+                        // }
                     });
+
             },
 
 
             add: function () {
-                this.$router.push('add_assignGoods')
+                this.$router.push('/products/add_assignGoods')
             },
 
             update: function (event) {
@@ -194,14 +173,14 @@
                 this.$router.push({
                     name: '/op_assignGoods/madal_warning',
                     params: {
-                        modal_title: "确定要删除"+paramContent+"吗？",
+                        modal_title: "确定要删除" + paramContent + "吗？",
                         goodsIds: goodsIds
                     }
                 })
 
             },
 
-            delFinished: function(){
+            delFinished: function () {
                 console.log("delFinish");
 
                 this.jqtable()
@@ -269,6 +248,6 @@
 
 </script>
 
-<style scoped lang="stylus" ref="stylesheet/stylus">
+<style scoped >
 
 </style>

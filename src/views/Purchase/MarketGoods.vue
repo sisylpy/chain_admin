@@ -1,4 +1,5 @@
 <template>
+
     <div>
         <PageHeader />
 
@@ -10,10 +11,9 @@
     import PageHeader from '@/components/PageHeader.vue'
 
     export default {
-        name: "SupplyGoods",
-       data() {
+        name: "MarketGoods",
+        data() {
             return{
-
             }
         },
 

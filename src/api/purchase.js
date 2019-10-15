@@ -62,6 +62,18 @@ export default {
         })
     },
 
+    /**
+     * 获取指定商品列表
+     * @param data
+     */
+    getCateGoodsList(data) {
+        return request({
+            url: 'sys/ckgoods/cateGoodsList',
+            method: 'post',
+            data
+
+        })
+    },
 
 
 }

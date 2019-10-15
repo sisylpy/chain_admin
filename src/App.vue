@@ -28,6 +28,8 @@
                 </div>
             </nav>
         </header>
+
+
         <!-- Left side column. contains the logo and sidebar -->
         <aside class="main-sidebar">
 
@@ -51,33 +53,7 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
 
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-
-                <h1>
-                    {{navTitle}}
-                    <small></small>
-                </h1>
-                <ol class="breadcrumb" id="nav_title">
-                    <li class="active"><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-                    <li class="active">{{navTitle}}</li>
-                </ol>
-
-            </section>
-
-            <section class="content container-fluid">
-
                 <router-view/>
-
-
-            </section>
-
-               <!--<Home/>-->
-
-
-            <!-- /.content -->
-
-
         </div>
         <!-- /.content-wrapper -->
 
@@ -187,6 +163,8 @@
         created: function () {
             this.getMenuList();
             this.getUser();
+            this.getSessionStorage();
+
         },
         data:function () {
             return {
@@ -199,22 +177,26 @@
             }
         },
         methods: {
+
+            getSessionStorage: function(){
+
+                if (sessionStorage.getItem("store") ) {
+                    this.$store.replaceState(Object.assign({}, this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
+                }
+                window.addEventListener("beforeunload",()=>{
+                    sessionStorage.setItem("store",JSON.stringify(this.$store.state))
+                })
+            },
             getUser: function () {
-
-                api.getUserInfo().then(res =>{
-                    console.log(res);
+                this.$store.dispatch('sysUser/GetUserInfo').then(res => {
                     if(res) {
-                        this.user = res.user
+                        this.user =res.user;
                     }
-
                 })
 
             },
             getMenuList: function(){
-                // let formData2 = {username: 'admin', password: 'admin'}
-
                 api.getSideBarList().then(res => {
-                    console.log(res);
                     if(res) {
                         this.menuList = res.menuList
                     }

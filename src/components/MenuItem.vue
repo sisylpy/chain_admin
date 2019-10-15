@@ -11,7 +11,7 @@
 
             <ul v-if="item.type === 0" class="treeview-menu">
                 <menu-item :item="item" v-for="item in item.list" v-bind:key="item.id"
-                           @click.native="goTo(''+item.url+'')"></menu-item>
+                           @click.native="goTo(''+item.url+'',''+item.name+'')"></menu-item>
             </ul>
             <a v-if="item.type === 1">
                 <i v-if="item.icon != null" :class="item.icon"></i>
@@ -31,8 +31,15 @@
                 changeIcon: function () {
 
                 },
-                goTo: function (path) {
-                    this.$router.replace(path)
+                goTo: function (path,name) {
+                    this.$router.replace({
+                        name: path,
+                        params: {
+                            navTitle: name
+                        }
+                    })
+                    this.$store.dispatch('pageHeader/setNavTitle', name)
+
 
 
                 }

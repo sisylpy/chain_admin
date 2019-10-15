@@ -1,67 +1,57 @@
-import { getToken, setToken, removeToken } from '@/utils/auth'
+// import { getToken, setToken, removeToken } from '@/utils/auth'
 import api from '@/api/user'
 
 
 const sysUser = {
     namespaced: true,
     types: {
-    SET_AUTHENTICATED: 'SET_AUTHENTICATED',
+    // SET_AUTHENTICATED: 'SET_AUTHENTICATED',
     SET_USER: 'SET_USER'
     },
 
     state: {
-        token: getToken(),
-        name: 'sysusername',
-        avatar: '',
-        roles: [],
-        count: 0
+        // token: getToken(),
+        user: {}
     },
     mutations: {
-        SET_TOKEN: (state, token) => {
-            state.token = token
+        // SET_TOKEN: (state, token) => {
+        //     state.token = token
+        // },
+        SET_USER: (state, user) => {
+            state.user = user
         },
-        SET_NAME: (state, name) => {
-            state.name = name
-        },
-        SET_AVATAR: (state, avatar) => {
-            state.avatar = avatar
-        },
-        SET_ROLES: (state, roles) => {
-            state.roles = roles
-        },
-        increment (state) {
-            // 这里的 `state` 对象是模块的局部状态
-            state.count++
-        }
     },
     actions: {
 
         // 登录
-        Login ({ commit }, userInfo) {
-            return new Promise((resolve, reject) => {
-                api.login(userInfo).then(res => {
-                    if (res.code === 0) {
-                        console.log(res.token);
-                        console.log(res.username);
-                        setToken(res.token)
-                        commit('SET_TOKEN', res.token);
-                        commit('SET_NAME', res.username);
-                    }
-                    resolve()
-                }).catch(err => {
-                    reject(err)
-                })
-            })
-        },
+        // Login ({ commit }, userInfo) {
+        //     return new Promise((resolve, reject) => {
+        //         api.login(userInfo).then(res => {
+        //             if (res.code === 0) {
+        //                 console.log(res.token);
+        //                 console.log(res.username);
+        //                 setToken(res.token)
+        //                 commit('SET_TOKEN', res.token);
+        //                 commit('SET_NAME', res.username);
+        //             }
+        //             resolve()
+        //         }).catch(err => {
+        //             reject(err)
+        //         })
+        //     })
+        // },
         // 获取用户信息
         GetUserInfo ({ commit }) {
             return new Promise((resolve, reject) => {
                 api.getUserInfo().then(res => {
                     // console.log(res)
-                    if (res.code === 200) {
-                        commit('SET_NAME', res.data.name)
-                        commit('SET_AVATAR', res.data.avatar)
-                        commit('SET_ROLES', res.data.role)
+                    if (res.code === 0) {
+                        // setToken(res.token)
+                        // commit('SET_TOKEN', res.token);
+                        commit('SET_USER', res.user);
+                        // commit('SET_NAME', res.data.name)
+                        // commit('SET_AVATAR', res.data.avatar)
+                        // commit('SET_ROLES', res.data.role)
                     }
                     resolve(res)
                 }).catch(error => {
