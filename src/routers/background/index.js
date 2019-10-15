@@ -5,16 +5,14 @@ export default {
     component: () => import('@/views/Background/Products'),
     children: [
         {
-            path: 'add_assignGoods',
-            name: 'add_assignGoods',
-            component: () => import('@/views/Purchase/Add_assignGoods'),
-        },
-        {
-            path: 'add_assignGoods/:goodsId',
-            component: () => import('@/views/Purchase/Add_assignGoods'),
-        },
-    ]
+            path: 'addGoods',
+            name: '/products/addGoods',
+            component: () => import('@/components/Background/Add_Goods'),
 
+        }
+
+
+    ]
 
 
 }

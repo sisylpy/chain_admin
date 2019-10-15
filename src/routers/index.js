@@ -37,15 +37,15 @@ export default new Router({
             name: 'pur_assignGoods',
             component: () => import('@/views/Purchase/AssignGoods'),
         },
-        // {
-        //     path: '/add_assignGoods',
-        //     name: 'add_assignGoods',
-        //     component: () => import('@/views/Purchase/Add_assignGoods'),
-        // },
-        // {
-        //     path: '/add_assignGoods/:goodsId',
-        //     component: () => import('@/views/Purchase/Add_assignGoods'),
-        // },
+        {
+            path: '/add_Category',
+            name: 'add_Category',
+            component: () => import('@/components/Background/Add_Category'),
+        },
+        {
+            path: '/add_Category/:goodsId',
+            component: () => import('@/components/Background/Add_Category'),
+        },
         {
             path: '/pur_multGoods',
             name: 'pur_multGoods',

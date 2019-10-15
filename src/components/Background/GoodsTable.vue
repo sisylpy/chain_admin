@@ -1,19 +1,23 @@
 <template>
 
-    <section class="content container-fluid">
+    <!--<section class="content container-fluid">-->
+    <section class="content container-fluid box box-primary">
+        <div class="">
+            <h3>{{tableName}}</h3>
+        </div>
 
         <div class="grid-btn">
-            <a class="btn btn-default" @click="add">新增</a>
+            <a class="btn btn-default" @click="add" data-toggle="modal" data-target="#modal-warning" >新增</a>
             <a type="button" class="btn btn-default" @click="update">修改</a>
             <a class="btn btn-default " data-toggle="modal" data-target="#modal-warning" @click="del">删除</a>
+
         </div>
 
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
 
-        <router-view>
+        <router-view @submit-add="appendToList"></router-view>
 
-        </router-view>
     </section>
 
 
@@ -21,15 +25,22 @@
 
 <script>
     import api from '../../api/purchase'
+    import addGoods from '@/components/Background/Add_Goods.vue'
 
     export default {
-        name: "goodsTable",
-        props:['fatherId'],
+        name: "GoodsTable",
+        props:['fatherId','fatherName'],
+        components:{
+          addGoods,
+        },
 
         watch: {
             fatherId: function(newVal,oldVal){
                 this.getJqtableData(newVal)
 
+            },
+            fatherName: function (newVal, oldVal) {
+                this.tableName= newVal
             }
         },
         data() {
@@ -38,12 +49,19 @@
                 limit: 20,
                 goodsList: [],
                 modal_title: "nih",
+                tableName: "没有数据，请刷新页面"
             }
         },
 
 
 
         methods: {
+
+            appendToList: function() {
+                console.log("ok");
+                this.getJqtableData(this.fatherId)
+
+            },
 
             //获取表格数据
             getJqtableData: function(newVal){
@@ -70,6 +88,7 @@
                // 初始化jqgrid
                 var _this = this
 
+                //更新数据
                 $("#jqGrid").jqGrid('setGridParam',{
                     datatype:'local',
                     data:this.goodsList,//newData是符合格式要求的重新加载的数据
@@ -150,7 +169,17 @@
 
 
             add: function () {
-                this.$router.push('/products/add_assignGoods')
+                // this.$router.push('/products/addGoods')
+                console.log("add!!!!");
+                console.log(this.fatherName);
+
+                this.$router.push({
+                    name: '/products/addGoods',
+                    params: {
+                        fatherName: this.fatherName ,
+                        fatherId: this.fatherId,
+                    }
+                })
             },
 
             update: function (event) {
@@ -249,5 +278,8 @@
 </script>
 
 <style scoped >
+    /*.content{*/
+        /*background: #fff;*/
+    /*}*/
 
 </style>
