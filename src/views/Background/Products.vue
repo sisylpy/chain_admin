@@ -16,7 +16,6 @@
                             <h3 class="box-title">产品类别</h3>
 
                             <div class="box-tools">
-
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
                                         <i class="fa fa-wrench"></i></button>
@@ -37,6 +36,7 @@
                                         class="fa fa-minus"></i>
                                 </button>
                             </div>
+
                         </div>
                         <div class="box-body no-padding">
                             <ul class="nav nav-pills nav-stacked">

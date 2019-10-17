@@ -5,7 +5,6 @@
         <PageHeader/>
 
 
-
         <section>
             <div class="row">
                 <div class="col-md-4">
@@ -13,6 +12,30 @@
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">{{title}}</h3>
+
+
+                            <div class="box-tools">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-wrench"></i></button>
+                                    <ul class="dropdown-menu" role="menu">
+
+
+                                        <li><a href="#">修改名称</a></li>
+                                        <li><a href="#">排序</a></li>
+                                        <li><a href="#">删除</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">Separated link</a></li>
+                                    </ul>
+                                </div>
+
+
+
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                        class="fa fa-minus"></i>
+                                </button>
+                            </div>
+
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
@@ -43,13 +66,16 @@
                                                 <li class="handle_li" v-for='(item, index) in storeArr'>
                                                     <!-- drag handle -->
                                                     <span class="handle">
-                                            <i class="fa fa-ellipsis-v"></i>
-                                            <i class="fa fa-ellipsis-v"></i>
-                                          </span>
+                <i class="fa fa-ellipsis-v"></i>
+                <i class="fa fa-ellipsis-v"></i>
+                </span>
                                                     <span class="text">{{item.storeName}}</span>
                                                 </li>
 
                                             </ul>
+                                        </div>
+                                        <div class="box-footer clearfix no-border">
+                                            <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> 添加 店铺</button>
                                         </div>
 
 
@@ -57,16 +83,19 @@
 
                                 </div>
 
-
+                                <div class="form-group">
+                                    <div class="col-sm-2 control-label"></div>
+                                    <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+                                    &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="back" value="返回"/>
+                                </div>
                             </div>
+
 
                         </form>
                     </div>
                     <!-- /.box -->
 
-
                 </div>
-
 
 
                 <div class="col-md-8">
@@ -79,7 +108,8 @@
                         </div>
 
                         <!-- Table -->
-                        <table class="ui-jqgrid-htable ui-common-table table table-bordered">
+                        <table class="table table-hover">
+                            <tbody>
                             <tr>
                                 <!--<th>-->
 
@@ -89,7 +119,6 @@
                                 <th>城市</th>
                                 <th>区域</th>
                                 <th>详细地址</th>
-                                <th>送货路线</th>
                                 <th></th>
                             </tr>
                             <tr :for="item.storeId" v-for="(item,index) in storeArr">
@@ -98,23 +127,24 @@
                                 <td>{{item.city}}</td>
                                 <td>{{item.district}}</td>
                                 <td>{{item.address}}</td>
-                                <td>{{item.}}</td>
-                                <td><a class="btn  btn-default">选择</a></td>
+                                <!--<td><a class="btn  btn-default">选择</a></td>-->
                             </tr>
+                            </tbody>
+
 
                         </table>
 
                     </div>
 
 
-
                 </div>
+
+
+
             </div>
 
 
         </section>
-
-
 
 
     </div>
@@ -231,6 +261,7 @@
     }
 </script>
 
-<style scoped lang="stylus" ref="stylesheet/stylus">
+<style scoped>
+
 
 </style>
