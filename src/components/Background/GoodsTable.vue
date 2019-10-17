@@ -1,14 +1,14 @@
 <template>
 
     <!--<section class="content container-fluid">-->
-    <section class="content container-fluid box box-primary">
+    <section class="content container-fluid box box-primary" id="jqbody">
         <div class="">
             <h3>{{tableName}}</h3>
         </div>
 
         <div class="grid-btn">
             <a class="btn btn-default" @click="add" data-toggle="modal" data-target="#modal-warning" >新增</a>
-            <a type="button" class="btn btn-default" @click="update">修改</a>
+            <a type="button" class="btn btn-default" @click="update" data-toggle="modal" data-target="#modal-warning">修改</a>
             <a class="btn btn-default " data-toggle="modal" data-target="#modal-warning" @click="del">删除</a>
 
         </div>
@@ -24,12 +24,12 @@
 </template>
 
 <script>
-    import api from '../../api/purchase'
+    import api from '../../api/background/productsManager'
     import addGoods from '@/components/Background/Add_Goods.vue'
 
     export default {
         name: "GoodsTable",
-        props:['fatherId','fatherName'],
+        props:['fatherId','fatherName','type'],
         components:{
           addGoods,
         },
@@ -41,7 +41,8 @@
             },
             fatherName: function (newVal, oldVal) {
                 this.tableName= newVal
-            }
+            },
+
         },
         data() {
             return {
@@ -49,13 +50,29 @@
                 limit: 20,
                 goodsList: [],
                 modal_title: "nih",
-                tableName: "没有数据，请刷新页面"
+                tableName: "没有数据，请刷新页面",
+
             }
         },
 
+        mounted() {
+            // 动态设置背景图的高度为浏览器可视区域高度
 
+            // 首先在Virtual DOM渲染数据时，设置下背景图的高度．
+            // this.clientHeight.height = `${document.documentElement.clientHeight}px`;
+            // 然后监听window的resize事件．在浏览器窗口变化时再设置下背景图高度．
+            // const that = this;
+            // window.onresize = function temp() {
+            //     that.clientHeight = `${document.documentElement.clientHeight}px`;
+            // }
+
+            $(window).resize(function(){
+                $("#jqGrid").setGridWidth($('#jqbody').width());
+            });
+        },
 
         methods: {
+
 
             appendToList: function() {
                 console.log("ok");
@@ -68,6 +85,11 @@
                 var data = "page=" + this.page + "&limit=" + this.limit + "&fatherId=" + newVal;
                 api.getCateGoodsList(data).then(res => {
                     console.log(data);
+                    console.log("sisy");
+                    console.log(res.page.list);
+
+
+
 
                     this.goodsList = res.page.list;
                     //加载表格数据
@@ -108,6 +130,8 @@
                             {label: '申请规格', name: 'applyStandardName', width: 80},
                             {label: '采购组', name: 'purGroupId', width: 100},
                             {label: '报警重量', name: 'alarmWeight', width: 80},
+                            {label: '保质期天数', name: 'quality_period', width: 80},
+                            {label: '零售价格', name: 'price', width: 80},
                             {
                                 label: '是否称重',
                                 name: 'isWeight',
@@ -187,7 +211,8 @@
                 if (goodsId == null) {
                     return;
                 }
-                this.$router.push('add_assignGoods/' + goodsId)
+                this.$router.push('/products/addGoods/' + goodsId)
+
             },
 
 

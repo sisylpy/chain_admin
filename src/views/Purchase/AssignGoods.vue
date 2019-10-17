@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import api from '../../api/purchase'
+    import api from '../../api/background/productsManager'
     import PageHeader from '@/components/PageHeader.vue'
     import { mapState, mapMutations } from "vuex";
 
@@ -55,7 +55,7 @@
         mounted() {
 
             var data = "page=" + this.page + "&limit=" + this.limit + "&type=" + this.type;
-            api.getAssignGoods(data).then(res => {
+            api.getTypeGoods(data).then(res => {
 
                 this.goodsList = res.page.list;
 
@@ -74,7 +74,7 @@
                 console.log("zhixing updatGoods!!!!");
 
                 var data = "page=" + this.page + "&limit=" + this.limit + "&type=" + this.type;
-                api.getAssignGoods(data).then(res => {
+                api.getTypeGoods(data).then(res => {
                     console.log(res);
                     this.goodsList = res.page.list;
                     this.currPage = res.page.currPage;

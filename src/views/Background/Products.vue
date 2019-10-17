@@ -17,7 +17,6 @@
 
                             <div class="box-tools">
 
-
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
                                         <i class="fa fa-wrench"></i></button>
@@ -63,9 +62,9 @@
                         </div>
                         <div class="box-body no-padding">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#"><i class="fa fa-circle-o text-red"></i> Important</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> Promotions</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o text-light-blue"></i> Social</a></li>
+                                <li><a @click="getGoodsType(1)"><i class="fa fa-circle-o text-light-blue"></i>正常销售</a></li>
+                                <li><a @click="getGoodsType(2)"><i class="fa fa-circle-o text-yellow"></i>断货</a></li>
+                                <li><a @click="getGoodsType(3)"><i class="fa fa-circle-o text-red"></i>停止销售</a></li>
                             </ul>
                         </div>
                         <!-- /.box-body -->
@@ -75,7 +74,7 @@
                 <!-- /.col -->
                 <div class="col-md-9">
 
-                    <GoodsTable :fatherId="fatherId" :fatherName="fatherName"/>
+                    <GoodsTable :fatherId="fatherId" :fatherName="fatherName" :type="type"/>
                     <!--<router-viewer/>-->
 
                 </div>
@@ -89,7 +88,7 @@
 
 <script>
     import PageHeader from '@/components/PageHeader.vue'
-    import api from '@/api/background.js'
+    import api from '../../api/background/productsManager'
     import GoodsTable from '@/components/Background/GoodsTable.vue'
 
     export default {
@@ -99,7 +98,11 @@
                 cateList: [],
                 isactive: 0,
                 fatherId: "",
-                fatherName: ""
+                fatherName: "",
+                page: 1,
+                limit: 20,
+                type: 1,
+
 
 
             }
@@ -133,6 +136,24 @@
 
             addCate: function () {
                 this.$router.push('/add_Category')
+            },
+
+            getGoodsType: function (e) {
+                console.log(e);
+                this.type = e;
+
+                var data = "page=" + this.page + "&limit=" + this.limit + "&type=" + e+ "&fatherId="+ this.fatherId;
+                api.getTypeGoods(data).then(res => {
+
+                    this.goodsList = res.page.list;
+                    console.log(res.page);
+
+
+                    //加载表格数据
+                    // this.jqtable()
+
+                });
+
             }
 
 

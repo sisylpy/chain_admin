@@ -3,8 +3,10 @@
 
 
 import './libs/jquery.min'
+import './libs/jquery-ui'
 import './plugins/layer/layer'
 import './libs/bootstrap.min'
+import '../../node_modules/admin-lte/bower_components/bootstrap/dist/js/bootstrap.min'
 import './libs/jquery.slimscroll.min'
 import './libs/fastclick.min'
 import './libs/app'
@@ -16,5 +18,7 @@ import './plugins/ztree/jquery.ztree.all.min'
 import './js/common'
 
 
+// import './libs/demo'
+// import './libs/dashboard'
 
 

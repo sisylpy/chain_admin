@@ -6,9 +6,8 @@
 @import "./plugins/ztree/css/metroStyle/metroStyle.css";
 @import "../../node_modules/admin-lte/dist/css/AdminLTE.min.css";
 @import "../../node_modules/admin-lte/dist/css/skins/_all-skins.css";
-
+@import "../adminlte/jquery-ui.css";
 @import '../../node_modules/admin-lte/bower_components/Ionicons/css/ionicons.min.css';
-
 
 @import "./main.css";
 

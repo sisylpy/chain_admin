@@ -9,7 +9,13 @@ export default {
             name: '/products/addGoods',
             component: () => import('@/components/Background/Add_Goods'),
 
+        },
+        {
+            path: 'addGoods/:goodsId',
+            component: () => import('@/components/Background/Add_Goods'),
+
         }
+
 
 
     ]

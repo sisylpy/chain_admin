@@ -33,7 +33,7 @@
 </template>
 
 <script>
-    import api from '../../api/purchase'
+    import api from '../../api/background/productsManager'
     import PageHeader from '@/components/PageHeader.vue'
 
     export default {

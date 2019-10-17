@@ -41,6 +41,32 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">采购组</div>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="ckGoods.purGroupId" v-model="ckGoods.purGroupId" >
+                                    <option value="1" selected>1重</option>
+                                    <option value="2">2重</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">报警重量</div>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" v-model="ckGoods.alarmWeight" placeholder="报警重量"  value="1"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">保质期天数</div>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" v-model="ckGoods.qualityPeriod" placeholder="保质期天数"  value="1"/>
+                            </div>
+
+                        </div>
+
                         <div class="form-group">
                             <div class="col-sm-2 control-label">产品状态</div>
                             <div class="col-sm-10">
@@ -54,7 +80,14 @@
                         <div class="form-group" >
                             <div class="col-sm-2 control-label">产品状态</div>
                             <div class="col-sm-10">
-                                <input  class="form-control" v-model="ckGoods.type"  value="1"/>
+                                <input  class="form-control" v-model="ckGoods.type"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group" >
+                            <div class="col-sm-2 control-label">零售价格</div>
+                            <div class="col-sm-10">
+                                <input  class="form-control" v-model="ckGoods.price"/>
                             </div>
                         </div>
 
@@ -78,12 +111,10 @@
     </div>
 
 
-
-
 </template>
 
 <script>
-    import api from '../../api/purchase'
+    import api from '../../api/background/productsManager'
 
     export default {
         name: "Add_Goods",
@@ -137,6 +168,7 @@
                         $('#modal-warning').modal('hide')
 
                         this.$router.go(-1)
+                        this.$emit('submit-add');
 
                     })
                 }else {
@@ -148,7 +180,6 @@
                         this.$router.go(-1)
 
                         this.$emit('submit-add');
-
 
                     })
                 }
