@@ -114,10 +114,10 @@
 </template>
 
 <script>
-    import api from '../../api/background/productsManager'
+    import api from '../../../api/background/products'
 
     export default {
-        name: "Add_Goods",
+        name: "AddGoods",
         data(){
           return{
               title:"新增",

@@ -2,12 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home'
 
-import BackgrounGoodsRouter from '../routers/background/goods'
-import BackgroundStoreListRouter from '../routers/background/storeList'
-import BackgroundCkLineRouter from '../routers/background/ckLine'
+import GoodsRouter from '../routers/background/goods'
+import StoreListRouter from '../routers/background/store'
+import CkLineRouter from '../routers/background/ckLine'
+import OutDepRouter from '../routers/background/outDep'
+import PurDepRouter from '../routers/background/purDep'
+import StoreBuindessDataRouter from '../routers/store/businessData'
 
-import Add_Category from '../components/Background/Add_Category'
-import Add_Line from '../components/Background/Add_Line'
+
 
 Vue.use(Router)
 
@@ -23,9 +25,12 @@ export default new Router({
 
     },
     routes: [
-        BackgrounGoodsRouter,
-        BackgroundStoreListRouter,
-        BackgroundCkLineRouter,
+        GoodsRouter,
+        StoreListRouter,
+        CkLineRouter,
+        OutDepRouter,
+        PurDepRouter,
+        StoreBuindessDataRouter,
         {
             path: '/',
             redirect: '/index.html'
@@ -35,13 +40,26 @@ export default new Router({
             component: Home
         },
         {
-            path: '/add_Category',
-            component: Add_Category
+            path: '/addCategory',
+            component: () => import('@/components/Background/Products/AddCategory'),
+        },
+        {
+            path: '/addStore',
+            name:'addStore',
+            component: () => import('@/components/Background/Store/AddStore'),
+
         },
         {
             path: '/addLine',
-            component: Add_Line
-        }
+            name:'addLine',
+            component: () => import('@/components/Background/Line/AddLine'),
+
+        },
+        {
+            path: '/addOutDep',
+            name: 'addOutDep',
+            component: () => import('@/components/Background/OutDep/AddOutDep'),
+        },
 
 
 

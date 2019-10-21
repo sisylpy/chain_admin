@@ -14,10 +14,19 @@ import './js/iframe'
 import './plugins/jqgrid/grid.locale-cn'
 import './plugins/jqgrid/jquery.jqGrid.min'
 import './plugins/ztree/jquery.ztree.all.min'
+//daterangepicker
+import '../../node_modules/moment/moment'
+import '../../node_modules/admin-lte/bower_components/bootstrap-daterangepicker/daterangepicker'
+//datepicker
+import '../../node_modules/admin-lte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker'
+
+
+import '../../node_modules/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap'
+import '../../node_modules/admin-lte/dist/js/adminlte'
 import './js/common'
 
 
-// import './libs/demo'
-// import './libs/dashboard'
+import './libs/demo'
+import './libs/dashboard'
 
 

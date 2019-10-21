@@ -19,8 +19,8 @@ body{
 }
 .content-header {
 	position: relative;
-	padding: 15px 15px 15px 15px;
-	height: 60px;
+	/*padding: 15px 15px 15px 15px;*/
+	height: 40px;
 	width: 100%;
 }
 
@@ -52,7 +52,8 @@ body{
 
 
 .grid-btn{
-	margin-bottom:10px;
+	/*margin-bottom:10px;*/
+	padding: 15px 15px;
 }
 .grid-btn .btn{
 	margin-right:10px;
@@ -70,7 +71,7 @@ body{
 	.panel .pagination { margin:0; }
 	.panel-default>.panel-heading {background-color: #f5f5f5;}
 	.row{
-		border-top: 1px solid #ddd;
+		/*border-top: 1px solid #ddd;*/
 		margin:0;
 		padding:20px 2px 0px 2px;
 	}
@@ -79,3 +80,12 @@ body{
 	.form-horizontal{
 		width:550px;padding-top:20px;
 	}
+.ui-jqgrid {
+	border: none;
+}
+.table tbody tr td.active {
+	background: none;
+}
+.table tbody tr.success td {
+	background: #c3c3e6;
+}

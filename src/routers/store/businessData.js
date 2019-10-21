@@ -1,8 +1,8 @@
 export default {
 
-    path: '/ckLine',
-    name: 'ckLine',
-    component: () => import('@/views/Background/CkLine'),
+    path: '/businessData',
+    name: 'businessData',
+    component: () => import('@/views/StoreMangement/BusinessData'),
     children: [
 
         // {

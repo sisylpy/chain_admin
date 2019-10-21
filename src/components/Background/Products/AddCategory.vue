@@ -33,11 +33,11 @@
 </template>
 
 <script>
-    import api from '../../api/background/productsManager'
+    import api from '../../../api/background/products'
     import PageHeader from '@/components/PageHeader.vue'
 
     export default {
-        name: "add_Category",
+        name: "addCategory",
         data(){
           return{
               ckGoods: {

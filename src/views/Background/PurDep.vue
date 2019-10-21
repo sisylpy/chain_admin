@@ -15,7 +15,7 @@
                     <div class="box  box-primary">
 
                         <div class="box-header with-border">
-                            <h3 class="box-title">类别</h3>
+                            <h3 class="box-title">采购部门</h3>
 
                             <div class="box-tools">
                                 <div class="btn-group">
@@ -24,7 +24,7 @@
                                     <ul class="dropdown-menu" role="menu">
 
 
-                                        <li><a  @click="addCate">新增</a></li>
+                                        <li><a  @click="addCate">添加类别</a></li>
                                         <li><a href="#">修改</a></li>
                                         <li><a href="#">删除</a></li>
                                         <!--<li class="divider"></li>-->
@@ -95,7 +95,7 @@
     import GoodsTable from '@/components/Background/Products/GoodsTable.vue'
 
     export default {
-        name: "Products",
+        name: "PurDep",
         data() {
             return {
                 cateList: [],

@@ -10,6 +10,8 @@ module.exports = {
             jQuery: 'jquery',
             'window.jQuery': 'jquery'
         }]);
+        config.plugin('ignore')
+            .use(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));//忽略/moment/locale下的所有文件
     },
 
     devServer: {

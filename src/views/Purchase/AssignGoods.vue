@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import api from '../../api/background/productsManager'
+    import api from '../../api/background/products'
     import PageHeader from '@/components/PageHeader.vue'
     import { mapState, mapMutations } from "vuex";
 

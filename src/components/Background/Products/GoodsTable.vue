@@ -2,19 +2,46 @@
 
     <!--<section class="content container-fluid">-->
     <section class="content container-fluid box box-primary" id="jqbody">
-        <div class="">
-            <h3>{{tableName}}</h3>
+
+        <div class="box-header with-border">
+            <h3 class="box-title">{{tableName}}</h3>
+
+            <div class="box-tools pull-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-wrench"></i></button>
+                    <ul class="dropdown-menu" role="menu">
+
+                        <li><a @click="add" data-toggle="modal" data-target="#modal-warning">新增</a></li>
+                        <li><a @click="update" data-toggle="modal" data-target="#modal-warning">修改</a></li>
+                        <li><a data-toggle="modal" data-target="#modal-warning" @click="del">删除</a></li>
+
+                        <!--<li class="divider"></li>-->
+
+                    </ul>
+                </div>
+
+
+                <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i-->
+                        <!--class="fa fa-minus"></i>-->
+                <!--</button>-->
+            </div>
+
+        </div>
+        <div class="box-body no-padding">
+            <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>
         </div>
 
-        <div class="grid-btn">
-            <a class="btn btn-default" @click="add" data-toggle="modal" data-target="#modal-warning" >新增</a>
-            <a type="button" class="btn btn-default" @click="update" data-toggle="modal" data-target="#modal-warning">修改</a>
-            <a class="btn btn-default " data-toggle="modal" data-target="#modal-warning" @click="del">删除</a>
+        <!--<div class="grid-btn">-->
+            <!--<a class="btn btn-default" @click="add" data-toggle="modal" data-target="#modal-warning" >新增</a>-->
+            <!--<a type="button" class="btn btn-default" @click="update" data-toggle="modal" data-target="#modal-warning">修改</a>-->
+            <!--<a class="btn btn-default " data-toggle="modal" data-target="#modal-warning" @click="del">删除</a>-->
 
-        </div>
+        <!--</div>-->
 
-        <table id="jqGrid"></table>
-        <div id="jqGridPager"></div>
+        <!--<table id="jqGrid"></table>-->
+        <!--<div id="jqGridPager"></div>-->
 
         <router-view @submit-add="appendToList"></router-view>
 
@@ -24,8 +51,8 @@
 </template>
 
 <script>
-    import api from '../../api/background/productsManager'
-    import addGoods from '@/components/Background/Add_Goods.vue'
+    import api from '../../../api/background/products'
+    import addGoods from '@/components/Background/Products/AddGoods.vue'
 
     export default {
         name: "GoodsTable",
@@ -193,12 +220,12 @@
 
 
             add: function () {
-                // this.$router.push('/products/addGoods')
+                // this.$router.push('/Products/addGoods')
                 console.log("add!!!!");
                 console.log(this.fatherName);
 
                 this.$router.push({
-                    name: '/products/addGoods',
+                    name: '/Products/addGoods',
                     params: {
                         fatherName: this.fatherName ,
                         fatherId: this.fatherId,
@@ -211,7 +238,7 @@
                 if (goodsId == null) {
                     return;
                 }
-                this.$router.push('/products/addGoods/' + goodsId)
+                this.$router.push('/Products/addGoods/' + goodsId)
 
             },
 
