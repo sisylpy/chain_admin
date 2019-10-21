@@ -48,13 +48,13 @@
                                 <div class="tab-content">
 
                                     <div class="active tab-pane" id="storeGoods">
-                                        <StoreGoodsTable/>
+                                        <StoreGoodsPanel/>
                                     </div>
                                     <!-- /.tab-pane -->
 
                                     <div class="tab-pane" id="turnover">
 
-                                        <StoreTurnoverTable/>
+                                        <TurnoverPanel/>
 
                                     </div>
 
@@ -86,8 +86,8 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
     import api from '../../api/background/store'
-    import StoreGoodsTable from '@/components/StoreMangement/BusinessData/StoreGoodsTable'
-    import StoreTurnoverTable from '@/components/StoreMangement/BusinessData/StoreTurnoverTable'
+    import StoreGoodsPanel from '@/components/StoreMangement/BusinessData/StoreGoodsPanel'
+    import TurnoverPanel from '@/components/StoreMangement/BusinessData/TurnoverPanel'
 
     export default {
         name: "BusinessData",
@@ -123,8 +123,8 @@
 
         components: {
             PageHeader,
-            StoreGoodsTable,
-            StoreTurnoverTable,
+            StoreGoodsPanel,
+            TurnoverPanel,
         },
         methods: {
 
@@ -166,7 +166,6 @@
     /*.nav-stacked>li.active>a{*/
     /*border-left-color: lightgray*/
     /*}*/
-    .tab-content {
-        background: #fff;
-    }
+
 </style>
+

@@ -92,6 +92,7 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
     import api from '../../api/background/products'
+
     import GoodsTable from '@/components/Background/Products/GoodsTable.vue'
 
     export default {
@@ -115,6 +116,7 @@
 
             api.getCateGoods().then(res => {
                 if (res) {
+
                     this.cateList = res.data;
                     this.fatherId = res.data[0].goodsId;
                     console.log(res.data[0].goodsName);

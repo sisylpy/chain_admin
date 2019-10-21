@@ -36,64 +36,10 @@
                         <div class="box-body no-padding">
 
 
-                        <div class="col-md-4" v-for="(item, index) in lineArr">
-                    <!--<div class="col-md-4">-->
 
-                    <!-- general form elements -->
-                    <div class="box box-solid">
-
-                        <div class="box-header with-border">
-                            <i class="ion ion-clipboard"></i>
-
-                            <h3 class="box-title">{{item.lineName}}</h3>
+                            <LinesPanel/>
 
 
-                            <div class="box-tools">
-
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                        class="fa fa-minus"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                        <!-- /.box-header -->
-
-                        <div class="box-body" >
-
-                            <ul class="todo-list" style="display: none">
-
-                                <li class="handle_li" v-for='(item2, index) in item.storeEntityList'>
-                                    <!-- drag handle -->
-                                    <span class="handle">
-                <i class="fa fa-ellipsis-v"></i>
-                <i class="fa fa-ellipsis-v"></i>
-                </span>
-                                    <span class="text">{{item2.storeName}}</span>
-                                </li>
-
-                            </ul>
-
-                            <table class="table">
-                                <tbody>
-                                <tr :for="item.storeId" v-for="(item3,index) in item.storeEntityList">
-                                    <td>第{{index+1}}个送达</td>
-                                    <td>{{item3.storeName}}</td>
-                                    <td>{{item3.address}}</td>
-                                    <!--<td><a class="btn  btn-default">选择</a></td>-->
-                                </tr>
-                                </tbody>
-
-
-                            </table>
-
-
-                        </div>
-
-
-                    </div>
-                    <!-- /.box -->
-
-                </div>
                         </div>
 
                 </div>
@@ -113,19 +59,20 @@
 <script>
 
     import PageHeader from '@/components/PageHeader.vue'
-    import api from '@/api/background/line'
     import apis from '@/api/background/store'
+    import LinesPanel from '@/components/Background/Line/LinesPanel'
 
     export default {
-        name: "CkLine",
+        name: "Line",
         components: {
             PageHeader,
+            LinesPanel,
         },
 
         mounted() {
             $('.todo-list').sortable();
             $('.todo-list').disableSelection();
-            this.getLineData();
+            // this.getLineData();
             // this.getStoreData();
 
         },
@@ -136,7 +83,7 @@
                 limit: 20,
                 lineArr: [],
                 // title: "燕郊线",
-                // storeArr:[]
+                storeArr:[]
             }
 
         },
@@ -152,14 +99,7 @@
                 });
             },
 
-            getLineData: function () {
-                var data = "page=" + this.page + "&limit=" + this.limit;
-                api.getLineList(data).then(res => {
-                    console.log(res);
 
-                    this.lineArr = res.page.list;
-                });
-            },
 
             /**
              *日期：2019/10/17

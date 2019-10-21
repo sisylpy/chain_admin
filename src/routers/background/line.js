@@ -2,7 +2,7 @@ export default {
 
     path: '/ckLine',
     name: 'ckLine',
-    component: () => import('@/views/Background/CkLine'),
+    component: () => import('@/views/Background/Line'),
     children: [
 
         // {

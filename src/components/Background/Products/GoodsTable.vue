@@ -155,7 +155,7 @@
                             {label: '商品名称', name: 'goodsName', width: 120},
                             {label: '规格', name: 'standardName', width: 80},
                             {label: '申请规格', name: 'applyStandardName', width: 80},
-                            {label: '采购组', name: 'purGroupId', width: 100},
+                            {label: '出货部门', name: 'outDepEntity.outDepName', width: 100},
                             {label: '报警重量', name: 'alarmWeight', width: 80},
                             {label: '保质期天数', name: 'quality_period', width: 80},
                             {label: '零售价格', name: 'price', width: 80},

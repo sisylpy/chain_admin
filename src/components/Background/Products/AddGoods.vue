@@ -22,13 +22,13 @@
                         <div class="form-group">
                             <div class="col-sm-2 control-label">规格</div>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" v-model="ckGoods.standardName" placeholder="规格" value="1"/>
+                                <input type="text" class="form-control" v-model="ckGoods.standardName" placeholder="规格"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">申请规格</div>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" v-model="ckGoods.applyStandardName" placeholder="申请规格"  value="1"/>
+                                <input type="text" class="form-control" v-model="ckGoods.applyStandardName" placeholder="申请规格"/>
                             </div>
                         </div>
 
@@ -43,11 +43,11 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-sm-2 control-label">采购组</div>
+                            <div class="col-sm-2 control-label">出货部门</div>
                             <div class="col-sm-10">
-                                <select class="form-control" id="ckGoods.purGroupId" v-model="ckGoods.purGroupId" >
-                                    <option value="1" selected>1重</option>
-                                    <option value="2">2重</option>
+                                <select class="form-control" v-model="ckGoods.gOutDepId" @change="selectOutDep">
+
+                                    <option :value="item.outDepId" v-for="item in outDepArr">{{item.outDepName}}</option>
                                 </select>
                             </div>
                         </div>
@@ -115,6 +115,7 @@
 
 <script>
     import api from '../../../api/background/products'
+    import apio from '../../../api/background/outDep'
 
     export default {
         name: "AddGoods",
@@ -122,12 +123,15 @@
           return{
               title:"新增",
               ckGoods:{
-                  fatherId:this.$route.params.fatherId
+                  fatherId:this.$route.params.fatherId,
+                  outDepId: ''
+
               },
               type: 1,
               fatherName: this.$route.params.fatherName,
               fatherId: this.$route.params.fatherId,
-              selectedStatus: 1
+              selectedStatus: 1,
+              outDepArr: [],
 
           }
         },
@@ -139,12 +143,29 @@
                 this.title = "修改";
                 this.getInfo(this.goodsId);
             }
+            this.getOutDepData();
 
         },
         components:{
         },
 
         methods:{
+            selectOutDep: function(e) {
+                console.log(this.ckGoods.gOutDepId);
+
+
+
+            },
+            getOutDepData: function(){
+
+                apio.getOutDepList().then(res => {
+                    console.log(res);
+
+                    if(res) {
+                        this.outDepArr = res.data
+                    }
+                })
+            },
             getInfo: function(){
                 console.log("huoqu api???");
 
@@ -173,6 +194,8 @@
                     })
                 }else {
 
+
+                    console.log(this.ckGoods);
 
                     api.saveGoods(JSON.stringify(this.ckGoods)).then(res => {
                         $('#modal-warning').modal('hide')

@@ -2,11 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home'
 
+//后台数据管理
 import GoodsRouter from '../routers/background/goods'
 import StoreListRouter from '../routers/background/store'
-import CkLineRouter from '../routers/background/ckLine'
+import LineRouter from '../routers/background/line'
 import OutDepRouter from '../routers/background/outDep'
 import PurDepRouter from '../routers/background/purDep'
+
+//店铺管理
 import StoreBuindessDataRouter from '../routers/store/businessData'
 
 
@@ -25,12 +28,16 @@ export default new Router({
 
     },
     routes: [
+
         GoodsRouter,
         StoreListRouter,
-        CkLineRouter,
+        LineRouter,
         OutDepRouter,
         PurDepRouter,
+
         StoreBuindessDataRouter,
+
+
         {
             path: '/',
             redirect: '/index.html'
@@ -60,7 +67,6 @@ export default new Router({
             name: 'addOutDep',
             component: () => import('@/components/Background/OutDep/AddOutDep'),
         },
-
 
 
 

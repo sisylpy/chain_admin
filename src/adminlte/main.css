@@ -89,3 +89,17 @@ body{
 .table tbody tr.success td {
 	background: #c3c3e6;
 }
+
+
+/* panel css sisy*/
+.tab-content {
+	background: #fff;
+}
+.tab-pane{
+	border-left: 1px solid lightgray;
+	border-right: 1px solid lightgray;
+	border-bottom: 1px solid lightgray;
+}
+.my_panel {
+	padding: 20px 20px;
+}
