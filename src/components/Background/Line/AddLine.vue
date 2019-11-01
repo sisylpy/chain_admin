@@ -109,7 +109,7 @@
 
 <script>
     import PageHeader from '@/components/PageHeader.vue'
-    import api from '@/api/background/store'
+    // import api from '@/api/background/store'
     import apil from '@/api/background/line'
 
     export default {
@@ -151,9 +151,9 @@
                     var result = $(this).sortable('toArray')
                     var arr = [];
                     for (var i = 0; i < result.length; i++) {
-                        var id = result[i];
+                        var ids = result[i];
                         var store = {
-                            storeId: id,
+                            storeId: ids,
                         }
                         arr.push(store)
                     }
@@ -183,11 +183,9 @@
             getStores: function () {
                 console.log("store??");
 
-                var data = "page=" + this.page + "&limit=" + this.limit;
-                api.getStoreList(data).then(res => {
-                    console.log(data);
-                    console.log(res.page);
-                    this.storeArr = res.page.list;
+                apil.queryLineStore().then(res => {
+                    console.log(res.data);
+                    this.storeArr = res.data;
                     //加载表格数据
 
                 });

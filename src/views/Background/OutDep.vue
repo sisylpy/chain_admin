@@ -36,9 +36,9 @@
                             <!--<li class="active"><a>Inbox</a></li>-->
                             <li v-for="(item,index) in outDepList" v-bind:key="item.id" :id="item.outDepId"
                                 :class="isactive == index ? 'active' : '' "
-                                @click='onclick(index, item.outDepId,item.outDepName)'>
+                                @click='onclick(index, item.depId,item.depName)'>
 
-                                <a>{{item.outDepName}}</a></li>
+                                <a>{{item.depName}}</a></li>
                         </ul>
                     </div>
                     <!-- /.box-body -->
@@ -135,13 +135,14 @@
         },
 
         mounted() {
+            var type = 1;
 
-            api.getOutDepList().then(res => {
+            api.getOutDepList(type).then(res => {
                 if (res) {
                     console.log(res);
 
                     this.outDepList = res.data;
-                    this.outDepId = res.data[0].outDepId;
+                    this.outDepId = res.data[0].depId;
                     console.log(res.data[0].goodsName);
 
                     this.fatherName = res.data[0].goodsName;

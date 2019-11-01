@@ -8,6 +8,10 @@ import StoreListRouter from '../routers/background/store'
 import LineRouter from '../routers/background/line'
 import OutDepRouter from '../routers/background/outDep'
 import PurDepRouter from '../routers/background/purDep'
+import StaffRouter from './background/ckUser'
+import InBillRouter from '../routers/In/InBill'
+import OutOrderApplicationRouter from '../routers/Out/OrderApplication'
+
 
 //店铺管理
 import StoreBuindessDataRouter from '../routers/store/businessData'
@@ -34,8 +38,11 @@ export default new Router({
         LineRouter,
         OutDepRouter,
         PurDepRouter,
+        StaffRouter,
+        InBillRouter,
 
         StoreBuindessDataRouter,
+        OutOrderApplicationRouter,
 
 
         {
@@ -66,6 +73,11 @@ export default new Router({
             path: '/addOutDep',
             name: 'addOutDep',
             component: () => import('@/components/Background/OutDep/AddOutDep'),
+        },
+        {
+            path: '/addUser',
+            name: 'addUser',
+            component: () => import('@/components/Background/CkUser/AddUser'),
         },
 
 

@@ -9,9 +9,9 @@
                 <div class="panel-heading">添加出货部门</div>
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <div class="col-sm-2 control-label">商品类别名称</div>
+                        <div class="col-sm-2 control-label">出货部门名称</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="ckOutDep.outDepName" placeholder="出货部门名称" value="name"/>
+                            <input type="text" class="form-control" v-model="storeDep.depName" placeholder="出货部门名称" value="name"/>
                         </div>
                     </div>
 
@@ -40,7 +40,9 @@
         name: "addOutDep",
         data(){
           return{
-              ckOutDep:{
+              storeDep:{
+                  depType: 1,
+
 
               }
 
@@ -54,9 +56,9 @@
         methods:{
 
             saveOrUpdate: function (event) {
-                console.log("ckOutDep api ")
+                console.log("storeDep api ")
 
-                api.saveOutDep(JSON.stringify(this.ckOutDep)).then(res => {
+                api.saveOutDep(JSON.stringify(this.storeDep)).then(res => {
                     this.$router.go(-1)
 
                 })

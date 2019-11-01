@@ -3,12 +3,12 @@ import request from '@/utils/request'
 export default {
 
     /**
-     * 获取指定商品列表
+     * 获取员工列表
      * @param data
      */
-    getLineList(data) {
+    getCkUserList(data) {
         return request({
-            url: 'sys/ckline/list',
+            url: 'sys/ckuser/list',
             method: 'post',
             data
 
@@ -19,23 +19,23 @@ export default {
      * 获取指定商品列表
      * @param data
      */
-    save(data) {
+    saveUser(data) {
         return request({
-            url: 'sys/ckline/save',
+            url: 'sys/ckuser/save',
             method: 'post',
             data
+        })
+    },
+
+    getRole() {
+        return request({
+            url: 'sys/role/listAll',
+            method: 'get',
 
         })
     },
-    /**
-     * 获取未加入路线到店铺
-     */
-    queryLineStore() {
-        return request({
-            url: 'sys/ckstore/queryLineStore',
-            method: 'get'
-        })
-    }
+
+
 
 
 

@@ -32,11 +32,9 @@
                                     </ul>
                                 </div>
 
-
-
-                                <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i-->
-                                        <!--class="fa fa-minus"></i>-->
-                                <!--</button>-->
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                        class="fa fa-minus"></i>
+                                </button>
                             </div>
 
                         </div>
@@ -53,25 +51,40 @@
                         <!-- /.box-body -->
                     </div>
                     <!-- /. box -->
-                    <!--<div class="box box-solid">-->
-                        <!--<div class="box-header with-border">-->
-                            <!--<h3 class="box-title">Labels</h3>-->
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">加工</h3>
 
-                            <!--<div class="box-tools">-->
-                                <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i-->
-                                        <!--class="fa fa-minus"></i>-->
-                                <!--</button>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="box-body no-padding">-->
-                            <!--<ul class="nav nav-pills nav-stacked">-->
-                                <!--<li><a @click="getGoodsType(1)"><i class="fa fa-circle-o text-light-blue"></i>正常销售</a></li>-->
-                                <!--<li><a @click="getGoodsType(2)"><i class="fa fa-circle-o text-yellow"></i>断货</a></li>-->
-                                <!--<li><a @click="getGoodsType(3)"><i class="fa fa-circle-o text-red"></i>停止销售</a></li>-->
-                            <!--</ul>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash; /.box-body &ndash;&gt;-->
-                    <!--</div>-->
+                            <div class="box-tools">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-wrench"></i></button>
+                                    <ul class="dropdown-menu" role="menu">
+
+
+                                        <li><a  @click="addCate">新增</a></li>
+                                        <li><a href="#">修改</a></li>
+                                        <li><a href="#">删除</a></li>
+                                        <!--<li class="divider"></li>-->
+                                        <!--<li><a href="#">Separated link</a></li>-->
+                                    </ul>
+                                </div>
+
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                        class="fa fa-minus"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="box-body no-padding">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a @click="getGoodsType(1)"><i class="fa fa-circle-o text-light-blue"></i>凉菜</a></li>
+                                <!--<li><a @click="getGoodsType(2)"><i class="fa fa-circle-o text-yellow">干果</i></a></li>-->
+                                <!--<li><a @click="getGoodsType(3)"><i class="fa fa-circle-o text-red"></i></a></li>-->
+                            </ul>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
                     <!-- /.box -->
                 </div>
                 <!-- /.col -->

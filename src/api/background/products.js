@@ -29,7 +29,7 @@ export default {
      */
     getGoodsInfo(data) {
         return request({
-            url: 'sys/ckgoods/info/'+data,
+            url: 'sys/ckgoods/info/'+ data,
             method: 'get',
             // data
         })
@@ -43,7 +43,7 @@ export default {
      */
     getCateGoodsList(data) {
         return request({
-            url: 'sys/ckgoods/cateGoodsList',
+            url: 'sys/ckgoods/goodsList',
             method: 'post',
             data
 
@@ -55,21 +55,9 @@ export default {
      */
     getCateGoods() {
       return request({
-          url: "sys/ckgoods/cateGoods",
+          url: "sys/ckgoods/cateList",
           method: 'get',
       })
-    },
-    /**
-     * 获取指定商品列表
-     * @param data
-     */
-    getTypeGoods(data) {
-        return request({
-            url: 'sys/ckgoods/typeGoods',
-            method: 'post',
-            data
-
-        })
     },
     /**
      * 删除商品

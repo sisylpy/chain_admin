@@ -6,11 +6,10 @@ export default {
      * 获取出货部门列表
      * @param data
      */
-    getOutDepList() {
+    getOutDepList(data) {
         return request({
-            url: 'sys/ckoutdep/list',
+            url: 'sys/ckstoredep/list/'+ data,
             method: 'get',
-
         })
     },
     /**
@@ -18,7 +17,7 @@ export default {
      */
     saveOutDep(data) {
         return request({
-            url: 'sys/ckoutdep/save',
+            url: 'sys/ckstoredep/save',
             method: 'post',
             data
         })

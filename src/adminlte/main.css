@@ -4,6 +4,9 @@ body{
 	background: #ecf0f5;
 
 }
+element.style{
+	min-height: 400px;
+}
 
 .nav-stacked>li>a{
 	border-radius: 0;
@@ -14,9 +17,7 @@ body{
 	color: #000;
 
 }
-.content-wrapper{
 
-}
 .content-header {
 	position: relative;
 	/*padding: 15px 15px 15px 15px;*/

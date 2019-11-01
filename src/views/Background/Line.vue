@@ -63,7 +63,7 @@
     import LinesPanel from '@/components/Background/Line/LinesPanel'
 
     export default {
-        name: "Line",
+        name: "LineStore",
         components: {
             PageHeader,
             LinesPanel,

@@ -45,8 +45,7 @@
                         <div class="form-group">
                             <div class="col-sm-2 control-label">出货部门</div>
                             <div class="col-sm-10">
-                                <select class="form-control" v-model="ckGoods.gOutDepId" @change="selectOutDep">
-
+                                <select class="form-control" v-model="ckGoods.outDepId" @change="selectOutDep">
                                     <option :value="item.outDepId" v-for="item in outDepArr">{{item.outDepName}}</option>
                                 </select>
                             </div>
@@ -78,9 +77,9 @@
                             </div>
                         </div>
                         <div class="form-group" >
-                            <div class="col-sm-2 control-label">产品状态</div>
+                            <div class="col-sm-2 control-label">产品排序</div>
                             <div class="col-sm-10">
-                                <input  class="form-control" v-model="ckGoods.type"/>
+                                <input  class="form-control" v-model="ckGoods.gStore"/>
                             </div>
                         </div>
 
@@ -151,14 +150,15 @@
 
         methods:{
             selectOutDep: function(e) {
-                console.log(this.ckGoods.gOutDepId);
+                console.log(this.ckGoods.outDepId);
 
 
 
             },
             getOutDepData: function(){
 
-                apio.getOutDepList().then(res => {
+                var type = 1;
+                apio.getOutDepList(type).then(res => {
                     console.log(res);
 
                     if(res) {

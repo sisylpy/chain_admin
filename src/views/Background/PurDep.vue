@@ -113,7 +113,7 @@
 
         mounted() {
 
-            api.getCateGoods().then(res => {
+            api.getGoodsList().then(res => {
                 if (res) {
                     this.cateList = res.data;
                     this.fatherId = res.data[0].goodsId;

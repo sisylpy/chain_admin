@@ -15,6 +15,12 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <div class="col-sm-2 control-label">商品排序</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="ckGoods.gSort" placeholder="商品排序" value="sort"/>
+                        </div>
+                    </div>
 
 
                     <div class="form-group">

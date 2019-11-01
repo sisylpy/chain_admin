@@ -15,7 +15,7 @@
                             </h4>
                             <div class="pull-right">
 
-                                <div class="dropdown ">
+                                <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         选择产品类别
@@ -29,14 +29,8 @@
                                         <li><a href="#">Separated link</a></li>
                                     </ul>
                                 </div>
-
-
                             </div>
-
-
                         </div>
-
-
                     </div>
 
 

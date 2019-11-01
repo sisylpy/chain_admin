@@ -8,9 +8,11 @@
 
             <a href="javascript:void(0);" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>XX</b></span>
+                <!--<span class="logo-mini"><b>一商</b></span>-->
+                <span class="logo-mini"><b>一商</b></span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>XX权限管理系统</b></span>
+                <!--<span class="logo-lg"><b>一商.订货加工系统</b></span>-->
+                <span class="logo-lg"><b>XXX权限系统</b></span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
@@ -51,7 +53,7 @@
 
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="min-height: unset">
 
                 <router-view/>
         </div>
@@ -233,5 +235,12 @@
 </script>
 
 <style>
+    ul {
+        padding-inline-start: 0;
 
+    }
+    ul li {
+        list-style: none;
+
+    }
 </style>
