@@ -24,7 +24,7 @@
 </template>
 
 <script>
-    import api from '../../api/background/Products'
+    import api from '../../api/background/Goods'
     export default {
         name: "modalWarning",
         data(){

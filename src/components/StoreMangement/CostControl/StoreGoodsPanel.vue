@@ -7,7 +7,7 @@
             <div class="panel-heading">
                 <div class="panel-title">
                     <h4 class="pull-left">
-                        HistoryBill：
+                            商品数量：102个
                     </h4>
 
                     <div class="pull-right">
@@ -41,12 +41,12 @@
                         <th>出货数量</th>
                         <th>销售额</th>
                         <th>销售额所占比例</th>
-                        <th style="width: 80px">百分比{{depId}}</th>
+                        <th style="width: 80px">百分比</th>
                     </tr>
-
-                    <tr v-for="(item ,index) in billArr">
+                    <tr>
                         <td>1.</td>
-                        <td>{{item.inSupplierId}}</td>
+                        <td>猪头肉</td>
+                        <td>205斤</td>
                         <td>12129.6</td>
                         <td>
                             <div class="progress progress-xs progress-striped active">
@@ -55,7 +55,42 @@
                         </td>
                         <td><span class="badge bg-light-blue">30%</span></td>
                     </tr>
-
+                    <tr>
+                        <td>2.</td>
+                        <td>哈尔滨精品红肠</td>
+                        <td>300斤</td>
+                        <td>8900.3</td>
+                        <td>
+                            <div class="progress progress-xs progress-striped active">
+                                <div class="progress-bar progress-bar-primary" style="width: 20%"></div>
+                            </div>
+                        </td>
+                        <td><span class="badge bg-light-blue">20%</span></td>
+                    </tr>
+                    <tr>
+                        <td>3.</td>
+                        <td>荷叶鸡</td>
+                        <td>150斤</td>
+                        <td>700</td>
+                        <td>
+                            <div class="progress progress-xs progress-striped active">
+                                <div class="progress-bar progress-bar-primary" style="width: 15%"></div>
+                            </div>
+                        </td>
+                        <td><span class="badge bg-light-blue">15%</span></td>
+                    </tr>
+                    <tr>
+                        <td>4.</td>
+                        <td>猪蹄</td>
+                        <td>295斤</td>
+                        <td>690.6</td>
+                        <td>
+                            <div class="progress progress-xs progress-striped active">
+                                <div class="progress-bar progress-bar-primary" style="width: 11.35%"></div>
+                            </div>
+                        </td>
+                        <td><span class="badge bg-light-blue">11.35%</span></td>
+                    </tr>
                     </tbody>
                 </table>
 
@@ -74,58 +109,19 @@
 </template>
 
 <script>
-import api from '../../../api/In/InBill'
+
 
     export default {
-        name: "HistoryBill",
-        props:['depId','depName'],
-
+        name: "StoreGoodsPanel",
         mounted() {
-            console.log("mounted....aaa")
-            this.initBill();
 
+        }, components: {
         },
-        watch: {
-            depId: function(newVal,oldVal){
-                this.searchBill(newVal)
-
-            },
-        },
-        components: {
-        },
-
+        methods: {},
         data() {
             return {
-                page: 1,
-                limit: 20,
-                billArr: [],
-            }
-        },
-        methods: {
-            initBill: function() {
-                var data = "page=" + this.page + "&limit=" + this.limit  + "&depId="+ this.depId;
-
-                api.billList(data).then(res => {
-                    if(res) {
-                        console.log(res)
-                        this.billArr = res.page.list;
-                    }
-
-                })
-            },
-            searchBill: function (depId) {
-                console.log(depId)
-                console.log("mounted....")
-                var data = "page=" + this.page + "&limit=" + this.limit  + "&depId="+ depId;
-
-                api.billList(data).then(res => {
-                    if(res) {
-                        console.log(res)
-                        this.billArr = res.page.list;
-                    }
-
-                })
-
+                abc: "fff",
+                type: "1"
             }
         }
 

@@ -51,11 +51,11 @@
 </template>
 
 <script>
-    import api from '../../../api/background/products'
-    import addGoods from '@/components/Background/Products/AddGoods.vue'
+    import api from '../../../api/background/goods'
+    import addGoods from '@/components/Background/Goods/AddGoods.vue'
 
     export default {
-        name: "GoodsTable",
+        name: "ProductsTable",
         props:['fatherId','fatherName','type'],
         components:{
           addGoods,
@@ -67,8 +67,10 @@
 
             },
             fatherName: function (newVal, oldVal) {
-                this.tableName= newVal
+                this.tableName= newVal;
+
             },
+
 
         },
         data() {
@@ -76,9 +78,7 @@
                 page: 1,
                 limit: 20,
                 goodsList: [],
-                modal_title: "nih",
                 tableName: "没有数据，请刷新页面",
-
             }
         },
 
@@ -102,26 +102,21 @@
 
 
             appendToList: function() {
-                console.log("ok");
                 this.getJqtableData(this.fatherId)
-
             },
 
             //获取表格数据
             getJqtableData: function(newVal){
+                console.log("laigengxinshujua!!!!")
                 var data = "page=" + this.page + "&limit=" + this.limit + "&fatherId=" + newVal;
                 api.getCateGoodsList(data).then(res => {
                     console.log(data);
                     console.log("sisy");
                     console.log(res.page.list);
 
-
-
-
                     this.goodsList = res.page.list;
                     //加载表格数据
                     this.jqtable()
-
                 });
 
             },
@@ -130,6 +125,7 @@
             // 初始化表格
             jqtable() {
 
+                console.log("jqtable?????")
 
                 // 清空jqGrid表格数据
                 $("#jqGrid").jqGrid("clearGridData")
@@ -152,7 +148,7 @@
                         datatype: "local",
                         colModel: [
                             {label: 'goodsId', name: 'goodsId', width: 50, key: true, hidden: true},
-                            {label: '商品名称', name: 'goodsName', width: 120},
+                            {label: '产品名称', name: 'goodsName', width: 120},
                             {label: '规格', name: 'standardName', width: 80},
                             {label: '申请规格', name: 'applyStandardName', width: 80},
                             {label: '出货部门', name: 'storeDepEntity.depName', width: 100},
@@ -173,7 +169,7 @@
                                 }
                             },
                             {
-                                label: '商品状态',
+                                label: '产品状态',
                                 name: 'status',
                                 width: 80,
                                 formatter: function (value, options, rowData) {
@@ -221,12 +217,12 @@
 
 
             add: function () {
-                // this.$router.push('/Products/addGoods')
+                // this.$router.push('/Goods/addGoods')
                 console.log("add!!!!");
                 console.log(this.fatherName);
 
                 this.$router.push({
-                    name: '/Products/addGoods',
+                    name: '/Goods/addGoods',
                     params: {
                         fatherName: this.fatherName ,
                         fatherId: this.fatherId,
@@ -239,7 +235,7 @@
                 if (goodsId == null) {
                     return;
                 }
-                this.$router.push('/Products/addGoods/' + goodsId)
+                this.$router.push('/Goods/addGoods/' + goodsId)
 
             },
 
@@ -264,7 +260,6 @@
 
             delFinished: function () {
                 console.log("delFinish");
-
                 this.jqtable()
 
             },
@@ -289,12 +284,7 @@
                 return selectedIDs[0];
             },
 
-            getSelectRowParm: function (param) {
-                var grid = $("#jqGrid");
-                var paramContent = grid.jqGrid('getRowData', grid.getGridParam("selarrrow")[0]).param;
 
-                return paramContent;
-            },
 
 
             //选择多条记录
@@ -321,7 +311,16 @@
                     contents.push(paramContent);
                 }
                 return contents;
-            }
+            },
+
+            // getSelectRowParm: function (param) {
+            //     var grid = $("#jqGrid");
+            //     var paramContent = grid.jqGrid('getRowData', grid.getGridParam("selarrrow")[0]).param;
+            //
+            //     return paramContent;
+            // },
+
+
 
         }
 

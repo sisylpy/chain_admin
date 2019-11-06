@@ -1,8 +1,8 @@
 export default {
 
-    path: '/inBill',
-    name: 'inBill',
-    component: () => import('@/views/In/InBill'),
+    path: '/products',
+    name: 'products',
+    component: () => import('@/views/In/Products'),
     children: [
 
         // {

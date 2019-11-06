@@ -41,25 +41,32 @@
                         <div class="box-body">
                             <div class="nav-tabs-justified">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#newBill" data-toggle="tab">新申请</a></li>
-                                    <li><a href="#history" data-toggle="tab">出库中</a></li>
-                                    <li><a href="#promotion" data-toggle="tab">历史申请</a></li>
+                                    <li class="active"><a href="#productsStock" data-toggle="tab">产品库存</a></li>
+                                    <li><a href="#inStock" data-toggle="tab">产品入库</a></li>
+                                    <li><a href="#stockLog" data-toggle="tab">出入库日志</a></li>
+                                    <li><a href="#stockCount" data-toggle="tab">盘库</a></li>
                                 </ul>
                                 <div class="tab-content">
 
-                                    <div class="active tab-pane" id="newBill">
-                                        <NewOrderPanel :depId="depId" :depName="depName"/>
+                                    <div class="active tab-pane" id="productsStock">
+                                        <ProductsStockPanel :depId="depId" :depName="depName"/>
                                     </div>
                                     <!-- /.tab-pane -->
 
-                                    <div class="tab-pane" id="history">
-                                        <HistoryBillPanel :depId="depId" :depName="depName" ref="child"/>
+                                    <div class="tab-pane" id="inStock">
+                                        <NewBillPanel :depId="depId" :depName="depName"/>
                                     </div>
 
-                                    <div class="tab-pane" id="promotion">
-                                        历史订货
+                                    <div class="tab-pane" id="stockLog">
+                                        <!--<HistoryBillPanel :depId="depId" :depName="depName" ref="child"/>-->
+                                    </div>
+
+
+                                    <div class="tab-pane" id="stockCount">
+                                        stockCount
 
                                     </div>
+
 
                                 </div>
                                 <!-- /.tab-pane -->
@@ -83,15 +90,15 @@
 
 <script>
     import PageHeader from '@/components/PageHeader.vue'
+    // import api from '../../api/background/store'
     import api from '../../api/background/outDep'
 
-    import NewOrderPanel from '@/components/Out/OrderApplication/NewOrderPanel'
+    import NewBillPanel from '@/components/In/Products/NewBillPanel'
     import HistoryBillPanel from '@/components/In/Products/HistoryBillPanel'
     import ProductsStockPanel from '@/components/In/Products/ProductsStockPanel'
 
-
     export default {
-        name: "OrderApplication",
+        name: "Products",
 
         data() {
             return {
@@ -112,8 +119,11 @@
 
             api.getOutDepList(type).then(res => {
                 if (res) {
+                    console.log(res);
+
                     this.outDepList = res.data;
                     this.depId = res.data[0].depId;
+
                     this.depName = res.data[0].depName;
                 }
             })
@@ -121,7 +131,7 @@
 
         components: {
             PageHeader,
-            NewOrderPanel,
+            NewBillPanel,
             HistoryBillPanel,
             ProductsStockPanel,
         },

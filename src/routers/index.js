@@ -7,14 +7,14 @@ import GoodsRouter from '../routers/background/goods'
 import StoreListRouter from '../routers/background/store'
 import LineRouter from '../routers/background/line'
 import OutDepRouter from '../routers/background/outDep'
-import PurDepRouter from '../routers/background/purDep'
 import StaffRouter from './background/ckUser'
-import InBillRouter from '../routers/In/InBill'
+import ProductsRouter from './In/Products'
 import OutOrderApplicationRouter from '../routers/Out/OrderApplication'
 
 
 //店铺管理
 import StoreBuindessDataRouter from '../routers/store/businessData'
+import CostControlDataRouter from '../routers/store/costControl'
 
 
 
@@ -37,12 +37,12 @@ export default new Router({
         StoreListRouter,
         LineRouter,
         OutDepRouter,
-        PurDepRouter,
         StaffRouter,
-        InBillRouter,
+        ProductsRouter,
 
         StoreBuindessDataRouter,
         OutOrderApplicationRouter,
+        CostControlDataRouter,
 
 
         {
@@ -55,7 +55,7 @@ export default new Router({
         },
         {
             path: '/addCategory',
-            component: () => import('@/components/Background/Products/AddCategory'),
+            component: () => import('@/components/Background/Goods/AddCategory'),
         },
         {
             path: '/addStore',

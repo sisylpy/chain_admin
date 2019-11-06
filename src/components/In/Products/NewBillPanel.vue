@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import api from '../../../api/In/InBill'
+import api from '../../../api/In/Products'
 
     export default {
         name: "NewBillPanel",
@@ -357,10 +357,8 @@ import api from '../../../api/In/InBill'
                     var goodsId = $(li).find('.goodsName').attr('id');
                     var goodsQuantity = $(li).find('.quantity').val();
 
-                    console.log(goodsName)
                     if(goodsName.length > 0 && goodsQuantity.length > 0)  {
                         var subbill = {
-
                             sGoodsId: goodsId,
                             inQuantity: goodsQuantity
                         }

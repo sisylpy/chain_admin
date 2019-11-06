@@ -87,9 +87,15 @@ element.style{
 .table tbody tr td.active {
 	background: none;
 }
+
 .table tbody tr.success td {
-	background: #c3c3e6;
+	background: none;
 }
+
+.table tbody tr.active td {
+	background: none;
+}
+
 
 
 /* panel css sisy*/

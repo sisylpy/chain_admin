@@ -30,4 +30,6 @@ import './js/common'
 import './libs/demo'
 import './libs/dashboard'
 
+import '../utils/jQuery.print.min'
+
 

@@ -113,7 +113,7 @@
 </template>
 
 <script>
-    import api from '../../../api/background/products'
+    import api from '../../../api/background/goods'
     import apio from '../../../api/background/outDep'
 
     export default {

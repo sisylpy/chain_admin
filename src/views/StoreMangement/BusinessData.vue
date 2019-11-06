@@ -41,9 +41,9 @@
                         <div class="box-body">
                             <div class="nav-tabs-justified">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#storeGoods" data-toggle="tab">经营商品</a></li>
+                                    <li class="active"><a href="#storeGoods" data-toggle="tab">产品</a></li>
                                     <li><a href="#turnover" data-toggle="tab">营业额</a></li>
-                                    <li><a href="#promotion" data-toggle="tab">促销活动</a></li>
+                                    <li><a href="#promotion" data-toggle="tab">库存</a></li>
                                 </ul>
                                 <div class="tab-content">
 

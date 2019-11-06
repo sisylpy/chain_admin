@@ -12,17 +12,17 @@
                     <div class="box box-primary">
 
                         <div class="box-header with-border">
-                            <h3 class="box-title">出货部门</h3>
+                            <h3 class="box-title">店铺</h3>
                         </div>
 
                         <div class="box-body no-padding">
                             <ul class="nav nav-pills nav-stacked">
                                 <!--<li class="active"><a>Inbox</a></li>-->
-                                <li v-for="(item,index) in outDepList" v-bind:key="item.id" :id="item.outDepId"
+                                <li v-for="(item,index) in storeList" v-bind:key="item.storeId" :id="item.storeId"
                                     :class="isactive == index ? 'active' : '' "
-                                    @click='onclick(index, item.depId, item.depName)'>
+                                    @click='onclick(index, item.storeId,item.storeName)'>
 
-                                    <a>{{item.depName}}</a></li>
+                                    <a>{{item.storeName}}</a></li>
                             </ul>
                         </div>
                         <!-- /.box-body -->
@@ -35,25 +35,27 @@
                     <div class="box box-primary">
 
                         <div class="box-header with-border">
-                            <h3 class="box-title">{{depName}}</h3>
+                            <h3 class="box-title">美林湾华联</h3>
                         </div>
 
                         <div class="box-body">
                             <div class="nav-tabs-justified">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#newBill" data-toggle="tab">录入单据</a></li>
-                                    <li><a href="#history" data-toggle="tab">历史单据</a></li>
-                                    <li><a href="#promotion" data-toggle="tab">促销活动</a></li>
+                                    <li class="active"><a href="#storeGoods" data-toggle="tab">入店成本</a></li>
+                                    <li><a href="#turnover" data-toggle="tab">盘库成本</a></li>
+                                    <li><a href="#promotion" data-toggle="tab">损耗率</a></li>
                                 </ul>
                                 <div class="tab-content">
 
-                                    <div class="active tab-pane" id="newBill">
-                                        <NewBillPanel :depId="depId" :depName="depName"/>
+                                    <div class="active tab-pane" id="storeGoods">
+                                        <StoreGoodsPanel/>
                                     </div>
                                     <!-- /.tab-pane -->
 
-                                    <div class="tab-pane" id="history">
-                                        <HistoryBillPanel :depId="depId" :depName="depName" ref="child"/>
+                                    <div class="tab-pane" id="turnover">
+
+                                        <TurnoverPanel/>
+
                                     </div>
 
                                     <div class="tab-pane" id="promotion">
@@ -83,21 +85,19 @@
 
 <script>
     import PageHeader from '@/components/PageHeader.vue'
-    // import api from '../../api/background/store'
-    import api from '../../api/background/outDep'
-
-    import NewBillPanel from '@/components/In/InBill/NewBillPanel'
-    import HistoryBillPanel from '@/components/In/InBill/HistoryBillPanel'
+    import api from '../../api/background/store'
+    import StoreGoodsPanel from '@/components/StoreMangement/BusinessData/StoreGoodsPanel'
+    import TurnoverPanel from '@/components/StoreMangement/BusinessData/TurnoverPanel'
 
     export default {
-        name: "InBill",
+        name: "costControl",
 
         data() {
             return {
-                outDepList: [],
+                storeList: [],
                 isactive: 0,
-                depId: "",
-                depName: "",
+                fatherId: "",
+                fatherName: "",
                 page: 1,
                 limit: 20,
                 type: 1,
@@ -107,38 +107,55 @@
         },
 
         mounted() {
-            var type = 1;
-
-            api.getOutDepList(type).then(res => {
+            var data = "page=" + this.page + "&limit=" + this.limit;
+            api.getStoreList(data).then(res => {
                 if (res) {
                     console.log(res);
 
-                    this.outDepList = res.data;
-                    this.depId = res.data[0].depId;
+                    this.storeList = res.page.list;
+                    // this.fatherId = res.data[0].goodsId;
+                    // console.log(res.data[0].goodsName);
 
-                    this.depName = res.data[0].depName;
+                    // this.fatherName = res.data[0].goodsName;
                 }
             })
         },
 
         components: {
             PageHeader,
-            NewBillPanel,
-            HistoryBillPanel,
+            StoreGoodsPanel,
+            TurnoverPanel,
         },
         methods: {
 
             //点击产品类别
-            onclick(index, depId,depName) {
+            onclick(index, goodsId, goodsName) {
                 this.isactive = index;
-                this.depId = depId;
-                this.depName = depName;
-
-                this.$refs.child.searchBill(this.depId)
-
+                this.fatherId = goodsId;
+                this.fatherName = goodsName;
             },
 
+            addCate: function () {
+                this.$router.push('/addCategory')
+            },
 
+            getGoodsType: function (e) {
+                console.log(e);
+                this.type = e;
+
+                var data = "page=" + this.page + "&limit=" + this.limit + "&type=" + e + "&fatherId=" + this.fatherId;
+                api.getTypeGoods(data).then(res => {
+
+                    this.goodsList = res.page.list;
+                    console.log(res.page);
+
+
+                    //加载表格数据
+                    // this.jqtable()
+
+                });
+
+            }
 
 
         }

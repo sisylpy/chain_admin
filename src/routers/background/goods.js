@@ -1,18 +1,18 @@
 export default {
 
-    path: '/Products',
-    name: 'products',
-    component: () => import('@/views/Background/Products'),
+    path: '/goods',
+    name: 'goods',
+    component: () => import('@/views/Background/Goods'),
     children: [
         {
             path: 'addGoods',
-            name: '/Products/addGoods',
-            component: () => import('@/components/Background/Products/AddGoods'),
+            name: '/Goods/addGoods',
+            component: () => import('@/components/Background/Goods/AddGoods'),
 
         },
         {
             path: 'addGoods/:goodsId',
-            component: () => import('@/components/Background/Products/AddGoods'),
+            component: () => import('@/components/Background/Goods/AddGoods'),
 
         }
 

@@ -12,7 +12,7 @@
                 <span class="logo-mini"><b>一商</b></span>
                 <!-- logo for regular state and mobile devices -->
                 <!--<span class="logo-lg"><b>一商.订货加工系统</b></span>-->
-                <span class="logo-lg"><b>XXX权限系统</b></span>
+                <span class="logo-lg"><b>连锁直营店订货管理系统</b></span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
