@@ -9,7 +9,7 @@ import './adminlte/basic'
 import Print from '@/utils/print'
 
 Vue.use(Print);
-
+Vue.prototype.bus = new Vue;
 
 
 Vue.config.productionTip = false

@@ -39,24 +39,30 @@
                         </div>
 
                         <div class="box-body">
+
                             <div class="nav-tabs-justified">
+                                <!-- 出库部门的三大业务 -->
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#newBill" data-toggle="tab">新申请</a></li>
-                                    <li><a href="#history" data-toggle="tab">出库中</a></li>
-                                    <li><a href="#promotion" data-toggle="tab">历史申请</a></li>
+                                    <li class="active"><a href="#newApply" @click="changeType('newApply')"
+                                                          data-toggle="tab">新申请</a></li>
+                                    <li><a href="#outStocking" @click="changeType('outStocking')"
+                                           data-toggle="tab">出库中</a></li>
+                                    <li><a href="#pastApply" @click="changeType('pastApply')" data-toggle="tab">历史申请</a>
+                                    </li>
                                 </ul>
+
                                 <div class="tab-content">
 
-                                    <div class="active tab-pane" id="newBill">
-                                        <NewOrderPanel :depId="depId" :depName="depName"/>
+                                    <div class="active tab-pane" id="newApply">
+                                        <NewApplyPanel :outDepName="depName"/>
                                     </div>
                                     <!-- /.tab-pane -->
 
-                                    <div class="tab-pane" id="history">
-                                        <HistoryBillPanel :depId="depId" :depName="depName" ref="child"/>
+                                    <div class="tab-pane" id="outStocking">
+                                        <OutStockingPanel/>
                                     </div>
 
-                                    <div class="tab-pane" id="promotion">
+                                    <div class="tab-pane" id="pastApply">
                                         历史订货
 
                                     </div>
@@ -85,10 +91,8 @@
     import PageHeader from '@/components/PageHeader.vue'
     import api from '../../api/background/outDep'
 
-    import NewOrderPanel from '@/components/Out/OrderApplication/NewOrderPanel'
-    import HistoryBillPanel from '@/components/In/Products/HistoryBillPanel'
-    import ProductsStockPanel from '@/components/In/Products/ProductsStockPanel'
-
+    import NewApplyPanel from '@/components/Out/OrderApplication/NewApplyPanel'
+    import OutStockingPanel from '@/components/Out/OrderApplication/OutStockingPanel'
 
     export default {
         name: "OrderApplication",
@@ -97,47 +101,58 @@
             return {
                 outDepList: [],
                 isactive: 0,
-                depId: "",
-                depName: "",
                 page: 1,
                 limit: 20,
-                type: 1,
 
+                depName: "",
+                depId: "",
+                applyType: "",
 
             }
         },
 
+
         mounted() {
             var type = 1;
-
             api.getOutDepList(type).then(res => {
                 if (res) {
                     this.outDepList = res.data;
-                    this.depId = res.data[0].depId;
                     this.depName = res.data[0].depName;
+                    this.$store.state.orders.orders_depId  = res.data[0].depId;
+                    this.$store.state.orders.applyType  = 'newApply';
                 }
             })
         },
 
         components: {
             PageHeader,
-            NewOrderPanel,
-            HistoryBillPanel,
-            ProductsStockPanel,
+            NewApplyPanel,
+            OutStockingPanel,
+
         },
+
         methods: {
 
-            //点击产品类别
-            onclick(index, depId,depName) {
+            //点击出货部门
+            onclick(index, depId, depName) {
                 this.isactive = index;
-                this.depId = depId;
                 this.depName = depName;
-
-                this.$refs.child.searchBill(this.depId)
+                this.$store.dispatch('orders/set_ORDERSDEPID', depId)
 
             },
 
+            //点击出货部门的三大业务
+            changeType: function (data) {
+                if (data === "newApply") {
+                    this.$store.dispatch('orders/set_APPLYTYPE', data)
 
+                } else if (data === "outStocking") {
+                    console.log("buzhidao???")
+                    this.$store.dispatch('orders/set_APPLYTYPE', data)
+
+                }
+
+            }
 
 
         }

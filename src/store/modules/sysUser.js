@@ -20,6 +20,7 @@ const sysUser = {
         SET_USER: (state, user) => {
             state.user = user
         },
+
     },
     actions: {
 

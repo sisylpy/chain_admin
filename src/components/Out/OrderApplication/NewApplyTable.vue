@@ -3,7 +3,7 @@
     <section class="content container-fluid no-padding" id="jqbody">
 
         <div class="no-padding no-border">
-            <table id="jqGrid"></table>
+            <table id="jqGrid_newApply"></table>
             <div id="jqGridPager"></div>
         </div>
 
@@ -16,20 +16,71 @@
     import api from '../../../api/background/goods'
     import addGoods from '@/components/Background/Goods/AddGoods.vue'
     import apia from '@/api/out/orderApplication'
+    import {mapState, mapGetters} from 'vuex'
 
     export default {
-        name: "OutDepApplyTable",
-        props: ['depId', 'status'],
+        name: "NewApplyTable",
+        // props: ['depId', 'applyType'],
         components: {},
 
-
-        watch: {
-            depId: function (newVal, oldVal) {
-                this.getJqtableData(newVal)
-
+        computed: {
+            orders_depId: {
+                get () {
+                    return this.$store.state.orders.orders_depId
+                },
+                set (value) {
+                    // this.$store.commit('orders/set_ORDERSDEPID', value)
+                }
             },
+            applyType: {
+                get () {
+                    return this.$store.state.orders.applyType
+                },
+                set (value) {
+                    // this.$store.commit('orders/set_APPLYTYPE', value)
+                }
+            }
 
         },
+        watch: {
+
+            orders_depId: function (newVal, oldVal) {
+                this.orders_depId = this.$store.state.orders.orders_depId;
+
+                this.getJqtableData();
+            },
+            // applyType: {
+            //     get () {
+            //         return this.$store.state.orders.applyType
+            //     },
+            //     set (value) {
+            //         // this.$store.commit('orders/set_APPLYTYPE', value)
+            //     }
+            // }
+
+
+
+
+        },
+
+        mounted() {
+
+            this.getJqtableData();
+
+            //chormes 浏览器不起作用！
+            window.onbeforeprint = function () {
+                console.log("hahahh")
+            }
+            window.addEventListener("afterprint", function (event) {
+                console.log("event after!!!!!")
+                window.location.reload();
+
+            });
+
+
+        },
+
+
         data() {
             return {
                 page: 1,
@@ -47,21 +98,25 @@
             getJqtableData: function () {
 
                 var data = "page=" + this.page + "&limit=" + this.limit
-                    + "&status=" + this.status + "&depId=" + this.depId;
+                    + "&status=" + "0" + "&depId=" + this.orders_depId;
+                this.bus.$emit('loading', true);
+
                 apia.outDepQueryApplys(data).then(res => {
+                    if(res) {
+                        this.bus.$emit('loading', false);
 
-                    this.applyArr = res.page.list;
-                    this.printArr = res.page.list;
-                    console.log(res.page.list)
-                    console.log("kankandataa shang")
+                        this.applyArr = res.page.list;
+                        this.printArr = res.page.list;
+
+                        //加载表格数据
+                        this.jqtable()
+                        this.selectAllGrid();
+                        this.changePrintArr();
+                        this.$emit("printArr",this.printArr)  // 触发自己的自定义事件，让父亲的方法执行
+
+                    }
 
 
-
-                    //加载表格数据
-                    this.jqtable()
-                    this.selectAllGrid();
-                    this.changePrintArr();
-                    this.$emit("printArr",this.printArr)  // 触发自己的自定义事件，让父亲的方法执行
 
                 });
 
@@ -69,9 +124,9 @@
 
             changePrintArr: function () {
 
-                $("#jqGrid .cbox").on('change', function (e) {
-                    console.log("who???")
-                    var ids = $("#jqGrid").jqGrid('getGridParam', 'selarrrow');
+                $("#jqGrid_newApply .cbox").on('change', function (e) {
+
+                    var ids = $("#jqGrid_newApply").jqGrid('getGridParam', 'selarrrow');
 
                     var id = $(this).parent().parent().attr('id');
                     console.log(ids);
@@ -88,24 +143,22 @@
             // 初始化表格
             jqtable() {
 
-                console.log("jqtable?????")
-
                 // 清空jqGrid表格数据
-                $("#jqGrid").jqGrid("clearGridData")
+                $("#jqGrid_newApply").jqGrid("clearGridData")
 
                 // 初始化jqgrid
                 var _this = this
 
                 //更新数据
-                $("#jqGrid").jqGrid('setGridParam', {
+                $("#jqGrid_newApply").jqGrid('setGridParam', {
                     datatype: 'local',
                     data: this.applyArr,//newData是符合格式要求的重新加载的数据
                     page: this.currPage//哪一页的值
                 }).trigger("reloadGrid");
 
-                $("#jqGrid").jqGrid('setLabel', '0', '序号', 'labelstyle');
+                $("#jqGrid_newApply").jqGrid('setLabel', '0', '序号', 'labelstyle');
 
-                $("#jqGrid").jqGrid(
+                $("#jqGrid_newApply").jqGrid(
                     {
                         data: _this.applyArr,
                         datatype: "local",
@@ -187,8 +240,6 @@
                             order: "order"
                         },
                         onSelectRow: function (e) {
-                            console.log("onSelectRow=======select input for goodsid le yi ge e!!!!!")
-
                             //     i = $.jgrid.getCellIndex($(e.target).closest('td')[0]),
                             //     cm = $myGrid.jqGrid('getGridParam', 'colModel');
                             // return (cm[i].name === 'cb');
@@ -203,9 +254,9 @@
 
                         // gridComplete: function () {
                         //     //隐藏grid底部滚动条
-                        //     $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "scroll"});
+                        //     $("#jqGrid_newApply").closest(".ui-jqgrid-bdiv").css({"overflow-x": "scroll"});
                         // }
-                    });
+                    }).trigger('reloadGrid');
 
             },
 
@@ -213,7 +264,7 @@
             selectAllGrid: function () {
                 for (var i = 0; i < this.applyArr.length; i++) {
                     var id = this.applyArr[i].goodsId;
-                    $("#jqGrid").jqGrid('setSelection', id);
+                    $("#jqGrid_newApply").jqGrid('setSelection', id);
                 }
             },
 

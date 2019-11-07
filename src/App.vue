@@ -149,17 +149,24 @@
     <!-- ./wrapper -->
 
 
+
+        <loading></loading>
+
+
     </div>
 </template>
 
 <script>
     import api from './api/user'
     import menuItem from './components/MenuItem'
-
+    import tips from '@/components/common/tips'
+    import loading from '@/components/common/loading'
     export default {
         name: "adminlte",
         components: {
             menuItem,
+            tips,
+            loading,
 
         },
         created: function () {
