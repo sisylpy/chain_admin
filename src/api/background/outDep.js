@@ -8,7 +8,7 @@ export default {
      */
     getOutDepList(data) {
         return request({
-            url: 'sys/ckstoredep/list/'+ data,
+            url: 'sys/ckdep/list/'+ data,
             method: 'get',
         })
     },
@@ -17,7 +17,7 @@ export default {
      */
     saveOutDep(data) {
         return request({
-            url: 'sys/ckstoredep/save',
+            url: 'sys/ckdep/save',
             method: 'post',
             data
         })

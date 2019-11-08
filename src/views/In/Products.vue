@@ -43,7 +43,8 @@
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#productsStock" data-toggle="tab">产品库存</a></li>
                                     <li><a href="#inStock" data-toggle="tab">产品入库</a></li>
-                                    <li><a href="#stockLog" data-toggle="tab">出入库日志</a></li>
+                                    <li><a href="#stockLog" data-toggle="tab">入库单据</a></li>
+                                    <li><a href="#stockLog" data-toggle="tab">店铺出货日志</a></li>
                                     <li><a href="#stockCount" data-toggle="tab">盘库</a></li>
                                 </ul>
                                 <div class="tab-content">

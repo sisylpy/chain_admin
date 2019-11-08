@@ -4,35 +4,33 @@ export default {
 
 
     /**
-     *
+     * update
      */
-    saveOutQuantity(data) {
+    updatePrice(data) {
         return request({
-            url: 'sys/ckstockrecord/save',
+            url: 'sys/ckstockrecord/update',
             method: 'post',
             data
         })
     },
-
-
     /**
      *
      */
-    outDepQueryStores(data) {
+
+    deliverOrderStores() {
         return request({
-            url: 'sys/ckapplys/outDepQueryStores',
-            method: 'post',
-            data
+            url: 'sys/ckstockrecord/getDeliveryOrderStores',
+            method: 'get',
         })
     },
 
     /**
-     * 获取订单申请状态列表
+     * 获取店铺出货单
      * @param data
      */
-    outDepQueryApplys(data) {
+    storeDeliverOrder(data) {
         return request({
-            url: 'sys/ckapplys/outDepQueryApplys',
+            url: 'sys/ckstockrecord/listByDepId',
             method: 'post',
             data
         })

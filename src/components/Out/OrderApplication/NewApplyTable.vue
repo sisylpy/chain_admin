@@ -20,7 +20,6 @@
 
     export default {
         name: "NewApplyTable",
-        // props: ['depId', 'applyType'],
         components: {},
 
         computed: {
@@ -43,23 +42,11 @@
 
         },
         watch: {
-
             orders_depId: function (newVal, oldVal) {
                 this.orders_depId = this.$store.state.orders.orders_depId;
 
                 this.getJqtableData();
             },
-            // applyType: {
-            //     get () {
-            //         return this.$store.state.orders.applyType
-            //     },
-            //     set (value) {
-            //         // this.$store.commit('orders/set_APPLYTYPE', value)
-            //     }
-            // }
-
-
-
 
         },
 
@@ -93,6 +80,22 @@
 
         methods: {
 
+            changePrintArr: function () {
+
+                $("#jqGrid_newApply .cbox").on('change', function (e) {
+
+                    var ids = $("#jqGrid_newApply").jqGrid('getGridParam', 'selarrrow');
+
+                    var id = $(this).parent().parent().attr('id');
+                    console.log(ids);
+                    console.log(id);
+                    if (ids.indexOf(id)) {
+                        console.log("you ")
+                    } else {
+                        console.log("meiyou")
+                    }
+                })
+            },
 
             //获取表格数据
             getJqtableData: function () {
@@ -122,22 +125,7 @@
 
             },
 
-            changePrintArr: function () {
 
-                $("#jqGrid_newApply .cbox").on('change', function (e) {
-
-                    var ids = $("#jqGrid_newApply").jqGrid('getGridParam', 'selarrrow');
-
-                    var id = $(this).parent().parent().attr('id');
-                    console.log(ids);
-                    console.log(id);
-                    if (ids.indexOf(id)) {
-                        console.log("you ")
-                    } else {
-                        console.log("meiyou")
-                    }
-                })
-            },
 
 
             // 初始化表格

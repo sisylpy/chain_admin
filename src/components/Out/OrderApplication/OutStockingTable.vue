@@ -63,6 +63,7 @@
         },
         mounted() {
 
+
             $('#outStockTable').on('keyup', '.outQuantity', function (e) {
                 //获取当前输入框
                 // if( $(this).parents('tr').next().length > 0){
@@ -96,6 +97,41 @@
 
         methods: {
 
+            saveOutQutantity() {
+              console.log("fuzujianrangwosavele!")
+
+                var outQuantityArr = [];
+                var $applyIds = $('.apply-id');
+                for(var i = 0; i < $applyIds.length; i++) {
+                    var quantity = $('.outQuantity:eq('+i+')').val();
+
+                    if(quantity.length > 0){
+                        var outQuantity = {
+                            stApplyId:  $('.apply-id:eq('+i+')').attr("id"),
+                            quantity: quantity,
+                            outDepId: this.orders_depId,
+                            stGoodsId: $('.goods-id:eq('+i+')').attr("goodsid"),
+                            inStoreId: $('.store-id:eq('+i+')').attr("instoreid"),
+                            discountPrice: $('.price:eq('+i+')').attr("price"),
+                        }
+                        outQuantityArr.push(outQuantity);
+                    }
+
+                }
+                console.log(outQuantityArr)
+                this.bus.$emit('loading', true);
+
+
+                apia.saveOutQuantity(outQuantityArr).then(res => {
+                    if(res) {
+                        this.bus.$emit('loading', false);
+                        this.getJqtableData();
+                    }
+
+                })
+
+
+            },
 
             //获取表格数据
             getJqtableData: function () {
@@ -156,7 +192,10 @@
 
                                         html += '<label class="one-apply" style="display: flex;flex-flow: row wrap; margin-right: 10px; ' +
                                             ' margin-bottom: 0; font-weight: 400; ">';
-                                        // html += '<input checked  style="height: 26px; margin-right: 3px" type="checkbox">'
+                                        html += '<input id='+row.applys[i].applyId+' type="hidden" class="apply-id">'
+                                        html += '<input inStoreId='+row.applys[i].applyStoreId+' type="hidden" class="store-id">'
+                                        html += '<input goodsId='+row.goodsId+' type="hidden" class="goods-id">'
+                                        html += '<input price='+row.price+' type="hidden" class="price">'
                                         html += '<div style="line-height: 30px; margin-right: 5px">' + row.applys[i].storeEntity.printLabel + ":" + '</div>'
                                         html += '<div style="line-height: 30px; margin-right: 15px;">' + row.applys[i].applyNumber + row.applyStandardName + '</div>'
                                         html += '<input type="text" class="outQuantity" style="font-size: 18px; margin-left: 10px; width: 160px; border: none; border-bottom: 1px solid #ddd">'

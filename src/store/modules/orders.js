@@ -9,6 +9,8 @@ const orders = {
     state: {
         orders_depId: "99",
         applyType: "",
+        in_storeId:"",
+
 
     },
     mutations: {
@@ -17,7 +19,10 @@ const orders = {
         },
         SET_APPLYTYPE: (state, data) => {
             state.applyType = data;
-        }
+        },
+        SET_INSTOREID: (state, data) => {
+            state.in_storeId = data;
+        },
 
 
     },
@@ -29,7 +34,11 @@ const orders = {
         },
         set_APPLYTYPE (context, data) {
             context.commit('SET_APPLYTYPE', data);
+        },
+        set_INSTOREID (context, data) {
+            context.commit('SET_INSTOREID', data)
         }
+
 
 
 

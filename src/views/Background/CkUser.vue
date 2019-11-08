@@ -105,7 +105,7 @@
                             }
                             return name = inner;
                             } },
-                        { label: '所属部门', name: 'ckStoreDepEntity.depName', width: 80 },
+                        { label: '所属部门', name: 'ckDepEntity.depName', width: 80 },
                         { label: '状态', name: 'userStatus', width: 80 },
                         { label: '创建时间', name: 'uCreateTime', width: 80 }
                     ],
