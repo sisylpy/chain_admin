@@ -65,7 +65,6 @@
 
                                     <div class="tab-pane" id="stockCount">
                                         stockCount
-
                                     </div>
 
 

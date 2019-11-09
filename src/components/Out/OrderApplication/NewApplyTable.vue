@@ -1,13 +1,13 @@
 <template>
 
-    <section class="content container-fluid no-padding" id="jqbody">
+    <div class="content container-fluid no-padding" id="jqbody">
 
         <div class="no-padding no-border">
             <table id="jqGrid_newApply"></table>
             <div id="jqGridPager"></div>
         </div>
 
-    </section>
+    </div>
 
 
 </template>
@@ -265,6 +265,9 @@
 </script>
 
 <style scoped>
+    .ui-jqgrid-bdiv{
+        height: 100%;
+    }
 
 
 </style>

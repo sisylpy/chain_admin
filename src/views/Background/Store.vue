@@ -122,10 +122,10 @@
                         rows: "limit",
                         order: "order"
                     },
-                    gridComplete: function () {
-                        //隐藏grid底部滚动条
-                        $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
-                    }
+                    // gridComplete: function () {
+                    //     //隐藏grid底部滚动条
+                    //     $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
+                    // }
                 });
             },
             add: function () {

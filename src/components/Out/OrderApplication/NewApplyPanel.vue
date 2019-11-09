@@ -31,7 +31,7 @@
 
             <!--<div class="box-body table-responsive no-padding" style="min-height: 400px">-->
 
-            <div class="panel-body">
+            <div class="panel-body no-padding">
                 <NewApplyTable @printArr="getPrintArr"/>
             </div>
 
