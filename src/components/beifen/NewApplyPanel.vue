@@ -2,23 +2,14 @@
 
     <div class="my_panel">
 
-        <div class="panel panel-info">
+        <div class="panel panel-default">
             <!-- Default panel contents -->
             <div class="panel-heading ">
 
                 <div class="print_header row no-padding">
                     <div class="col-md-10" style="padding-left: 0; padding-right: 0">
-                        <h4>订货店铺：</h4>
-                        <div class="btn-row">
-                            <div v-for="(item, index) in storeArr">
-                                <label class="checkbox-inline" :id="item.storeId"
-                                       style="margin-right: 20px; font-size: 16px;">
-                                    <input type="checkbox" :value="item.storeId" name="store"
-                                           v-model="item.storeId !== null"/>
-                                    {{item.printLabel}}
-                                </label>
-                            </div>
-                        </div>
+                        <h5>订货店铺：aaa</h5>
+
 
                     </div>
                     <div class="col-md-2">
@@ -43,7 +34,7 @@
 
         </div>
 
-        <a class="print" href="javascript:;" @click="preview();">打印</a>
+        <!--<a class="print" href="javascript:;" @click="preview();">打印</a>-->
         <!--startprint-->
         <div class="container a4-endwise" id="test">
 
@@ -56,7 +47,6 @@
 </template>
 
 <script>
-    import apia from '@/api/out/orderApplication'
     import NewApplyTable from '@/components/Out/OrderApplication/NewApplyTable'
 
     export default {
@@ -69,37 +59,15 @@
             return {
                 page: 1,
                 limit: 10,
-
-                storeArr: [],
                 printArr: [],
-                applyType: "",
 
             }
         },
-        computed: {
-            orders_depId: {
-                get() {
-                    return this.$store.state.orders.orders_depId
-                },
-                set(value) {
-                    this.$store.commit('orders/SET_ORDERSDEPID', value)
-                }
-            }
-
-        },
-
-        watch: {
-
-            orders_depId: function (newVal, oldVal) {
-                this.orders_depId = this.$store.state.orders.orders_depId;
-                this.getStoresWithStauts();
-            },
 
 
-        },
+
         mounted() {
 
-            this.getStoresWithStauts();
 
             //chormes 浏览器不起作用！
             window.onbeforeprint = function () {
@@ -210,20 +178,7 @@
 
             },
 
-            //获取申请店铺列表
-            getStoresWithStauts: function () {
-                var status = 0;
-                var data = "status=" + status + "&depId=" + this.orders_depId;
-                apia.outDepQueryStores(data).then(res => {
 
-                    if (res) {
-                        this.storeArr = res.data
-                    }
-
-                    $("input[type='checkbox']").prop("checked", true);
-                })
-
-            },
 
         },
 
@@ -253,82 +208,14 @@
         /*background: yellow;*/
     }
 
-    .table-header-content {
-        line-height: 30px;
-        /*background: yellow;*/
-        padding: 5px;
-    }
 
-    .one-goods {
-        background: red;
-        width: 30px;
-        height: 30px;
-    }
-
-    .margin-left {
-        margin-left: 30px;
-    }
-
-    .table-body-content {
-        margin-left: 0;
-        line-height: 30px;
-        /*background: yellow;*/
-    }
-
-    .line-content {
-        /*background: yellow;*/
-    }
-
-    .whole-line {
-        display: flex;
-        flex-flow: row nowrap;
-        padding: 5px;
-        border-bottom: 1px solid #dddddd;
-        /*background: red;*/
-
-        border-bottom: 1px solid #ddd;
-    }
-
-    .whole-line {
-        display: flex;
-        flex-flow: row nowrap;
-    }
 
     .col-md-2, .col-md-1, .col-md-5 {
         padding-left: 0;
         /*padding-right: 15px;*/
     }
 
-    .applys {
-        display: flex;
-        flex-flow: row nowrap;
-        font-weight: 400;
-        margin-left: 5px;
-        margin-right: 15px;
-    }
 
-    .part-two {
-        display: flex;
-        flex-flow: row wrap;
-    }
-
-    .aaa {
-
-    }
-
-    .one-apply {
-        display: flex;
-        flex-flow: row wrap;
-        line-height: 20px;
-    }
-
-    #table-header {
-        display: flex;
-        flex-flow: row nowrap;
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 0;
-        font-weight: 500;
-    }
 
 
 </style>

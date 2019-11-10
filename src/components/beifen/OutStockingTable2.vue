@@ -3,7 +3,7 @@
     <section class="content container-fluid no-padding" id="outStockTable">
         <div class="no-padding no-border">
             <table id="jqGrid_outStocking"></table>
-            <div id="jqGridPager_outStocking"></div>
+            <!--<div id="jqGridPager_outStocking"></div>-->
         </div>
 
     </section>
@@ -49,10 +49,10 @@
 
             orders_depId: function (newVal, oldVal) {
                 this.orders_depId = this.$store.state.orders.orders_depId;
-                if(this.applyType === "outStocking"){
-                    this.getJqtableData();
-
-                }
+                // if(this.applyType === "outStocking"){
+                //     this.getJqtableData();
+                //
+                // }
             },
             applyType: function (newVal, oldVal) {
                 this.applyType = this.$store.state.orders.applyType;
@@ -214,7 +214,7 @@
 
 
                         viewrecords: true,
-                        height: 400,
+                        height: true,
                         rowNum: 10,
                         rowList: [10, 30, 50],
                         rownumbers: true,

@@ -1,34 +1,29 @@
 <template>
 
+    <section class="content container-fluid">
 
-    <div class="box box-primary">
+        <div class="panel panel-default">
 
-        <div class="box-header with-border">
-            <div class="row">
-                <div  class="col-md-4">
-                    <h5>出货日期：2019/11/11</h5>
-                    <h5>出库总金额：{{totalCost}} 元</h5>
+            <div class="panel-heading row">
+
+                <h3 class="col-md-6">出库总金额：{{totalCost}} 元</h3>
+                <div class="col-md-6 pull-right">
+                    <a class="btn btn-lg btn-default">确认出货</a>
                 </div>
-                <div  class="col-md-4">
-                    <h5>订货店铺：{{inStoreName}}</h5>
-                    <h5>操作人：李沛谊</h5>
-                </div>
-                <div  class="col-md-4">
-                    <h5>送货路线：燕郊线</h5>
-                    <h5>司机：</h5>
+            </div>
+
+            <div class="panel-body no-padding">
+                <div class="box-body table-responsive no-padding">
+                    <table id="deliveryOrder"></table>
+                    <div id="deliveryOrderPager"></div>
                 </div>
             </div>
 
         </div>
 
-        <div class="box-body no-padding ">
-            <table id="deliveryOrder"></table>
-            <div id="deliveryOrderPager"></div>
-        </div>
-
-    </div>
 
 
+    </section>
 
 
 </template>
@@ -59,25 +54,18 @@
                     // this.$store.commit('orders/set_ORDERSDEPID', value)
                 }
             },
-            inStoreName: {
-                get () {
-                    return this.$store.state.orders.in_storeName
-                },
-                set (value) {
-                    // this.$store.commit('orders/set_ORDERSDEPID', value)
-                }
-            },
 
         },
         watch: {
 
             inStoreId: function (newVal, oldVal) {
+                console.log("------------")
+                console.log(newVal)
+                console.log(this.$store.state.orders.in_storeId)
+                console.log("==============")
                 this.inStoreId = this.$store.state.orders.in_storeId;
-                this.getJqtableData();
-            },
 
-            inStoreName: function (newVal, oldVal) {
-                this.inStoreName = this.$store.state.orders.in_storeName;
+                this.getJqtableData();
             },
 
         },
@@ -116,6 +104,12 @@
                     api.updatePrice(data).then(res => {
                         if (res.code == 0) {
                             that.getJqtableData();
+                            // var quantity = $(this).attr('quantity');
+                            // console.log(newPrice, quantity)
+                            // var cost = (newPrice * quantity).toFixed(1);
+                            // $(this).parent().next().html(cost);
+
+
                         }
                     })
                 }
@@ -134,6 +128,7 @@
 
                 var total = 0.0;
                 var aaa =$('#deliveryOrder').children().find('.cost');
+                console.log
 
                 for(var i = 0; i < aaa.length; i++) {
                     var cost = $('.cost:eq('+ i +')').html();
@@ -191,20 +186,21 @@
                         data: _this.deliveryArr,
                         datatype: "local",
                         colModel: [
-                            {label: 'stockRecordId', name: 'stockRecordId', width: 50, key: true, hidden: true},
+                            {label: 'stockRecordId', name: 'stockRecordId', width: 50, key: true},
                             {
                                 label: '商品名称',
                                 name: 'goodsName',
-                                width: 100,
+                                width: 120,
                                 formatter: function (value, options, row) {
                                     return name = row.goodsEntity.goodsName
                                 }
                             },
-
-                            { label: '出库数量', name: 'quantity', width: 150, formatter: function (value, options, row) {
-                                    return name = row.quantity + row.goodsEntity.purStandardName
-                                }},
-                            {label: '单价', name: 'price', width: 250, formatter: function (value, options, row) {
+                            {
+                                label: '申请', name: 'applyNumber', width: 80, formatter: function (value, options, row) {
+                                    return name = row.applysEntity.applyNumber + row.goodsEntity.applyStandardName
+                                }
+                            },
+                            {label: '单价', name: 'price', width: 200, formatter: function (value, options, row) {
                                 var priceVal = "";
                                 var colorVal = "";
                                 if(row.discountPrice !== row.goodsEntity.price){
@@ -219,14 +215,15 @@
                                     return name = input
 
                                 }},
-
-                            { label: '出库成本', name: 'cost', width: 150, formatter: function (value, options, row) {
+                            { label: '出库', name: 'quantity', width: 80, formatter: function (value, options, row) {
+                                    return name = row.quantity + row.goodsEntity.purStandardName
+                                }},
+                            { label: '出库成本', name: 'cost', width: 80, formatter: function (value, options, row) {
 
                                 var cost = (row.quantity * row.discountPrice).toFixed(1);
                                 var costDiv = `<div class="cost">`+cost+`</div>`
                                     return name = costDiv
                                 }},
-
 
                         ],
 
@@ -240,7 +237,7 @@
                         shrinkToFit: false,
                         autowidth: true,
                         autoScroll: true,
-                        multiselect: false,
+                        multiselect: true,
                         pager: "#deliveryOrderPager",
                         jsonReader: {
                             root: "page.list",

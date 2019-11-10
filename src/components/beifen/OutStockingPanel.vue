@@ -20,7 +20,6 @@
 
             <div class="panel-body">
                 <OutStockingTable ref="save"/>
-
             </div>
 
 

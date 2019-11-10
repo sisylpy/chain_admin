@@ -8,8 +8,9 @@ import StoreListRouter from '../routers/background/store'
 import LineRouter from '../routers/background/line'
 import OutDepRouter from '../routers/background/outDep'
 import StaffRouter from './background/ckUser'
-import ProductsRouter from './In/Products'
+import ProductsRouter from './GoodsManagement/Products'
 import OutOrderApplicationRouter from '../routers/Out/OrderApplication'
+import EnterOutStockRouter from '../routers/Out/EnterOutStock'
 import DeliveryOrderRouter from '../routers/Out/DeliveryOrder'
 
 
@@ -45,6 +46,7 @@ export default new Router({
         CostControlDataRouter,
 
         OutOrderApplicationRouter,
+        EnterOutStockRouter,
         DeliveryOrderRouter,
 
 

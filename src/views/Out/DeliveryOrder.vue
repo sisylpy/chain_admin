@@ -30,18 +30,9 @@
                 </div>
 
                 <div class="col-md-10">
+                    <DeliveryTable/>
 
-                    <div class="box box-primary">
 
-                        <div class="box-header with-border">
-                            <h3 class="box-title">{{storeName}}</h3>
-                        </div>
-
-                        <div class="box-body no-padding">
-                            <DeliveryTable/>
-                        </div>
-
-                    </div>
 
                 </div>
 
@@ -86,6 +77,7 @@
                     this.storeId = res.data[0].storeId;
                     this.storeName = res.data[0].storeName;
                     this.$store.state.orders.in_storeId  = res.data[0].storeId;
+                    this.$store.state.orders.in_storeName  = res.data[0].storeName;
 
 
 

@@ -7,9 +7,11 @@ const orders = {
     },
 
     state: {
-        orders_depId: "99",
+        orders_depId: "",
         applyType: "",
         in_storeId:"",
+        in_storeName: "",
+        sideBar: "guai",
 
 
     },
@@ -22,6 +24,12 @@ const orders = {
         },
         SET_INSTOREID: (state, data) => {
             state.in_storeId = data;
+        },
+        SET_INSTORENAME: (state, data) => {
+            state.in_storeName = data;
+        },
+        SET_SIDEBAR: (state, data) => {
+            state.sideBar = data;
         },
 
 
@@ -37,6 +45,12 @@ const orders = {
         },
         set_INSTOREID (context, data) {
             context.commit('SET_INSTOREID', data)
+        },
+        set_INSTORENAME (context, data) {
+            context.commit('SET_INSTORENAME', data)
+        },
+        set_SIDEBAR (context, data) {
+            context.commit('SET_SIDEBAR', data)
         }
 
 

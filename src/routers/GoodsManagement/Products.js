@@ -2,7 +2,7 @@ export default {
 
     path: '/products',
     name: 'products',
-    component: () => import('@/views/In/Products'),
+    component: () => import('@/views/GoodsManagement/Products'),
     children: [
 
         // {

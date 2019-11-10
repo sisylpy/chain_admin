@@ -2,39 +2,97 @@
 
     <div class="my_panel">
 
-        <div class="panel panel-default">
-            <!-- Default panel contents -->
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <h4 class="pull-left">
-                        筛选类别：
-                    </h4>
+        <div class="row my-drop-group">
 
-                    <div class="pull-left">
-                        <div class="dropdown ">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                选择类别
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <!--<li role="separator" class="divider"></li>-->
-                                <li><a  @click="queryFatherGoods($event, item.goodsId)" v-for="(item, index) in cateArr" :fatherId="item.goodsId"> {{item.goodsName}}</a></li>
-                            </ul>
+            <div class="my-dropDown-group col-md-5">
+                <h5>主要负责订货商品的称重拣货</h5>
+                <div class="my-dropDown">
+                    <div class="my-dropDown-item">
+                        <div class="drop-frame">
+
+                            <span class="my-span">所有的出货部门</span>
+                            <span class="caret my-caret my-span"></span>
                         </div>
                     </div>
+                    <div style="display: none">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li v-for="(item,index) in outDepList" v-bind:key="item.id" :id="item.outDepId"
+                                :class="isactive == index ? 'active' : '' "
+                                @click='onclick(index, item.depId, item.depName)'>
 
-                    <div class="pull-right">
-                        <button class="btn btn-default">
-                            加入采购计划
-                        </button>
+                                <a>{{item.depName}}</a></li>
+                        </ul>
                     </div>
+
+
                 </div>
+
+            </div>
+
+            <div class="my-dropDown-group col-md-5">
+                <h5>产品分类</h5>
+                <div class="my-dropDown">
+                    <div class="my-dropDown-item">
+                        <div class="drop-frame">
+
+                            <span class="my-span">所有产品大类</span>
+                            <span class="caret my-caret my-span"></span>
+                        </div>
+                    </div>
+                    <div style="display: none">
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <!--<li role="separator" class="divider"></li>-->
+                        <li><a  @click="queryFatherGoods($event, item.goodsId)" v-for="(item, index) in cateArr" :fatherId="item.goodsId"> {{item.goodsName}}</a></li>
+                        </ul>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="col-md-2">
+                <a class="btn my-warning btn-lg" >加入采购计划</a>
             </div>
 
 
-            <div class="panel-body no-padding no-border">
-                <div class="box-body table-responsive no-padding">
+        </div>
+
+
+
+
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <!--<div class="panel-heading">-->
+                <!--<div class="panel-title">-->
+                    <!--<h4 class="pull-left">-->
+                        <!--筛选类别：-->
+                    <!--</h4>-->
+
+                    <!--<div class="pull-left">-->
+                        <!--<div class="dropdown ">-->
+                            <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"-->
+                                    <!--data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+                                <!--选择类别-->
+                                <!--<span class="caret"></span>-->
+                            <!--</button>-->
+                            <!--<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
+                                <!--&lt;!&ndash;<li role="separator" class="divider"></li>&ndash;&gt;-->
+                                <!--<li><a  @click="queryFatherGoods($event, item.goodsId)" v-for="(item, index) in cateArr" :fatherId="item.goodsId"> {{item.goodsName}}</a></li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="pull-right">-->
+                        <!--<button class="btn btn-default">-->
+                            <!--加入采购计划-->
+                        <!--</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+
+            <div class="panel-body  no-border">
+                <div class="box-body  no-padding">
 
                     <table id="jqGrid"></table>
                     <div id="jqGridPager"></div>
@@ -54,7 +112,8 @@
 </template>
 
 <script>
-    import api from '../../../api/In/Products'
+    import api from '../../../api/GoodsManagement/Products'
+    import apid from '../../../api/background/outDep'
 
     export default {
         name: "ProductsStockPanel",
@@ -62,6 +121,18 @@
 
         mounted() {
             // this.initBill();
+            var type = 1;
+
+            apid.getOutDepList(type).then(res => {
+                if (res) {
+                    console.log(res);
+
+                    this.outDepList = res.data;
+                    this.depId = res.data[0].depId;
+
+                    this.depName = res.data[0].depName;
+                }
+            })
 
         },
         watch: {
@@ -81,7 +152,8 @@
                 page: 1,
                 limit: 20,
                 cateArr: [],
-                fatherId: -1
+                fatherId: -1,
+                outDepList:[]
             }
         },
         methods: {
@@ -157,28 +229,28 @@
                         datatype: "local",
                         colModel: [
                             {label: 'goodsId', name: 'goodsId', width: 50, key: true, hidden: true},
-                            {label: '产品名称', name: 'goodsName', width: 130},
+                            {label: '产品名称', name: 'goodsName', width: 120},
                             {label: '进货规格库存', name: 'stockPurStandard', width: 110, formatter: function(value, options, row){
                                    var num = row.stockPurStandard;
                                     var st = row.purStandardName;
                                     return name = num + st;
                                 } },
-                            {label: '申请规格库存', name: 'stockApplyStandard', width: 110, formatter: function(value, options, row){
+                            {label: '申请规格库存', name: 'stockApplyStandard', width: 150, formatter: function(value, options, row){
                                     var num = row.stockApplyStandard;
                                     var st = row.applyStandardName;
                                     return name = num + st;
                                 }},
-                            {label: '保质期天数', name: 'qualityPeriod', width: 110, formatter: function(value, options, row){
+                            {label: '保质期天数', name: 'qualityPeriod', width: 120, formatter: function(value, options, row){
                                     return name = value + "天";
                                 }},
-                            {label: '报警数量', name: 'alarmWeight', width: 80, formatter: function(value, options, row){
+                            {label: '报警数量', name: 'alarmWeight', width: 120, formatter: function(value, options, row){
                                     return name = value + row.purStandardName;
                                 }},
 
                             {
                                 label: '库存情况',
                                 name: 'status',
-                                width: 120,
+                                width: 200,
                                 formatter: function (value, options, rowData) {
                                     if (value === 1) {
                                         return  "<span class='label label-success'> 库存充足</span>";
@@ -238,10 +310,50 @@
     /*}*/
 
 
+    .my-drop-group{
+        padding-top: 0;
+        display: flex;
+        flex-flow: nowrap;
+        justify-content: center;
+        align-items: flex-end;
+        margin-bottom: 20px;
+
+    }
+
+
+    .my-dropDown-item{
+        display: flex;
+        flex-flow: row nowrap;
+
+    }
+    .drop-frame{
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px 10px;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+    .my-caret{
+        float: right;
+        text-align: center;
+        margin-top: 7px;
+
+    }
+    .my-span {
+        font-size: 16px;
+
+    }
+
     .panel-title {
         height: 40px;
     }
 
+    .my-warning{
+        /*background: #007a5a;*/
+        background: #e07e20;
+        color: #fff;
+    }
 
 
 

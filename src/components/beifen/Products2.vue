@@ -7,38 +7,38 @@
         <section>
             <div class="row">
 
-                <div class="col-md-2">
+                <!--<div class="col-md-2">-->
 
-                    <div class="box box-primary">
+                    <!--<div class="box box-primary">-->
 
-                        <div class="box-header with-border">
-                            <h3 class="box-title">出货部门</h3>
-                        </div>
+                        <!--<div class="box-header with-border">-->
+                            <!--<h3 class="box-title">出货部门</h3>-->
+                        <!--</div>-->
 
-                        <div class="box-body no-padding">
-                            <ul class="nav nav-pills nav-stacked">
-                                <!--<li class="active"><a>Inbox</a></li>-->
-                                <li v-for="(item,index) in outDepList" v-bind:key="item.id" :id="item.outDepId"
-                                    :class="isactive == index ? 'active' : '' "
-                                    @click='onclick(index, item.depId, item.depName)'>
+                        <!--<div class="box-body no-padding">-->
+                            <!--<ul class="nav nav-pills nav-stacked">-->
+                                <!--&lt;!&ndash;<li class="active"><a>Inbox</a></li>&ndash;&gt;-->
+                                <!--<li v-for="(item,index) in outDepList" v-bind:key="item.id" :id="item.outDepId"-->
+                                    <!--:class="isactive == index ? 'active' : '' "-->
+                                    <!--@click='onclick(index, item.depId, item.depName)'>-->
 
-                                    <a>{{item.depName}}</a></li>
-                            </ul>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
+                                    <!--<a>{{item.depName}}</a></li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash; /.box-body &ndash;&gt;-->
+                    <!--</div>-->
 
-                </div>
+                <!--</div>-->
 
-                <div class="col-md-10">
+                <div class="col-md-12">
 
-                    <div class="box box-primary">
+                    <!--<div class="box box-primary">-->
 
-                        <div class="box-header with-border">
-                            <h3 class="box-title">{{depName}}</h3>
-                        </div>
+                        <!--<div class="box-header with-border">-->
+                            <!--<h3 class="box-title">{{depName}}</h3>-->
+                        <!--</div>-->
 
-                        <div class="box-body">
+                        <div class="content">
                             <div class="nav-tabs-justified">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#productsStock" data-toggle="tab">产品库存</a></li>
@@ -76,7 +76,7 @@
 
                         </div>
 
-                    </div>
+                    <!--</div>-->
 
                 </div>
 
@@ -93,9 +93,9 @@
     // import api from '../../api/background/store'
     import api from '../../api/background/outDep'
 
-    import NewBillPanel from '@/components/In/Products/NewBillPanel'
-    import HistoryBillPanel from '@/components/In/Products/HistoryBillPanel'
-    import ProductsStockPanel from '@/components/In/Products/ProductsStockPanel'
+    import NewBillPanel from '@/components/GoodsManagement/Products/NewBillPanel'
+    import HistoryBillPanel from '@/components/GoodsManagement/Products/HistoryBillPanel'
+    import ProductsStockPanel from '@/components/GoodsManagement/Products/ProductsStockPanel'
 
     export default {
         name: "Products",
@@ -155,9 +155,9 @@
 </script>
 
 <style scoped>
-    /*.nav-stacked>li.active>a{*/
-    /*border-left-color: lightgray*/
-    /*}*/
+   .content{
+       padding-left: 0;
+   }
 
 </style>
 

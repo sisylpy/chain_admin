@@ -1,51 +1,11 @@
 <template>
 
-    <div class="box box-primary">
-
-        <div class="box-header with-border">
-            hh
-        </div>
+    <div class="content container-fluid no-padding" id="jqbody">
 
 
-
-
-        <div class="box-body table-responsive no-padding">
-            <!--<table id="jqGrid_newApply"></table>-->
+        <div class="no-padding no-border">
+            <table id="jqGrid_newApply"></table>
             <!--<div id="jqGridPager"></div>-->
-
-            <table class="table table-striped ">
-                <tbody>
-                <tr>
-                    <th style="width:30px;">序号</th>
-                    <th>商品名称</th>
-                    <th>申请</th>
-                    <th>申请总数</th>
-                    <th>库存</th>
-                    <th>库存情况</th>
-                </tr>
-                <tr v-for="(item, index) in applyArr">
-                    <td>{{index + 1}}</td>
-                    <td>{{item.goodsName}}</td>
-                    <td>
-                        <div class="" style="display: flex;flex-flow: row wrap;">
-                            <div v-for="(apply, index) in item.applys"  style="margin-right: 25px;">
-                                {{apply.storeEntity.printLabel}}: {{apply.applyNumber}}{{item.applyStandardName}}
-                            </div>
-                        </div>
-
-                    </td>
-                    <td>{{item.totalNumber}}{{item.applyStandardName}}</td>
-                    <td>{{item.stockApplyStandard}}{{item.applyStandardName}}</td>
-                    <td v-if="item.status == 1"><span class='label label-success'> 库存充足</span></td>
-                    <td v-else-if="item.status == 2"><span class='label label-danger'> 库存不足</span></td>
-                    <td v-else><span class='label label-warning'> 已加入采购计划</span></td>
-
-
-                </tr>
-
-                </tbody>
-            </table>
-
         </div>
 
     </div>
@@ -54,7 +14,7 @@
 </template>
 
 <script>
-    import api from '../../../api/background/goods'
+    import api from '../../api/background/goods'
     import addGoods from '@/components/Background/Goods/AddGoods.vue'
     import apia from '@/api/out/orderApplication'
     import {mapState, mapGetters} from 'vuex'
@@ -72,7 +32,14 @@
                     // this.$store.commit('orders/set_ORDERSDEPID', value)
                 }
             },
-
+            applyType: {
+                get () {
+                    return this.$store.state.orders.applyType
+                },
+                set (value) {
+                    // this.$store.commit('orders/set_APPLYTYPE', value)
+                }
+            }
 
         },
         watch: {

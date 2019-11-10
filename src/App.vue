@@ -17,7 +17,7 @@
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button" @click="changeSidebar">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
                 <div style="float:left;color:#fff;padding:15px 10px;">欢迎 {{user.username}}</div>
@@ -187,6 +187,21 @@
         },
         methods: {
 
+            changeSidebar(){
+
+
+                // $("#jqGrid_outStocking").setGridWidth($("#enterOutGoods").width()*0.99);
+                // $("#jqGrid_outStocking").setGridWidth(document.body.clientWidth*0.99);
+                if( $("body").hasClass("sidebar-collapse")) {
+                    this.$store.state.orders.sideBar  = "guan";
+
+                }else {
+                    this.$store.state.orders.sideBar  = "kai";
+
+                }
+            },
+
+
             getSessionStorage: function(){
 
                 if (sessionStorage.getItem("store") ) {
@@ -233,7 +248,8 @@
 
 
 
-        }
+        },
+
 
 
 
