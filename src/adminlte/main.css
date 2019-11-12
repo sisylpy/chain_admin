@@ -110,3 +110,39 @@ element.style{
 .my_panel {
 	padding: 20px 20px;
 }
+
+
+.my-drop-group{
+	padding-top: 0;
+	display: flex;
+	flex-flow: nowrap;
+	justify-content: center;
+	align-items: flex-end;
+	margin-bottom: 20px;
+
+}
+
+
+.my-dropDown-item{
+	display: flex;
+	flex-flow: row nowrap;
+
+}
+.drop-frame{
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding: 10px 10px;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+}
+.my-caret{
+	float: right;
+	text-align: center;
+	margin-top: 7px;
+
+}
+.my-span {
+	font-size: 16px;
+
+}

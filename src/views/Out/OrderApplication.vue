@@ -8,12 +8,18 @@
             <div class="row">
 
                 <div class="col-md-2">
-                    <a class="btn btn-primary btn-block margin-bottom" @click="PrintRow()">打印</a>
+                    <a class="btn btn-primary btn-block margin-bottom" @click="PrintRow">打印拣货单</a>
 
                     <div class="box box-solid">
 
                         <div class="box-header with-border">
                             <h3 class="box-title">出货部门</h3>
+                            <div class="box-tools">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+
+                            </div>
                         </div>
 
                         <div class="box-body no-padding">
@@ -22,8 +28,8 @@
                                 <li v-for="(item,index) in outDepList" v-bind:key="item.id" :id="item.outDepId"
                                     :class="isactive == index ? 'active' : '' "
                                     @click='onclick(index, item.depId, item.depName)'>
-
-                                    <a>{{item.depName}}</a></li>
+                                    <a >{{item.depName}}</a>
+                                </li>
                             </ul>
                         </div>
                         <!-- /.box-body -->
@@ -32,21 +38,39 @@
                     <div class="box box-solid">
 
                         <div class="box-header with-border">
-                            <h5 class="box-title">申请店铺</h5>
+
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" v-model="sortType"  value="store">
+                                    店铺
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" v-model="sortType" value="goods">
+                                    商品大类
+                                </label>
+                            </div>
+
+
                         </div>
                         <div class="box-body no-padding">
 
                             <ul class="nav nav-pills nav-stacked">
                                 <!--<li class="active"><a>Inbox</a></li>-->
-                                <li v-for="(item, index) in orderStoreArr" :id="item.storeId"
-                                    @click='onclick(index, item.depId, item.depName)'>
-
+                                <li v-for="(item, index) in queryArr">
                                     <a>
-                                        <label class="checkbox-inline"
+                                        <label v-if="sortType === 'store'" class="checkbox-inline"
                                                style="margin-right: 20px; font-size: 16px;">
                                             <input type="checkbox" :value="item.storeId" name="store"
-                                                   v-model="item.storeId !== null"/>
+                                                   v-model="queryIds"/>
                                             {{item.printLabel}}
+                                        </label>
+                                        <label v-else class="checkbox-inline"
+                                               style="margin-right: 20px; font-size: 16px;">
+                                            <input type="checkbox" :value="item.goodsId" name="goods"
+                                                   v-model="queryIds"/>
+                                            {{item.goodsName}}
                                         </label>
                                     </a></li>
                             </ul>
@@ -65,13 +89,11 @@
 
                 <div class="col-md-10">
 
-                    <NewApplyTable :queryArr="queryArr"/>
+                    <NewApplyTable :depId="depId" :depName="depName"
+                                   :queryIds="queryIds" :sortType="sortType" ref="applyTable"/>
 
                 </div>
 
-                <div style="display: none" id="test">
-
-                </div>
 
 
             </div>
@@ -102,45 +124,32 @@
                 depName: "",
                 depId: "",
                 applyType: "",
-                orderStoreArr: [],
                 orderFatherGoodsArr: [],
                 queryArr: [],
+                sortType: 'store',
+                queryIds:[],
 
 
             }
         },
-        computed: {
-            orders_depId: {
-                get() {
-                    return this.$store.state.orders.orders_depId
-                },
-                set(value) {
-                    this.$store.commit('orders/SET_ORDERSDEPID', value)
-                }
-            }
 
-        },
         watch: {
-            orders_depId: function (newVal, oldVal) {
-                this.orders_depId = this.$store.state.orders.orders_depId;
-                this.getStoresWithStauts();
+            depId: function (newVal, oldVal) {
+                this.depId = newVal;
+                this.getSortsWithSortType();
             },
-
+            sortType: function (newVal, oldVal) {
+                this.sortType = newVal;
+                this.getSortsWithSortType();
+            }
 
         },
 
         mounted() {
 
-            var type = 1;
-            api.getOutDepList(type).then(res => {
-                if (res) {
-                    this.outDepList = res.data;
-                    this.depName = res.data[0].depName;
-                    this.$store.state.orders.orders_depId  = res.data[0].depId;
-                }
-            })
+            this.getOurDepList();
+            this.getSortsWithSortType();
 
-            this.getStoresWithStauts();
 
         },
 
@@ -152,24 +161,27 @@
 
         methods: {
 
-            //点击出货部门
-            onclick(index, depId, depName) {
-                this.isactive = index;
-                this.depName = depName;
-                this.$store.dispatch('orders/set_ORDERSDEPID', depId)
-
-            },
 
 
-
-            //获取申请店铺列表
-            getStoresWithStauts: function () {
+            // 根据出货部门sortType获取分店或者商品大类数据
+            getSortsWithSortType: function () {
                 var status = 0;
-                var data = "status=" + status + "&depId=" + this.orders_depId;
-                apia.outDepQueryStores(data).then(res => {
-
+                var data = "status=" + status + "&depId=" + this.depId + "&sortType=" + this.sortType;
+                apia.outDepQuerySorts(data).then(res => {
                     if (res) {
-                        this.orderStoreArr = res.data
+                        this.queryArr = res.data
+
+                        if(this.sortType == 'store'){
+                            for (var i = 0; i< this.queryArr.length; i++) {
+                                this.queryIds.push(this.queryArr[i].storeId)
+                            }
+                        }else  if(this.sortType == 'goods'){
+                            this.queryIds = [];
+                            for (var i = 0; i< this.queryArr.length; i++) {
+                                this.queryIds.push(this.queryArr[i].goodsId)
+                            }
+                        }
+
                     }
 
                     $("input[type='checkbox']").prop("checked", true);
@@ -177,67 +189,30 @@
 
             },
 
-
-
-            getPrintArr: function (data) {
-                this.printArr = data;
-
-            },
-
-
-            PrintRow: function () {
-                var pageNumber = 1;
-
-                var header = `<h2 class="header" style="text-align: center;">`+this.outDepName+`</h2>`
-                $('#test').append(header);
-
-                var applysArr = this.printArr;
-
-                for (var i = 0; i < applysArr.length; i++) {
-
-                    var oneGoods = `<div class="goods-applys" style="width: 100%;background: yellow; display: inline-block"></div>`
-                    $('#test').append(oneGoods);
-
-                    var goodsName = applysArr[i]['goodsName'];
-                    var applyStandardName = applysArr[i]['applyStandardName'];
-                    var h3 = `<h3 style="background: green; width: 100%">` + goodsName + `</h3>`
-
-                    $('.goods-applys:eq(' + i + ')').append(h3);
-                    var row = `<div class="goods-applys-row" style="background: red; width: 100%;display: inline-block;"></div>`
-                    $('.goods-applys:eq(' + i + ')').append(row);
-
-
-                    var applys = applysArr[i]['applys'];
-
-                    for (var j = 0; j < applys.length; j++) {
-                        var printLabel = applys[j]['storeEntity']['printLabel'];
-                        var applyNumber = applys[j]['applyNumber'];
-                        var oneApply = `<div class="one-goods-apply" style="display: inline-block; width: 30%;line-height: 30px;font-size: 20px;margin-bottom: 10px">` + printLabel + applyNumber + applyStandardName + `</div>`
-
-                        $('.goods-applys-row:eq(' + i + ')').append(oneApply);
-
-                        $('.one-goods-apply').css({
-                            "color": "red",
-                            "line-height": "45px",
-                            "border-bottom": "1px solid #eee",
-                            "background": "gray",
-                        })
-
-
+            getOurDepList() {
+                var type = 1;
+                api.getOutDepList(type).then(res => {
+                    if (res) {
+                        this.outDepList = res.data;
+                        this.depName = res.data[0].depName;
+                        this.depId = res.data[0].depId;
                     }
-
-
-                }
-
-
-                var test = $('#test').html();
-                window.document.body.innerHTML = test
-                window.print();
-
+                })
             },
 
 
+            //点击出货部门
+            onclick(index, depId, depName) {
+                this.isactive = index;
+                this.depName = depName;
+                this.depId = depId;
 
+            },
+
+            PrintRow(){
+                console.log("fulimian")
+                this.$refs.applyTable.PrintRow();
+            }
 
         }
     }

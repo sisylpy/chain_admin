@@ -3,6 +3,29 @@ import request from '@/utils/request'
 export default {
 
 
+
+
+    /**
+     *
+     */
+    getPirntMax() {
+        return request({
+            url: 'sys/ckapplys/getPintMax',
+            method: 'get',
+        })
+    },
+
+
+    /**
+     *
+     */
+    getPrintTimes() {
+        return request({
+            url: 'sys/ckapplys/getPintTimes',
+            method: 'get',
+        })
+    },
+
     /**
      *
      */
@@ -18,9 +41,9 @@ export default {
     /**
      *
      */
-    outDepQueryStores(data) {
+    outDepQuerySorts(data) {
         return request({
-            url: 'sys/ckapplys/outDepQueryStores',
+            url: 'sys/ckapplys/outDepQuerySorts',
             method: 'post',
             data
         })

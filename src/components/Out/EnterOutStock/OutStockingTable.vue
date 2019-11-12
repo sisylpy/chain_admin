@@ -2,6 +2,43 @@
 
     <section class="content container-fluid no-padding" id="outStockTable">
         <div class="">
+            <div class="row my-drop-group">
+
+                <div class="my-dropDown-group col-md-5">
+                    <h5>主要负责订货商品的称重拣货</h5>
+                    <div class="my-dropDown">
+                        <div class="my-dropDown-item">
+                            <div class="drop-frame">
+
+                                <span class="my-span">dddd</span>
+                                <span class="caret my-caret my-span"></span>
+                            </div>
+                        </div>
+                        <div style="display: none">
+                            <ul class="nav nav-pills nav-stacked">
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="my-dropDown-group col-md-5">
+                    <h5>打印次数</h5>
+                    <div class="form-group" id="selectPrintTimes" style="background: yellow">
+                        <select class="form-control select2" data-placeholder="所有打印次数"
+                                style="width: 100%;" @change="selectPrintTime">
+                            <option v-for="(item, index) in printTimes" :value="item" > {{item}}</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <a class="btn my-warning btn-lg">保存</a>
+                </div>
+
+
+            </div>
 
 
             <table>
@@ -14,9 +51,9 @@
                 <tr v-for="(item, index) in outStockingArr">
                     <td style="">{{index + 1}}</td>
                     <td>
-                        <div >
+                        <div>
                             <h4>{{item.goodsName}}</h4>
-                            <div class="store-apply row" style="padding: 0;">
+                            <div class="store-apply row" style="padding: 0; width: 100%;" >
                                 <div v-for="(outApply, index) in item.applys" class="one-apply col-md-4"
                                      style="display: flex; flex-flow: row wrap; padding: 0">
                                     <input type="hidden" :id="outApply.applyId">
@@ -26,8 +63,10 @@
                                     <div style="line-height: 30px;padding: 5px">
                                         {{outApply.storeEntity.printLabel}}{{outApply.applyNumber}}{{item.applyStandardName}}
                                     </div>
+
                                     <input type="text" class="outQuantity"
-                                           style="width:50% ;font-size: 18px;margin-left: 10px;border:none; border-bottom:1px solid #ddd">
+                                           style="width:30% ;font-size: 18px;margin-left: 10px;border:none; border-bottom:1px solid #ddd">
+                                    <div style="line-height: 30px;padding: 5px">{{item.purStandardName}}</div>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +93,7 @@
 
     export default {
         name: "OutStockingTable",
-        props: ['depId'],
+        props: ['depId', "depName"],
 
         data() {
             return {
@@ -62,6 +101,8 @@
                 limit: 21,
                 outStockingArr: [],
                 status: 1,
+                printTimes: [],
+                showPrintTimes: '',
 
 
             }
@@ -79,13 +120,11 @@
         },
         mounted() {
 
-            // this.getJqtableData();
+            this.getPrintTime();
 
 
             $('#outStockTable').on('keyup', '.outQuantity', function (e) {
                 //获取当前输入框
-                // if( $(this).parents('tr').next().length > 0){
-                console.log(e.keyCode)
 
                 if (e.keyCode == 13) {
                     if ($(this).parent().next().children().length > 0) {
@@ -109,36 +148,26 @@
             });
 
 
-            //width
-
-
         },
 
         methods: {
+            selectPrintTime(e) {
 
-            computeTableWidth() {
-
-                var fatherWidth = $('#enterOutGoods').width();
-                $('#jqGrid_outStocking').width();
-
-
-                console.log("-----")
-                console.log(fatherWidth)
-                // console.log(this.widthScale)
-                // console.log($('#jqGrid_outStocking').width())
-                // console.log("=========>>>>>>>>>>")
-                // console.log(this.widthScale)
-                //
-                // var  nnn = fatherWidth * this.widthScale
-                // console.log("<<<<>>>>>>>>");
-                // console.log(nnn)
-                // $('#jqGrid_outStocking').width(nnn);
-
-
+                this.showPrintTimes = parseInt(e.target.value)
+                this.getJqtableData();
             },
 
+            getPrintTime() {
+                apia.getPrintTimes().then(res => {
+                    if (res) {
+                        this.printTimes = res.data;
+                        this.showPrintTimes = res.data[0];
+                    }
+                })
+            },
+
+
             saveOutQutantity() {
-                console.log("fuzujianrangwosavele!")
 
                 var outQuantityArr = [];
                 var $applyIds = $('.apply-id');
@@ -176,15 +205,21 @@
             //获取表格数据
             getJqtableData: function () {
 
+                var printPages = [];
+                printPages.push(this.showPrintTimes)
 
-                var data = "page=" + this.page + "&limit=" + this.limit
-                    + "&status=" + "1" + "&depId=" + this.depId;
+
+                var query = {
+                    sortType: "enterOutStock",
+                    arr: printPages
+                }
+                var data = "status=" + "1" + "&depId=" + this.depId + "&queryIds=" + JSON.stringify(query);
                 this.bus.$emit('loading', true);
                 apia.outDepQueryApplys(data).then(res => {
                     console.log("outstocking res")
                     this.bus.$emit('loading', false);
 
-                    this.outStockingArr = res.page.list;
+                    this.outStockingArr = res.data;
 
                     //加载表格数据
                     this.jqtable()
@@ -297,14 +332,6 @@
 
             },
 
-            //初始化表格全选
-            selectAllGrid: function () {
-                for (var i = 0; i < this.applyArr.length; i++) {
-                    var id = this.applyArr[i].goodsId;
-                    $("#jqGrid").jqGrid('setSelection', id);
-                }
-            },
-
 
         }
 
@@ -314,6 +341,15 @@
 </script>
 
 <style scoped>
+    .dropdown-menu {
+        display: flex;
+        flex-flow: column nowrap;
 
+    }
+
+    .dropdown-menu li {
+        line-height: 30px;
+
+    }
 
 </style>

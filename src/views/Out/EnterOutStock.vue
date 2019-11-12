@@ -33,7 +33,7 @@
                 <div class="col-md-10">
                     <div class="box box-info" id="enterOutGoods">
                         <div class="box-header">
-                            ddd
+                            <h3>{{depName}}</h3>
                         </div>
 
                         <div class="box-body ">

@@ -1,0 +1,163 @@
+<template>
+    <div class="">
+
+        <PageHeader/>
+
+        <!--<section class="content">-->
+        <section>
+            <div class="row">
+
+                <!--<div class="col-md-2">-->
+
+                    <!--<div class="box box-primary">-->
+
+                        <!--<div class="box-header with-border">-->
+                            <!--<h3 class="box-title">出货部门</h3>-->
+                        <!--</div>-->
+
+                        <!--<div class="box-body no-padding">-->
+                            <!--<ul class="nav nav-pills nav-stacked">-->
+                                <!--&lt;!&ndash;<li class="active"><a>Inbox</a></li>&ndash;&gt;-->
+                                <!--<li v-for="(item,index) in outDepList" v-bind:key="item.id" :id="item.outDepId"-->
+                                    <!--:class="isactive == index ? 'active' : '' "-->
+                                    <!--@click='onclick(index, item.depId, item.depName)'>-->
+
+                                    <!--<a>{{item.depName}}</a></li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash; /.box-body &ndash;&gt;-->
+                    <!--</div>-->
+
+                <!--</div>-->
+
+                <div class="col-md-12">
+
+                    <!--<div class="box box-primary">-->
+
+                        <!--<div class="box-header with-border">-->
+                            <!--<h3 class="box-title">{{depName}}</h3>-->
+                        <!--</div>-->
+
+                        <div class="content">
+                            <div class="nav-tabs-justified">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#orderApplicaton" data-toggle="tab">店铺订货</a></li>
+                                    <li><a href="#inStock" data-toggle="tab">产品入库</a></li>
+                                    <li><a href="#stockLog" data-toggle="tab">入库单据</a></li>
+                                    <li><a href="#stockLog" data-toggle="tab">店铺出货日志</a></li>
+                                    <li><a href="#stockCount" data-toggle="tab">盘库</a></li>
+                                </ul>
+                                <div class="tab-content">
+
+                                    <div class="active tab-pane" id="orderApplicaton">
+                                        <OrderApplication :depId="depId" :depName="depName"/>
+                                    </div>
+                                    <!-- /.tab-pane -->
+
+                                    <div class="tab-pane" id="inStock">
+                                        <NewBillPanel :depId="depId" :depName="depName"/>
+                                    </div>
+
+                                    <div class="tab-pane" id="stockLog">
+                                        <!--<HistoryBillPanel :depId="depId" :depName="depName" ref="child"/>-->
+                                    </div>
+
+
+                                    <div class="tab-pane" id="stockCount">
+                                        stockCount
+                                    </div>
+
+
+                                </div>
+                                <!-- /.tab-pane -->
+
+
+                            </div>
+
+                        </div>
+
+                    <!--</div>-->
+
+                </div>
+
+
+            </div>
+        </section>
+    </div>
+
+
+</template>
+
+<script>
+    import PageHeader from '@/components/PageHeader.vue'
+    // import api from '../../api/background/store'
+    import api from '../../api/background/outDep'
+
+    import NewBillPanel from '@/components/StoreManagement/Orders/NewBillPanel'
+    import HistoryBillPanel from '@/components/StoreManagement/Orders/HistoryBillPanel'
+    import OrderApplication from '@/components/StoreManagement/Orders/OrderApplication'
+
+    export default {
+        name: "Products",
+
+        data() {
+            return {
+                outDepList: [],
+                isactive: 0,
+                depId: "",
+                depName: "",
+                page: 1,
+                limit: 20,
+                type: 1,
+
+
+            }
+        },
+
+        mounted() {
+            var type = 1;
+
+            api.getOutDepList(type).then(res => {
+                if (res) {
+                    console.log(res);
+
+                    this.outDepList = res.data;
+                    this.depId = res.data[0].depId;
+
+                    this.depName = res.data[0].depName;
+                }
+            })
+        },
+
+        components: {
+            PageHeader,
+            NewBillPanel,
+            HistoryBillPanel,
+            OrderApplication,
+        },
+        methods: {
+
+            //点击产品类别
+            onclick(index, depId,depName) {
+                this.isactive = index;
+                this.depId = depId;
+                this.depName = depName;
+
+                this.$refs.child.searchBill(this.depId)
+
+            },
+
+
+
+
+        }
+    }
+</script>
+
+<style scoped>
+   .content{
+       padding-left: 0;
+   }
+
+</style>
+
