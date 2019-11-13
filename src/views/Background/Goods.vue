@@ -39,9 +39,6 @@
         data() {
             return {
 
-                type: ""
-
-
             }
         },
 
@@ -53,9 +50,7 @@
         methods: {
             //点击产品类别
             onclick(type) {
-                this.type =type;
-                console.log(this.type)
-                this.$refs.child.getCateGoods(type)
+                this.$refs.child.getCateGoods()
             },
         }
 

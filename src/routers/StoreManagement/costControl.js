@@ -2,7 +2,7 @@ export default {
 
     path: '/costControl',
     name: 'costControl',
-    component: () => import('@/views/StoreMangement/CostControl'),
+    component: () => import('@/views/StoreManagement/CostControl'),
     children: [
 
         // {

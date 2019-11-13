@@ -19,7 +19,7 @@ export default {
      */
     getOutDepCateList(data) {
         return request({
-            url: 'sys/ckgoods/outDepCateList/' + data,
+            url: 'sys/ckgoods/outDepCatoutDepGoodsListeList/' + data,
             method: 'get',
         })
     },

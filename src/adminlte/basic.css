@@ -4,6 +4,7 @@
 @import '../../node_modules/font-awesome/css/font-awesome.css';
 @import "./plugins/jqgrid/ui.jqgrid-bootstrap.css";
 @import "./plugins/ztree/css/metroStyle/metroStyle.css";
+@import "../../node_modules/admin-lte/bower_components/select2/dist/css/select2.css";
 @import "../../node_modules/admin-lte/dist/css/AdminLTE.min.css";
 @import "../../node_modules/admin-lte/dist/css/skins/_all-skins.css";
 @import "../adminlte/jquery-ui.css";

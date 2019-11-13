@@ -4,7 +4,7 @@
 
         <div class="box-header with-border">
             <h3>{{depName}}</h3>
-            <div v-if="printMax">今天已经打印{{printMax}}次</div>
+            <div v-if="printMax">今天已经打印vvv{{printMax}}次</div>
             <div v-else>今天没有打印</div>
             <!--<button @click='confirmAlert'>确认弹框弹出</button>-->
 
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-    import api from '../../../api/background/goods'
+    import api from '../../../../api/background/goods'
     import addGoods from '@/components/Background/Goods/AddGoods.vue'
     import apia from '@/api/out/orderApplication'
     import {mapState, mapGetters} from 'vuex'
@@ -71,7 +71,7 @@
 
     export default {
         name: "NewApplyTable",
-        props: ['depId', 'depName', 'queryIds', 'sortType'],
+        props: ['depId', 'depName'],
         components: {Confirm},
         watch: {
             depId: function (newVal, oldVal) {
@@ -81,14 +81,7 @@
             depName: function (newVal, oldVal) {
                 this.depName = newVal;
             },
-            queryIds: function (newVal, oldval) {
-                this.queryIds = newVal;
-                this.getApplyData();
-            },
-            sortType: function (newVal, oldVal) {
-                this.sortType = newVal;
-                this.getApplyData();
-            }
+
         },
 
         mounted() {

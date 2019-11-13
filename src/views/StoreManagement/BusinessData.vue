@@ -86,8 +86,8 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
     import api from '../../api/background/store'
-    import StoreGoodsPanel from '@/components/StoreMangement/BusinessData/StoreGoodsPanel'
-    import TurnoverPanel from '@/components/StoreMangement/BusinessData/TurnoverPanel'
+    import StoreGoodsPanel from '@/components/StoreManagement/BusinessData/StoreGoodsPanel'
+    import TurnoverPanel from '@/components/StoreManagement/BusinessData/TurnoverPanel'
 
     export default {
         name: "BusinessData",

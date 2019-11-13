@@ -99,8 +99,9 @@
 
             getCateGoods: function(type){
 
-                api.getCateGoods(type).then(res => {
+                api.getCateGoods().then(res => {
                     if (res) {
+                        console.log(res)
                         this.fatherId = res.data[0].goodsId;
                         this.goodsArr = res.data;
                         this.fatherName = res.data[0].goodsName;

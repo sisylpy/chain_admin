@@ -2,7 +2,7 @@ export default {
 
     path: '/businessData',
     name: 'businessData',
-    component: () => import('@/views/StoreMangement/BusinessData'),
+    component: () => import('@/views/StoreManagement/BusinessData'),
     children: [
 
         // {

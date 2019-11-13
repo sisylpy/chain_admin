@@ -1,29 +1,61 @@
 <template>
 
+
+    <!--<div class="box-header with-border">-->
+    <!--<h3>{{depName}}</h3>-->
+    <!--<div v-if="printMax">今天已经打印{{printMax}}次</div>-->
+    <!--<div v-else>今天没有打印</div>-->
+
+
+    <!--</div>-->
+
+
     <div class="box box-primary">
 
-        <div class="box-header with-border">
-            <h3>{{depName}}</h3>
-            <div v-if="printMax">今天已经打印{{printMax}}次</div>
-            <div v-else>今天没有打印</div>
-            <!--<button @click='confirmAlert'>确认弹框弹出</button>-->
+        <div class="row box-header">
 
-            <!--<Confirm ref='confirm' text='确定删除该数据吗？' @confirm='deleteItem'></Confirm>-->
+            <div class="col-md-5">
+
+                <div class="form-group" id="fatherSide" :depId="depId">
+                    <label>产品大类</label>
+                    <select class="form-control select2" multiple="multiple" data-placeholder="全部大类---可以选择产品类别"
+                            style="width: 100%; " id="selectFatherId">
+                        <option v-for="(item, index) in cateArr" :value="item.goodsId">{{item.goodsName}}</option>
+
+                    </select>
+                </div>
 
 
+            </div>
+
+            <div class="col-md-5">
+
+                <div class="form-group">
+                    <label>分店</label>
+                    <select class="form-control select2" multiple="multiple" data-placeholder="全部分店---可以选择分店"
+                            style="width: 100%;" id="selectStoreId">
+                        <option v-for="(item, index) in storeArr" :value="item.storeId">{{item.storeName}}</option>
+
+                    </select>
+                </div>
+
+
+            </div>
+
+            <div class="col-md-2">
+                <a class="btn my-warning btn-lg" @click="PrintRow">打印拣货单</a>
+            </div>
         </div>
-
-
-        <div class="box-body table-responsive no-padding">
+        <div class="box-body">
 
             <table class="table table-striped " id="apply-table">
                 <tbody>
                 <tr>
-                    <th style="width:30px;">序号</th>
+                    <th style="width:60px;">序号</th>
                     <th>商品名称</th>
                     <th>申请</th>
-                    <th>申请总数</th>
-                    <th>库存</th>
+                    <th style="width: 80px;">申请总数</th>
+                    <th style="width: 60px;">库存</th>
                     <th>库存情况</th>
                 </tr>
                 <tr v-for="(item, index) in applyArr">
@@ -51,62 +83,66 @@
                 </tbody>
             </table>
 
-        </div>
-        <div style="display: none" id="test">
+
+            <!-- 打印机内容载体-->
+            <div style="display: none" id="test"></div>
 
         </div>
-
-
     </div>
 
 
 </template>
 
 <script>
-    import api from '../../../api/background/goods'
-    import addGoods from '@/components/Background/Goods/AddGoods.vue'
     import apia from '@/api/out/orderApplication'
-    import {mapState, mapGetters} from 'vuex'
-    import Confirm from '@/components/Confirm'
 
     export default {
         name: "NewApplyTable",
-        props: ['depId', 'depName', 'queryIds', 'sortType'],
-        components: {Confirm},
+        props: ['depId', 'depName'],
+        components: {},
         watch: {
             depId: function (newVal, oldVal) {
                 this.depId = newVal;
                 this.getApplyData();
+                this.getGoodsandStoreSorts();
             },
-            depName: function (newVal, oldVal) {
-                this.depName = newVal;
-            },
-            queryIds: function (newVal, oldval) {
-                this.queryIds = newVal;
-                this.getApplyData();
-            },
-            sortType: function (newVal, oldVal) {
-                this.sortType = newVal;
-                this.getApplyData();
-            }
+
         },
 
         mounted() {
+            var that = this;
 
+            //获取产品和分店数据
+            this.getGoodsandStoreSorts();
+
+            //初始化获取申请列表
             this.getApplyData();
+            //获取最大打印
             this.getPrintMax();
 
+            // 产品和分店的选择插件
+            $('.select2').select2()
+            // selcct 产品
+            $('#selectFatherId').on('change', function (e) {
+                that.getSortIds(that);
+            });
+            // select分店
+            $('#selectStoreId').on('change', function (e) {
+                that.getSortIds(that);
+            });
+
+
             //chormes 浏览器不起作用！
+            //打印前监听方法
             window.onbeforeprint = function () {
                 console.log("hahahh")
             }
+            //打印后监听方法
             window.addEventListener("afterprint", function (event) {
-                console.log("event after!!!!!")
-
 
                 var $applys = $('body').children().find('.one-goods-apply');
                 var printMax = $('body').children('h2').attr('printmax');
-                console.log( $('body').children('h2').attr('printmax'))
+                console.log($('body').children('h2').attr('printmax'))
                 console.log(printMax)
 
                 var ids = [];
@@ -114,19 +150,17 @@
                     var id = $($applys[i]).attr('id');
                     ids.push(id)
                 }
-                console.log(ids)
 
                 var applyArr = [];
-                for (var i =0 ; i< ids.length; i++) {
+                for (var i = 0; i < ids.length; i++) {
 
                     var apply = {
-                        applyId : ids[i],
+                        applyId: ids[i],
                         pageNumber: parseInt(printMax) + 1
                     }
                     applyArr.push(apply);
 
                 }
-
 
 
                 $('body').on('click', '#successPrint', function () {
@@ -138,21 +172,18 @@
                         dataType: 'json',
                         success: function (data) {
 
-                            if(data.code == 0){
+                            if (data.code == 0) {
                                 window.location.reload();
-                                this.getPrintMax();
-
+                                that.getPrintMax();
                             }
                         }
                     })
                 })
 
-
+                //取消打印
                 $('body').on('click', '#cancelPrint', function () {
                     window.location.reload();
-
                 })
-
 
 
             });
@@ -169,15 +200,94 @@
                 printArr: [],
                 printMax: '',
                 printIds: [],
+
+                orderFatherGoodsArr: [],
+                queryStoreIds: [],
+                queryFatherIds: [],
+                storeArr: [],
+                cateArr: []
             }
         },
 
         methods: {
 
 
+            // select 插件方法
+            getSortIds(that) {
+                var fatherIds = [];
+                var storeIds = [];
+                var gstr = '-1';
+                var sstr = '-1';
+                var selectFather = $("#selectFatherId").find("option:selected");
+                var selectStore = $("#selectStoreId").find("option:selected");
+
+                if (selectFather.length > 0) {
+                    fatherIds = [];
+                    for (var i = 0; i < selectFather.length; i++) {
+                        var title = $(selectFather.eq(i)).attr('value');
+                        fatherIds.push(title)
+                    }
+                    gstr = fatherIds.join()
+                }
+
+                if (selectStore.length > 0) {
+                    storeIds = [];
+                    for (var j = 0; j < selectStore.length; j++) {
+                        var title2 = $(selectStore.eq(j)).attr('value');
+                        storeIds.push(title2)
+                    }
+                    sstr = storeIds.join()
+                }
+
+                var depId = $('#fatherSide').attr('depid');
+
+                var data = "status=0&depId=" + depId + "&queryFatherIds=" + gstr + "&queryStoreIds=" + sstr;
+                $.ajax({
+                    cache: true,
+                    type: "get",
+                    url: "http://localhost:8080/chainPro_war_exploded/sys/ckapplys/outDepQueryApplysBySorts",
+                    data: data,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data.data)
+                        that.applyArr = data.data;
+                    }
+                })
+
+
+            },
+
+
+
+            // 根据出货部门sortType获取分店或者商品大类数据
+            getGoodsandStoreSorts: function () {
+                var status = 0;
+                var data = "status=" + status + "&depId=" + this.depId;
+                apia.outDepQuerySorts(data).then(res => {
+                    if (res) {
+                        console.log(res)
+                        this.cateArr = res.data.fatherGoodsList;
+                        this.storeArr = res.data.storeList;
+
+                        for (var i = 0; i < this.storeArr.length; i++) {
+                            this.queryStoreIds.push(this.storeArr[i].storeId)
+                        }
+
+                        for (var i = 0; i < this.cateArr.length; i++) {
+                            this.queryFatherIds.push(this.cateArr[i].goodsId)
+
+                        }
+
+                    }
+
+                    $("input[type='checkbox']").prop("checked", true);
+                })
+
+            },
+
             PrintRow: function () {
 
-                var header = `<h2 class="header" id="title" style="text-align: center;" printmax=`+this.printMax+`>` + this.printMax + `</h2>`
+                var header = `<h2 class="header" id="title" style="text-align: center;" printmax=` + this.printMax + `>` + this.printMax + `</h2>`
                 $('#test').append(header);
 
                 var applysArr = this.printArr;
@@ -242,16 +352,12 @@
             //获取表格数据
             getApplyData: function () {
 
-                var query = {
-                    sortType: this.sortType,
-                    arr: this.queryIds
-                }
-
-                var data = "status=" + "0" + "&depId=" + this.depId + "&queryIds=" + JSON.stringify(query);
+                var data = "status=" + "0" + "&depId=" + this.depId;
                 this.bus.$emit('loading', true);
 
                 apia.outDepQueryApplys(data).then(res => {
                     if (res) {
+                        console.log(res)
                         this.bus.$emit('loading', false);
 
                         this.applyArr = res.data;
