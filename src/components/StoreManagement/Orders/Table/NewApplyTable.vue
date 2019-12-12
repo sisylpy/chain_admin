@@ -1,22 +1,12 @@
 <template>
 
-
-    <!--<div class="box-header with-border">-->
-    <!--<h3>{{depName}}</h3>-->
-    <!--<div v-if="printMax">今天已经打印{{printMax}}次</div>-->
-    <!--<div v-else>今天没有打印</div>-->
-
-
-    <!--</div>-->
-
-
     <div class="box box-primary">
 
         <div class="row box-header">
 
             <div class="col-md-5">
 
-                <div class="form-group" id="fatherSide" :depId="depId">
+                <div class="form-group" id="fatherSide" :depId="outDepId">
                     <label>产品大类</label>
                     <select class="form-control select2" multiple="multiple" data-placeholder="全部大类---可以选择产品类别"
                             style="width: 100%; " id="selectFatherId">
@@ -46,6 +36,7 @@
                 <a class="btn my-warning btn-lg" @click="PrintRow">打印拣货单</a>
             </div>
         </div>
+
         <div class="box-body">
 
             <table class="table table-striped " id="apply-table">
@@ -56,26 +47,22 @@
                     <th>申请</th>
                     <th style="width: 80px;">申请总数</th>
                     <th style="width: 60px;">库存</th>
-                    <th>库存情况</th>
                 </tr>
                 <tr v-for="(item, index) in applyArr">
+
                     <td>{{index + 1}}</td>
                     <td>{{item.goodsName}}</td>
+
                     <td>
                         <div class="" style="display: flex;flex-flow: row wrap;">
-
                             <div class="apply-item" v-for="(apply, index) in item.applys" style="margin-right: 25px;"
                                  :apply_id="apply.applyId">
                                 {{apply.storeEntity.printLabel}}: {{apply.applyNumber}}{{item.applyStandardName}}
                             </div>
                         </div>
-
                     </td>
                     <td>{{item.totalNumber}}{{item.applyStandardName}}</td>
                     <td>{{item.stockApplyStandard}}{{item.applyStandardName}}</td>
-                    <td v-if="item.status == 1"><span class='label label-success'> 库存充足</span></td>
-                    <td v-else-if="item.status == 2"><span class='label label-danger'> 库存不足</span></td>
-                    <td v-else><span class='label label-warning'> 已加入采购计划</span></td>
 
 
                 </tr>
@@ -98,14 +85,52 @@
 
     export default {
         name: "NewApplyTable",
-        props: ['depId', 'depName'],
-        components: {},
-        watch: {
-            depId: function (newVal, oldVal) {
-                this.depId = newVal;
-                this.getApplyData();
-                this.getGoodsandStoreSorts();
+        computed: {
+            outDepId: {
+                get() {
+                    return this.$store.state.orders.outDepId
+                },
+                set() {
+                    // this.$store.commit('orders/set_ORDERSDEPID', value)
+                }
             },
+            applyType: {
+                get() {
+                    return this.$store.state.orders.applyType
+                },
+                set() {
+                    // this.$store.commit('orders/set_ORDERSDEPID', value)
+                },
+
+            },
+        },
+
+        watch: {
+            outDepId: function (newVal, oldVal) {
+
+                if (this.applyType === "orderApplicaton") {
+                    console.log("NewApplyTable la.....")
+                    this.getGoodsandStoreSorts();
+                    this.getApplyData();
+
+
+                    //获取最大打印
+                    this.getPrintMax();
+                }
+            },
+            applyType: function (newVal, oldVal) {
+
+                if (newVal === "orderApplicaton") {
+                    console.log("NewApplyTable la.....")
+                    this.getGoodsandStoreSorts();
+                    this.getApplyData();
+
+
+                    //获取最大打印
+                    this.getPrintMax();
+                }
+            },
+
 
         },
 
@@ -114,14 +139,14 @@
 
             //获取产品和分店数据
             this.getGoodsandStoreSorts();
-
-            //初始化获取申请列表
             this.getApplyData();
+
+
             //获取最大打印
             this.getPrintMax();
 
             // 产品和分店的选择插件
-            $('.select2').select2()
+            $('.select2').select2();
             // selcct 产品
             $('#selectFatherId').on('change', function (e) {
                 that.getSortIds(that);
@@ -167,7 +192,7 @@
                     console.log("success!!")
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:8080/chainPro_war_exploded/sys/ckapplys/applysPrintSuccess/",
+                        url: "https://grainservice.club:8080/chainOrder/sys/ckapplys/applysPrintSuccess/",
                         data: JSON.stringify(applyArr),
                         dataType: 'json',
                         success: function (data) {
@@ -178,14 +203,12 @@
                             }
                         }
                     })
-                })
+                });
 
                 //取消打印
                 $('body').on('click', '#cancelPrint', function () {
                     window.location.reload();
                 })
-
-
             });
 
 
@@ -212,12 +235,13 @@
         methods: {
 
 
-            // select 插件方法
+            // select 插件，根据选择到商品类别和分店，获取申请
             getSortIds(that) {
-                var fatherIds = [];
-                var storeIds = [];
-                var gstr = '-1';
-                var sstr = '-1';
+
+                var fatherIds = []; //商品类别
+                var storeIds = []; //分店
+                var gstr = '-1'; //默认商品类别全选
+                var sstr = '-1'; //默认分店全选
                 var selectFather = $("#selectFatherId").find("option:selected");
                 var selectStore = $("#selectStoreId").find("option:selected");
 
@@ -245,24 +269,22 @@
                 $.ajax({
                     cache: true,
                     type: "get",
-                    url: "http://localhost:8080/chainPro_war_exploded/sys/ckapplys/outDepQueryApplysBySorts",
+                    url: "https://grainservice.club:8080/chainOrder/sys/ckapplys/outDepQueryApplysBySorts",
                     data: data,
                     dataType: 'json',
                     success: function (data) {
                         console.log(data.data)
                         that.applyArr = data.data;
+                        that.printArr = data.data;
                     }
                 })
-
-
             },
 
 
-
-            // 根据出货部门sortType获取分店或者商品大类数据
+            // 根据出货部门Id，获取select分店和商品大类下拉框数据
             getGoodsandStoreSorts: function () {
                 var status = 0;
-                var data = "status=" + status + "&depId=" + this.depId;
+                var data = "status=" + status + "&depId=" + this.outDepId;
                 apia.outDepQuerySorts(data).then(res => {
                     if (res) {
                         console.log(res)
@@ -273,21 +295,20 @@
                             this.queryStoreIds.push(this.storeArr[i].storeId)
                         }
 
-                        for (var i = 0; i < this.cateArr.length; i++) {
-                            this.queryFatherIds.push(this.cateArr[i].goodsId)
-
+                        for (var j = 0; j < this.cateArr.length; j++) {
+                            this.queryFatherIds.push(this.cateArr[j].goodsId)
                         }
 
                     }
-
-                    $("input[type='checkbox']").prop("checked", true);
                 })
 
             },
 
             PrintRow: function () {
+                console.log(this.printMax)
+                var printTimes = parseInt(this.printMax)+1
 
-                var header = `<h2 class="header" id="title" style="text-align: center;" printmax=` + this.printMax + `>` + this.printMax + `</h2>`
+                var header = `<h2 class="header" id="title" style="text-align: center;" printmax=` + this.printMax + `>今天第`  +  printTimes  + `次打印</h2>`
                 $('#test').append(header);
 
                 var applysArr = this.printArr;
@@ -332,9 +353,9 @@
                 window.document.body.innerHTML = test
                 window.print();
                 var ch = `<div style="width: 100%; height: 100%; background: #f0ad4e; position: fixed; left:0; top:0;">
-<button id="successPrint">打印成功</button>
-<button id="cancelPrint">打印失败</button>
-</div>`
+                            <button id="successPrint">打印成功</button>
+                            <button id="cancelPrint">打印失败</button>
+                            </div>`
                 $('body').append(ch)
 
             },
@@ -344,6 +365,7 @@
                     if (res) {
                         console.log(res)
                         this.printMax = res.data;
+
                     }
                 })
             },
@@ -352,7 +374,7 @@
             //获取表格数据
             getApplyData: function () {
 
-                var data = "status=" + "0" + "&depId=" + this.depId;
+                var data = "status=" + "0" + "&depId=" + this.outDepId;
                 this.bus.$emit('loading', true);
 
                 apia.outDepQueryApplys(data).then(res => {
@@ -375,6 +397,7 @@
 
 
     }
+
 
 </script>
 

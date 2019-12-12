@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import sysUser from './modules/sysUser'
 import pageHeader from './modules/pageHeader'
 import orders from './modules/orders'
+import stock from './modules/stock'
 
 
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
         sysUser,
         pageHeader,
         orders,
+        stock,
 
     },
     state: {

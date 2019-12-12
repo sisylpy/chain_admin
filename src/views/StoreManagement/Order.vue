@@ -8,9 +8,10 @@
             <!--<div class="nav-tabs-justified">-->
             <div class="nav-tabs-custom no-border">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#orderApplicaton" data-toggle="tab">今日申请</a></li>
-                    <li><a href="#outStocking" data-toggle="tab">拣货单录入</a></li>
-                    <li><a href="#deliveryOrder" data-toggle="tab">出货单</a></li>
+                    <li class="active"><a href="#orderApplicaton" data-toggle="tab" @click="changeType('orderApplicaton')">今日申请</a></li>
+                    <li><a href="#outStocking" data-toggle="tab" @click="changeType('outStocking')">拣货单录入</a></li>
+                    <li><a href="#deliveryOrder" data-toggle="tab" @click="changeType('deliveryOrder')">出货单</a></li>
+                    <li><a href="#historyOrder" data-toggle="tab" @click="changeType('history')">历史申请</a></li>
                 </ul>
 
                 <div class="tab-content no-padding">
@@ -20,17 +21,20 @@
 
                     <div class="tab-pane" id="outStocking">
                         <EnterOutStock/>
-                        <!--<NewBillPanel :depId="depId" :depName="depName"/>-->
                     </div>
 
                     <div class="tab-pane" id="deliveryOrder">
                         <DeliveryOrder/>
-                        <!--<HistoryBillPanel :depId="depId" :depName="depName" ref="child"/>-->
                     </div>
 
 
                     <div class="tab-pane" id="stockCount">
                         stockCount
+                    </div>
+                    <div class="tab-pane" id="historyOrder">
+                        historyOrder
+                        <!--<OrderApplication/>-->
+
                     </div>
 
                 </div>
@@ -56,6 +60,32 @@
             EnterOutStock,
             DeliveryOrder,
         },
+        methods:{
+
+            //点击出货部门的三大业务
+            changeType: function (data) {
+                if (data === "orderApplicaton") {
+                    this.$store.dispatch('orders/set_APPLYTYPE', data)
+                } else if (data === "outStocking") {
+                    this.$store.dispatch('orders/set_APPLYTYPE', data)
+                }
+                else if (data === "deliveryOrder") {
+                    this.$store.dispatch('orders/set_APPLYTYPE', data)
+
+                } else if (data === "history") {
+                    this.$store.dispatch('orders/set_APPLYTYPE', data)
+                }
+
+            },
+
+
+
+
+
+
+        },
+
+
 
     }
 </script>

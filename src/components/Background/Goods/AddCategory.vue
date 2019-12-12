@@ -59,20 +59,18 @@
 
         methods:{
 
-            saveOrUpdate: function (event) {
+            saveOrUpdate: function () {
                 console.log("saveOrUpdate api ")
+                console.log(this.ckGoods);
+                console.log(JSON.stringify(this.ckGoods))
 
                 api.saveGoods(JSON.stringify(this.ckGoods)).then(res => {
                     this.$router.go(-1)
-
                 })
-
-
-
 
             },
 
-            back: function (event) {
+            back: function () {
                 console.log("back");
 
                 this.$router.go(-1)

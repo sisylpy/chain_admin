@@ -129,33 +129,15 @@
         methods: {
 
             //点击产品类别
-            onclick(index, goodsId, goodsName) {
+            onclick(index, storeId, storeName) {
                 this.isactive = index;
-                this.fatherId = goodsId;
-                this.fatherName = goodsName;
+                this.storeId = storeId;
+                this.storeName = storeName;
             },
 
-            addCate: function () {
-                this.$router.push('/addCategory')
-            },
-
-            getGoodsType: function (e) {
-                console.log(e);
-                this.type = e;
-
-                var data = "page=" + this.page + "&limit=" + this.limit + "&type=" + e + "&fatherId=" + this.fatherId;
-                api.getTypeGoods(data).then(res => {
-
-                    this.goodsList = res.page.list;
-                    console.log(res.page);
 
 
-                    //加载表格数据
-                    // this.jqtable()
 
-                });
-
-            }
 
 
         }

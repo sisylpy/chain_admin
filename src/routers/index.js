@@ -10,9 +10,6 @@ import OutDepRouter from '../routers/background/outDep'
 import StaffRouter from './background/ckUser'
 import ProductsRouter from './GoodsManagement/Products'
 import OrderRouter from './StoreManagement/Order'
-import OutOrderApplicationRouter from '../routers/Out/OrderApplication'
-import EnterOutStockRouter from '../routers/Out/EnterOutStock'
-import DeliveryOrderRouter from '../routers/Out/DeliveryOrder'
 
 
 //店铺管理
@@ -46,9 +43,6 @@ export default new Router({
         StoreBuindessDataRouter,
         CostControlDataRouter,
 
-        OutOrderApplicationRouter,
-        EnterOutStockRouter,
-        DeliveryOrderRouter,
         OrderRouter,
 
 

@@ -22,7 +22,7 @@
                         <div class="form-group">
                             <div class="col-sm-2 control-label">规格</div>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" v-model="ckGoods.standardName" placeholder="规格"/>
+                                <input type="text" class="form-control" v-model="ckGoods.purStandardName" placeholder="规格"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -35,10 +35,28 @@
                         <div class="form-group">
                             <div class="col-sm-2 control-label">是否称重</div>
                             <div class="col-sm-10">
-                                <select class="form-control" id="ckGoods.isWeight" v-model="ckGoods.isWeight" >
+
+
+                                <select  class="form-control" id="ckGoods.isWeight" v-model="ckGoods.isWeight" >
                                     <option value="1" selected>称重</option>
-                                    <option value="2">不称重</option>
+                                    <option value="0">不称重</option>
                                 </select>
+
+                                <!--<template v-if="title === '新增'">-->
+                                    <!--<select  class="form-control" id="ckGoods.isWeight" v-model="ckGoods.isWeight" >-->
+                                        <!--<option value="1" selected>称重</option>-->
+                                        <!--<option value="0">不称重</option>-->
+                                    <!--</select>-->
+                                <!--</template>-->
+
+                                <!--<template v-if="title === '修改'">-->
+                                    <!--<select  class="form-control" id="ckGoods.isWeight" v-model="ckGoods.isWeight" >-->
+                                        <!--<option value="1" >称重</option>-->
+                                        <!--<option value="0" >不称重</option>-->
+                                    <!--</select>-->
+                                <!--</template>-->
+
+
                             </div>
                         </div>
 
@@ -46,7 +64,7 @@
                             <div class="col-sm-2 control-label">出货部门</div>
                             <div class="col-sm-10">
                                 <select class="form-control" v-model="ckGoods.outDepId" @change="selectOutDep">
-                                    <option :value="item.outDepId" v-for="item in outDepArr">{{item.outDepName}}</option>
+                                    <option :value="item.depId" v-for="item in outDepArr">{{item.depName}}</option>
                                 </select>
                             </div>
                         </div>
@@ -79,7 +97,7 @@
                         <div class="form-group" >
                             <div class="col-sm-2 control-label">产品排序</div>
                             <div class="col-sm-10">
-                                <input  class="form-control" v-model="ckGoods.gStore"/>
+                                <input  class="form-control" v-model="ckGoods.gSort"/>
                             </div>
                         </div>
 
@@ -152,8 +170,6 @@
             selectOutDep: function(e) {
                 console.log(this.ckGoods.outDepId);
 
-
-
             },
             getOutDepData: function(){
 
@@ -209,7 +225,7 @@
 
             },
 
-            back: function (event) {
+            back: function () {
                 $('#modal-warning').modal('hide')
 
                 this.$router.go(-1)

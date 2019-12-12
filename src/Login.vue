@@ -35,6 +35,7 @@
                 <!-- /.col -->
                 <div class="col-xs-4">
                     <button type="button" class="btn btn-primary btn-block btn-flat" @click="login">登录</button>
+                    <button type="button" class="btn btn-primary btn-block btn-flat" id="weixinbtn">weixin</button>
                     <!--<router-link type="button" class="btn btn-primary btn-block btn-flat" replace="/test">登录2</router-link>-->
 
                 </div>
@@ -48,8 +49,9 @@
 
 
 <script>
+
     import api from './api/user'
-   import {setSessionStorage} from './utils/auth'
+
     export default {
         data: function () {
             return {
@@ -58,43 +60,48 @@
                 captcha: '',
                 error: false,
                 errorMsg: '',
-                src: 'http://localhost:8080/chainPro_war_exploded/captcha.jpg'
+                src: 'https://grainservice.club:8080/chainOrder/captcha.jpg'
 
             }
         },
 
+
         methods: {
 
             refreshCode: function () {
-                // this.src = "http://localhost:8080/chainPro_war_exploded/captcha.jpg?t=" + $.now();
+                // this.src = "https://grainservice.club:8080/chainOrder/captcha.jpg?t=" + $.now();
             },
             login: function () {
 
 
                 var data = "username=" + this.username + "&password=" + this.password + "&captcha=" + this.captcha;
 
-               // if(this.$store.dispatch('sysUser/Login', data)){
-               //     window.location.href= 'index.html'
-               // } else {
-               //     console.log("cuo");
-               //
-               // }
+                // if(this.$store.dispatch('sysUser/Login', data)){
+                //     window.location.href= 'index.html'
+                // } else {
+                //     console.log("cuo");
+                //
+                // }
 
                 api.login(data).then(res => {
 
-                    setSessionStorage('token', res.session.id)
+                    // setSessionStorage('token', res.session.id)
 
-                    if(res.code == 0){//登录成功
+                    if (res.code == 0) {//登录成功
 
-                        window.location.href= 'index.html'
-                    }else{
+                        window.location.href = 'index.html'
+                    } else {
                         this.error = true;
                         this.errorMsg = res.msg;
 
                         this.refreshCode();
                     }
                 })
-            }
+            },
+
+
+
+
         }
 
     }

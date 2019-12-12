@@ -43,6 +43,7 @@
                             <li class="table-header-content col-md-3">商品名称</li>
                             <li class="table-header-content col-md-2">入库数量</li>
                             <li class="table-header-content col-md-2">申请规格数量</li>
+                            <li class="table-header-content col-md-2">采购价格</li>
                             <li class="table-header-content col-md-3">删除</li>
                         </ul>
                     </div>
@@ -73,8 +74,6 @@ import api from '../../../api/GoodsManagement/Products'
 
     export default {
         name: "NewBillPanel",
-        props:['depId','depName'],
-
 
         mounted() {
 
@@ -104,6 +103,7 @@ import api from '../../../api/GoodsManagement/Products'
 
                     //1.3 接口返回商品
                     api.queryGoodsWithPinyin(value).then(res => {
+                        console.log(res)
                         if(res) {
 
                             //1.0 获取商品数组
@@ -143,10 +143,9 @@ import api from '../../../api/GoodsManagement/Products'
                                 var goods = this.queryArr[i];
                                 if( i === 0) {
                                     //添加attr sel="select"
-                                    $($query_result).append(`<li sel="select" class="query-item" style="list-style: none; line-height: 30px; padding-left: 5px" id=`+goods.goodsId+` standard=`+goods.standardName+`>`+goods.goodsName+`</li>`)
+                                    $($query_result).append(`<li sel="select" class="query-item" style="list-style: none; line-height: 30px; padding-left: 5px" id=`+goods.goodsId+` standard=`+goods.purStandardName+`>`+goods.goodsName+`</li>`)
                                 }else {
                                     $($query_result).append(`<li class="query-item" style="list-style: none; line-height: 30px; padding-left: 5px; " id=`+goods.goodsId+` standard=`+goods.standardName+`>`+goods.goodsName+`</li>`)
-
                                 }
                             }
 

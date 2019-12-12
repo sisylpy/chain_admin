@@ -115,6 +115,7 @@
 
             saveOrUpdate: function (event) {
                 console.log("saveOrUpdate api ")
+                console.log(JSON.stringify(this.ckStore))
 
                 api.saveStore(JSON.stringify(this.ckStore)).then(res => {
                     this.$router.go(-1)

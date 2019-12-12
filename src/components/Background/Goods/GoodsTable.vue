@@ -149,39 +149,49 @@
                         colModel: [
                             {label: 'goodsId', name: 'goodsId', width: 50, key: true, hidden: true},
                             {label: '产品名称', name: 'goodsName', width: 120},
-                            {label: '规格', name: 'standardName', width: 80},
+                            {label: '采购规格', name: 'purStandardName', width: 80},
                             {label: '申请规格', name: 'applyStandardName', width: 80},
-                            {label: '出货部门', name: 'storeDepEntity.depName', width: 100},
-                            {label: '报警重量', name: 'alarmWeight', width: 80},
-                            {label: '保质期天数', name: 'quality_period', width: 80},
+                            {label: '出货部门', name: 'depEntity.depName', width: 80},
+                            // {label: '报警重量', name: 'alarmWeight', width: 80},
+                            // {label: '保质期天数', name: 'quality_period', width: 80},
                             {label: '零售价格', name: 'price', width: 80},
-                            {label: '商品排序', name: 'gSort', width: 80},
-                            {
-                                label: '是否称重',
-                                name: 'isWeight',
-                                width: 80,
+                            {label: '采购规格库存', name: 'stockPurStandard', width: 110,
                                 formatter: function (value, options, rowData) {
-                                    if (value === 1) {
-                                        return '称重';
-                                    } else {
-                                        return '不称重';
-                                    }
-                                }
-                            },
-                            {
-                                label: '产品状态',
-                                name: 'status',
-                                width: 80,
+                                    return name = rowData.stockPurStandard + rowData.purStandardName
+                                }},
+                            {label: '申请规格库存', name: 'stockApplyStandard', width: 110,
                                 formatter: function (value, options, rowData) {
-                                    if (value === 1) {
-                                        return '售卖中';
-                                    } else if (value === 2) {
-                                        return '断货';
-                                    } else {
-                                        return '停止销售'
-                                    }
-                                }
-                            }
+                                    return name = rowData.stockApplyStandard + rowData.applyStandardName
+                                }},
+
+                            //stockApplyStandard
+                            // {label: '商品排序', name: 'gSort', width: 80},
+                            // {
+                            //     label: '是否称重',
+                            //     name: 'isWeight',
+                            //     width: 80,
+                            //     formatter: function (value, options, rowData) {
+                            //         if (value === 1) {
+                            //             return '称重';
+                            //         } else {
+                            //             return '不称重';
+                            //         }
+                            //     }
+                            // },
+                            // {
+                            //     label: '产品状态',
+                            //     name: 'status',
+                            //     width: 80,
+                            //     formatter: function (value, options, rowData) {
+                            //         if (value === 1) {
+                            //             return '售卖中';
+                            //         } else if (value === 2) {
+                            //             return '断货';
+                            //         } else {
+                            //             return '停止销售'
+                            //         }
+                            //     }
+                            // }
                         ],
 
 

@@ -3,6 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
 
+
     chainWebpack: config => {
         config.plugin('provide').use(webpack.ProvidePlugin, [{
             $: 'jquery',
@@ -21,7 +22,10 @@ module.exports = {
         hotOnly: false,
         proxy: {
             '/sys': {
-                target: 'http://localhost:8080/chainPro_war_exploded',
+                // target: 'http://localhost:8080/chainPro_war_exploded',
+                target: 'https://grainservice.club:8080/chainOrder',
+
+                //https://grainservice.club:8080/chainOrder
                 changeOrigin: true
             }
         }
@@ -32,6 +36,10 @@ module.exports = {
     },
 
     pages: {
+        apply: {
+            entry: 'src/apply.js',
+            template: 'public/apply.html'
+        },
         login: {
             entry: 'src/login.js',
             template: 'public/login.html'

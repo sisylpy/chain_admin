@@ -6,7 +6,7 @@
         <div class="box-header with-border">
             <div class="row">
                 <div  class="col-md-4">
-                    <h5>d出货日期：2019/11/11</h5>
+                    <h5>出货日期：2019/11/11</h5>
                     <h5>出库总金额：{{totalCost}} 元</h5>
                 </div>
                 <div  class="col-md-4">
@@ -114,6 +114,7 @@
                 for(var i = 0; i < aaa.length; i++) {
                     var cost = $('.cost:eq('+ i +')').html();
                     total += Number(cost);
+                    total = Math.round(total * Math.pow(10, 1))/Math.pow(10, 1)
 
                     console.log(cost, total)
                     this.totalCost = total;
@@ -177,6 +178,9 @@
                                     return name = row.goodsEntity.goodsName
                                 }
                             },
+                            { label: '申请', name: 'number', width: 150, formatter: function (value, options, row) {
+                                    return name = row.applysEntity.applyNumber + row.goodsEntity.applyStandardName
+                                }},
 
                             { label: '出库数量', name: 'quantity', width: 150, formatter: function (value, options, row) {
                                     return name = row.quantity + row.goodsEntity.purStandardName

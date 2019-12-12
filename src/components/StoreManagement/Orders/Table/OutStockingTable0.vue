@@ -3,14 +3,12 @@
     <div class="box box-primary" id="enterOutGoods">
 
         <div class="box-body">
-            <div class="row box-header">
+            <div class="row my-drop-group">
 
 
-                <div class="col-md-10">
-
-                    <div class="form-group" id="selectPrintTimes">
-                        <label>打印次数</label>
-
+                <div class="my-dropDown-group col-md-10">
+                    <h5>打印次数</h5>
+                    <div class="form-group" id="selectPrintTimes" style="background: yellow">
                         <select class="form-control select2"  data-placeholder="所有打印次数"
                                 style="width: 100%;" id="changePrintTimes" >
                             <option v-for="(item) in printTimes" :value="item" :key="item"> {{item}}</option>
@@ -25,44 +23,40 @@
                 </div>
             </div>
 
-            <div class="box-body">
-                <div id="outStockTable">
-                    <div style="width: 100%;">
-                    <!--<tr>-->
+
+            <table id="outStockTable">
+                <tbody>
+                <!--<tr>-->
                     <!--<th>出货数量</th>-->
-                    <!--</tr>-->
+                <!--</tr>-->
 
-                    <div v-for="(item) in outStockingArr" :key="item.goodsId">
-                        <!--<td>-->
-                            <div class="row">
-                                <h4>{{item.goodsName}}</h4>
-                                <div class="store-apply" style="padding: 0;width: 100%;">
-                                    <div v-for="(outApply) in item.applys" :key="outApply.applyId" class="one-apply col-md-4"
-                                         style="position: relative; padding: 0;">
-                                        <input type="hidden" :id="outApply.applyId" class="apply-id">
-                                        <input type="hidden" :inStoreId="outApply.applyStoreId" class="store-id">
-                                        <input type="hidden" :goodsId="item.goodsId" class="goods-id">
-                                        <input type="hidden" :price="item.price" class="price">
-                                        <div style="line-height: 30px;padding: 5px; float: left;">
-                                            {{outApply.storeEntity.printLabel}}{{outApply.applyNumber}}{{item.applyStandardName}}
-                                        </div>
-
-                                        <input type="text" class="outQuantity"
-                                               style="float: left; width:30% ;font-size: 18px;margin-left: 10px;border:none; border-bottom:1px solid #ddd">
-                                        <div style="float: left; line-height: 30px;padding: 5px">{{item.purStandardName}}</div>
+                <tr v-for="(item) in outStockingArr" :key="item.goodsId">
+                    <td>
+                        <div>
+                            <h4>{{item.goodsName}}</h4>
+                            <div class="store-apply row" style="padding: 0;width: 100%;">
+                                <div v-for="(outApply) in item.applys" :key="outApply.applyId" class="one-apply col-md-4"
+                                     style="position: relative; padding: 0;">
+                                    <input type="hidden" :id="outApply.applyId" class="apply-id">
+                                    <input type="hidden" :inStoreId="outApply.applyStoreId" class="store-id">
+                                    <input type="hidden" :goodsId="item.goodsId" class="goods-id">
+                                    <input type="hidden" :price="item.price" class="price">
+                                    <div style="line-height: 30px;padding: 5px; float: left;">
+                                        {{outApply.storeEntity.printLabel}}{{outApply.applyNumber}}{{item.applyStandardName}}
                                     </div>
+
+                                    <input type="text" class="outQuantity"
+                                           style="float: left; width:30% ;font-size: 18px;margin-left: 10px;border:none; border-bottom:1px solid #ddd">
+                                    <div style="float: left; line-height: 30px;padding: 5px">{{item.purStandardName}}</div>
                                 </div>
                             </div>
-                        <!--</td>-->
+                        </div>
+                    </td>
 
-                    </div>
+                </tr>
 
-                    </div>
-                </div>
-            </div>
-
-
-
+                </tbody>
+            </table>
 
         </div>
     </div>

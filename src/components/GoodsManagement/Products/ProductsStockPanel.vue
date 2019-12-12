@@ -6,33 +6,55 @@
 
             <div class="my-dropDown-group col-md-5">
                 <h5>主要负责订货商品的称重拣货</h5>
-                <div class="my-dropDown">
-                    <div class="my-dropDown-item">
-                        <div class="drop-frame">
-
-                            <span class="my-span">所有的出货部门</span>
-                            <span class="caret my-caret my-span"></span>
-                        </div>
-                    </div>
-                    <div style="display: none">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li v-for="(item,index) in outDepList" v-bind:key="item.id" :id="item.outDepId"
-                                :class="isactive == index ? 'active' : '' "
-                                @click='onclick(index, item.depId, item.depName)'>
-
-                                <a>{{item.depName}}</a></li>
-                        </ul>
-                    </div>
-
+                <div class="form-group"  style="background: yellow">
+                    <select class="form-control select2"  data-placeholder="出库部门"
+                            style="width: 100%;" id="selectOutDep" >
+                        <option v-for="(item) in outDepList" :value="item.depId" :key="item.depId"> {{item.depName}}</option>
+                    </select>
 
                 </div>
 
             </div>
 
+
+
+            <!--<div class="my-dropDown-group col-md-5">-->
+                <!--<h5>主要负责订货商品的称重拣货</h5>-->
+                <!--<div class="my-dropDown">-->
+                    <!--<div class="my-dropDown-item">-->
+                        <!--<div class="drop-frame">-->
+
+                            <!--<span class="my-span">所有的出货部门</span>-->
+                            <!--<span class="caret my-caret my-span"></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div style="display: none">-->
+                        <!--<ul class="nav nav-pills nav-stacked">-->
+                            <!--<li v-for="(item,index) in outDepList" v-bind:key="item.id" :id="item.outDepId"-->
+                                <!--:class="isactive == index ? 'active' : '' "-->
+                                <!--@click='onclick(index, item.depId, item.depName)'>-->
+
+                                <!--<a>{{item.depName}}</a></li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+
+            <!--</div>-->
+
+
+
+
+
             <div class="my-dropDown-group col-md-5">
                 <h5>产品分类</h5>
                 <div class="my-dropDown">
                     <div class="my-dropDown-item">
+
+
+
+
+
                         <div class="drop-frame">
 
                             <span class="my-span">所有产品大类</span>
@@ -87,22 +109,42 @@
 
     export default {
         name: "ProductsStockPanel",
-        props:['depId','depName'],
+        computed: {
 
-        mounted() {
-
-
-        },
-        watch: {
-            depId: function(newVal,oldVal){
-                this.depId = newVal;
-                this.getCateList();
-                this.getJqtableData();
+            stockType: {
+                get() {
+                    return this.$store.state.stock.stockType
+                },
+                set(value) {
+                    // this.$store.commit('orders/set_ORDERSDEPID', value)
+                },
 
             },
         },
-        components: {
+        watch: {
+
+            stockType: function (newVal, oldVal) {
+                console.log(newVal)
+
+                if (newVal === "productsStock") {
+                    console.log("meiyouma?")
+                    this.getOutDepList();
+                    this.getJqtableData();
+                }
+            },
+
+
         },
+
+        // watch: {
+        //     depId: function(newVal,oldVal){
+        //         this.depId = newVal;
+        //         this.getCateList();
+        //         this.getJqtableData();
+        //
+        //     },
+        // },
+
 
         data() {
             return {
@@ -110,10 +152,41 @@
                 limit: 20,
                 cateArr: [],
                 fatherId: -1,
-                outDepList:[]
+                outDepList:[],
+                depId: 1
             }
         },
+
+        mounted(){
+            var that = this;
+
+            $('.select2').select2();
+
+            // selcct 产品
+            $('#selectOutDep').on('change', function (e) {
+                console.log(e)
+
+                that.getOutDepList();
+                that.getJqtableData();
+            });
+
+            this.getOutDepList()
+            this.getJqtableData();
+
+        },
         methods: {
+
+            getOutDepList() {
+                var type = 1;
+                apid.getOutDepList(type).then(res => {
+                    if (res) {
+                        this.outDepList = res.data;
+                        this.depName = res.data[0].depName;
+                        this.depId = res.data[0].depId;
+
+                    }
+                })
+            },
 
 
             queryFatherGoods: function(event) {
@@ -125,14 +198,14 @@
 
             },
 
-            getCateList: function () {
-                api.getOutDepCateList(this.depId).then(res => {
-                    if(res) {
-                        this.cateArr = res.data
-                    }
-                })
-
-            },
+            // getCateList: function () {
+            //     api.getOutDepCateList(this.depId).then(res => {
+            //         if(res) {
+            //             this.cateArr = res.data
+            //         }
+            //     })
+            //
+            // },
 
             //获取表格数据
             getJqtableData: function(){

@@ -3,8 +3,6 @@ import request from '@/utils/request'
 export default {
 
 
-
-
     /**
      *
      */
@@ -19,9 +17,9 @@ export default {
     /**
      *
      */
-    getPrintTimes() {
+    getPrintTimes(outDepId) {
         return request({
-            url: 'sys/ckapplys/getPintTimes',
+            url: 'sys/ckapplys/getPintTimes/'+ outDepId,
             method: 'get',
         })
     },
@@ -60,7 +58,17 @@ export default {
             data
         })
     },
-
+    /**
+     * 获取订单申请状态列表
+     * @param data
+     */
+    outDepQueryApplysByPageNumber(data) {
+        return request({
+            url: 'sys/ckapplys/outDepQueryApplysByPageNumber',
+            method: 'post',
+            data
+        })
+    },
 
 
 

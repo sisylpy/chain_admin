@@ -126,7 +126,7 @@
                     console.log("success!!")
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:8080/chainPro_war_exploded/sys/ckapplys/applysPrintSuccess/",
+                        url: "https://grainservice.club:8080/chainOrder/sys/ckapplys/applysPrintSuccess/",
                         data: JSON.stringify(applyArr),
                         dataType: 'json',
                         success: function (data) {

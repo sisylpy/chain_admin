@@ -24,8 +24,6 @@
                     <!-- /.box-body -->
                 </div>
 
-
-
             </div>
             <!-- 。/左侧店铺和商品-->
 
@@ -33,21 +31,19 @@
             <!-- 右侧列表-->
             <div class="col-md-10">
 
-                <NewApplyTable :depId="depId" :depName="depName"/>
+                <NewApplyTable/>
 
 
             </div>
 
-            </div>
+        </div>
 
     </section>
 
 </template>
 
 <script>
-    import PageHeader from '@/components/PageHeader.vue'
     import api from '../../../api/background/outDep'
-    import apia from '@/api/out/orderApplication'
 
     import NewApplyTable from '@/components/StoreManagement/Orders/Table/NewApplyTable'
 
@@ -66,36 +62,52 @@
                 depId: "",
 
 
-
             }
         },
+        computed: {
+            outDepId: {
+                get() {
+                    return this.$store.state.orders.outDepId
+                },
+                set() {
+                    // this.$store.commit('orders/set_ORDERSDEPID', value)
+                },
+            },
 
+            applyType: {
+                get() {
+                    return this.$store.state.orders.applyType
+                },
+                set(value) {
+                    // this.$store.commit('orders/set_ORDERSDEPID', value)
+                },
+
+            },
+        },
         watch: {
-            depId: function (newVal, oldVal) {
-                this.depId = newVal;
+
+            applyType: function (newVal, oldVal) {
+
+                if (newVal === "orderApplicaton") {
+                    this.getOutDepList();
+                }
             },
 
 
         },
 
+
         mounted() {
 
-
             this.getOutDepList();
-
-
         },
 
         components: {
-            PageHeader,
             NewApplyTable,
 
         },
 
         methods: {
-
-
-
 
             getOutDepList() {
                 var type = 1;
@@ -104,6 +116,8 @@
                         this.outDepList = res.data;
                         this.depName = res.data[0].depName;
                         this.depId = res.data[0].depId;
+                        this.$store.state.orders.outDepId = res.data[0].depId;
+                        this.$store.state.orders.applyType = 'orderApplicaton';
                     }
                 })
             },
@@ -114,6 +128,8 @@
                 this.isactive = index;
                 this.depName = depName;
                 this.depId = depId;
+                this.$store.dispatch('orders/set_OUTDEPID', depId)
+
 
             },
 

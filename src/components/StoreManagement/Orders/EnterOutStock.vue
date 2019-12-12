@@ -1,6 +1,10 @@
 <template>
 
-    <div class="content">
+    <section>
+
+
+
+    <div class="row">
 
         <div class="col-md-2">
 
@@ -27,17 +31,14 @@
 
         <div class="col-md-10">
 
-            <OutStockingTable :depId="depId"/>
-
-
-
+            <OutStockingTable />
 
         </div>
 
 
     </div>
 
-
+    </section>
 </template>
 
 <script>
@@ -56,20 +57,42 @@
                 limit: 20,
 
                 depName: "",
-                depId: "",
 
             }
         },
-        mounted() {
-            var type = 1;
-            api.getOutDepList(type).then(res => {
-                if (res) {
-                    this.outDepList = res.data;
-                    this.depName = res.data[0].depName;
-                    this.depId = res.data[0].depId;
+        computed: {
 
+            applyType: {
+                get() {
+                    return this.$store.state.orders.applyType
+                },
+                set(value) {
+                    // this.$store.commit('orders/set_ORDERSDEPID', value)
+                },
+
+            },
+        },
+        watch:{
+
+            applyType: function (newVal, oldVal) {
+
+                if(newVal === "outStocking"){
+                    console.log("outStocking la.....")
+                    var type = 1;
+                    api.getOutDepList(type).then(res => {
+                        if (res) {
+                            this.outDepList = res.data;
+                            this.depName = res.data[0].depName;
+                            this.depId = res.data[0].depId;
+
+                        }
+                    })
                 }
-            })
+            }
+
+        },
+        mounted() {
+
         },
 
         components: {
@@ -83,6 +106,8 @@
                 this.isactive = index;
                 this.depName = depName;
                 this.depId = depId;
+                this.$store.dispatch('orders/set_OUTDEPID', depId)
+
 
             },
         }
