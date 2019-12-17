@@ -15,8 +15,8 @@
                             <h3 class="box-title">店铺</h3>
                         </div>
 
-                        <div class="box-body no-padding">
-                            <ul class="nav nav-pills nav-stacked">
+                        <div class="box-body no-padding" style="max-height: 400px; overflow-y: auto;">
+                            <ul class="nav nav-pills nav-stacked" >
                                 <!--<li class="active"><a>Inbox</a></li>-->
                                 <li v-for="(item,index) in storeList" v-bind:key="item.storeId" :id="item.storeId"
                                     :class="isactive == index ? 'active' : '' "
@@ -32,49 +32,7 @@
 
                 <div class="col-md-10">
 
-                    <div class="box box-primary">
-
-                        <div class="box-header with-border">
-                            <h3 class="box-title">{{storeName}}</h3>
-                        </div>
-
-                        <div class="box-body">
-                            <div class="nav-tabs-justified">
-                                <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#storeOrders" data-toggle="tab" @click="changeStoreType('replaceOrder')">订货申请</a></li>
-                                    <li><a href="#storeGoods" data-toggle="tab" @click="changeStoreType('products')">产品</a></li>
-                                    <li><a href="#turnover" data-toggle="tab" @click="changeStoreType('turnover')">营业额</a></li>
-                                    <li><a href="#promotion" data-toggle="tab" @click="changeStoreType(stock)">库存</a></li>
-                                </ul>
-                                <div class="tab-content">
-
-
-                                    <div class="active tab-pane" id="storeOrders">
-                                        <StoreOrderPanel/>
-                                    </div>
-
-                                    <div class="tab-pane" id="storeGoods">
-                                        <StoreGoodsPanel/>
-                                    </div>
-
-                                    <!-- /.tab-pane -->
-                                    <div class="tab-pane" id="turnover">
-                                        <TurnoverPanel/>
-                                    </div>
-
-                                    <div class="tab-pane" id="promotion">
-                                        promation
-
-                                    </div>
-                                </div>
-                                <!-- /.tab-pane -->
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
+<StoreOrder/>
                 </div>
 
 
@@ -88,12 +46,11 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
     import api from '../../api/background/store'
+    import StoreOrder from '@/components/StoreManagement/ReplaceOrder/StoreOrder'
 
-    import StoreOrderPanel from '@/components/StoreManagement/BusinessData/StoreOrderPanel'
-    import StoreGoodsPanel from '@/components/StoreManagement/BusinessData/StoreGoodsPanel'
-    import TurnoverPanel from '@/components/StoreManagement/BusinessData/TurnoverPanel'
+
     export default {
-        name: "BusinessData",
+        name: "ReplaceOrder",
 
         data() {
             return {
@@ -103,6 +60,14 @@
                 limit: 20,
                 type: 1,
                 storeName: "",
+
+                inputVal: "",
+                inputIndex: '1',
+                queryArr: [],
+                bill: {},
+                subBillArr: [],
+                goodsTotal: 5,
+                showDate: "",
 
             }
         },
@@ -123,9 +88,8 @@
 
         components: {
             PageHeader,
-            StoreGoodsPanel,
-            TurnoverPanel,
-            StoreOrderPanel,
+            StoreOrder
+
         },
         methods: {
 

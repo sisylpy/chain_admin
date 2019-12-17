@@ -10,8 +10,7 @@
                     <label>产品大类</label>
                     <select class="form-control select2" multiple="multiple" data-placeholder="全部大类---可以选择产品类别"
                             style="width: 100%; " id="selectFatherId">
-                        <option v-for="(item, index) in cateArr" :value="item.goodsId">{{item.goodsName}}</option>
-
+                        <option v-for="(item) in cateArr" :value="item.goodsId">{{item.goodsName}}</option>
                     </select>
                 </div>
 
@@ -24,8 +23,7 @@
                     <label>分店</label>
                     <select class="form-control select2" multiple="multiple" data-placeholder="全部分店---可以选择分店"
                             style="width: 100%;" id="selectStoreId">
-                        <option v-for="(item, index) in storeArr" :value="item.storeId">{{item.storeName}}</option>
-
+                        <option v-for="(item) in storeArr" :value="item.storeId">{{item.storeName}}</option>
                     </select>
                 </div>
 
@@ -43,16 +41,16 @@
                 <tbody>
                 <tr>
                     <th style="width:60px;">序号</th>
-                    <th>商品名称</th>
-                    <th>申请</th>
+                    <th style="width:100px;">商品名称</th>
                     <th style="width: 80px;">申请总数</th>
-                    <th style="width: 60px;">库存</th>
+                    <th>申请</th>
+
                 </tr>
                 <tr v-for="(item, index) in applyArr">
 
                     <td>{{index + 1}}</td>
                     <td>{{item.goodsName}}</td>
-
+                    <td>{{item.totalNumber}}{{item.applyStandardName}}</td>
                     <td>
                         <div class="" style="display: flex;flex-flow: row wrap;">
                             <div class="apply-item" v-for="(apply, index) in item.applys" style="margin-right: 25px;"
@@ -61,10 +59,6 @@
                             </div>
                         </div>
                     </td>
-                    <td>{{item.totalNumber}}{{item.applyStandardName}}</td>
-                    <td>{{item.stockApplyStandard}}{{item.applyStandardName}}</td>
-
-
                 </tr>
 
                 </tbody>
@@ -113,7 +107,6 @@
                     this.getGoodsandStoreSorts();
                     this.getApplyData();
 
-
                     //获取最大打印
                     this.getPrintMax();
                 }
@@ -125,12 +118,10 @@
                     this.getGoodsandStoreSorts();
                     this.getApplyData();
 
-
                     //获取最大打印
                     this.getPrintMax();
                 }
             },
-
 
         },
 
@@ -140,7 +131,6 @@
             //获取产品和分店数据
             this.getGoodsandStoreSorts();
             this.getApplyData();
-
 
             //获取最大打印
             this.getPrintMax();
@@ -168,7 +158,7 @@
                 var $applys = $('body').children().find('.one-goods-apply');
                 var printMax = $('body').children('h2').attr('printmax');
                 console.log($('body').children('h2').attr('printmax'))
-                console.log(printMax)
+                console.log(printMax);
 
                 var ids = [];
                 for (var i = 0; i < $applys.length; i++) {
@@ -182,9 +172,8 @@
                     var apply = {
                         applyId: ids[i],
                         pageNumber: parseInt(printMax) + 1
-                    }
+                    };
                     applyArr.push(apply);
-
                 }
 
 
@@ -192,7 +181,7 @@
                     console.log("success!!")
                     $.ajax({
                         type: "POST",
-                        url: "https://grainservice.club:8080/chainOrder/sys/ckapplys/applysPrintSuccess/",
+                        url: "http://localhost:8080/chainPro_war_exploded/ckapplys/applysPrintSuccess/",
                         data: JSON.stringify(applyArr),
                         dataType: 'json',
                         success: function (data) {
@@ -208,9 +197,8 @@
                 //取消打印
                 $('body').on('click', '#cancelPrint', function () {
                     window.location.reload();
-                })
+                });
             });
-
 
         },
 
@@ -233,7 +221,6 @@
         },
 
         methods: {
-
 
             // select 插件，根据选择到商品类别和分店，获取申请
             getSortIds(that) {
@@ -269,7 +256,7 @@
                 $.ajax({
                     cache: true,
                     type: "get",
-                    url: "https://grainservice.club:8080/chainOrder/sys/ckapplys/outDepQueryApplysBySorts",
+                    url: "http://localhost:8080/chainPro_war_exploded/sys/ckapplys/outDepQueryApplysBySorts",
                     data: data,
                     dataType: 'json',
                     success: function (data) {
@@ -283,13 +270,21 @@
 
             // 根据出货部门Id，获取select分店和商品大类下拉框数据
             getGoodsandStoreSorts: function () {
+                console.log("getGoodsandStoreSortsgetGoodsandStoreSorts")
                 var status = 0;
                 var data = "status=" + status + "&depId=" + this.outDepId;
                 apia.outDepQuerySorts(data).then(res => {
                     if (res) {
-                        console.log(res)
+                        console.log(res);
+                        this.queryStoreIds = [];
+                        this.queryFatherIds = [];
+
                         this.cateArr = res.data.fatherGoodsList;
                         this.storeArr = res.data.storeList;
+                        console.log("this.CateArr")
+                        console.log(this.cateArr);
+                        console.log("this.storeArr")
+                        console.log(this.storeArr)
 
                         for (var i = 0; i < this.storeArr.length; i++) {
                             this.queryStoreIds.push(this.storeArr[i].storeId)
@@ -315,15 +310,16 @@
 
                 for (var i = 0; i < applysArr.length; i++) {
 
-                    var oneGoods = `<div class="goods-applys" style="width: 100%;background: yellow; display: inline-block"></div>`
+                    var oneGoods = `<div class="goods-applys" style="width: 100%; display: inline-block"></div>`
                     $('#test').append(oneGoods);
 
                     var goodsName = applysArr[i]['goodsName'];
+                    var totalNumber = applysArr[i]['totalNumber'];
                     var applyStandardName = applysArr[i]['applyStandardName'];
-                    var h3 = `<h3 style="background: green; width: 100%">` + goodsName + `</h3>`
+                    var h3 = `<h3 style=" width: 100%">` + goodsName +`:  `+ totalNumber + applyStandardName +`</h3>`
 
                     $('.goods-applys:eq(' + i + ')').append(h3);
-                    var row = `<div class="goods-applys-row" style="background: red; width: 100%;display: inline-block;"></div>`
+                    var row = `<div class="goods-applys-row" style=" width: 100%;display: inline-block;"></div>`
                     $('.goods-applys:eq(' + i + ')').append(row);
 
 
@@ -343,16 +339,14 @@
                             "border-bottom": "1px solid #eee",
                             "background": "gray",
                         })
-
                     }
-
                 }
 
 
                 var test = $('#test').html();
                 window.document.body.innerHTML = test
                 window.print();
-                var ch = `<div style="width: 100%; height: 100%; background: #f0ad4e; position: fixed; left:0; top:0;">
+                var ch = `<div style="width: 100%; height: 100%; background: gray;position: fixed; left:0; top:0;">
                             <button id="successPrint">打印成功</button>
                             <button id="cancelPrint">打印失败</button>
                             </div>`
@@ -363,9 +357,7 @@
             getPrintMax() {
                 apia.getPirntMax().then(res => {
                     if (res) {
-                        console.log(res)
                         this.printMax = res.data;
-
                     }
                 })
             },
@@ -384,7 +376,6 @@
 
                         this.applyArr = res.data;
                         this.printArr = res.data;
-
 
                     }
 

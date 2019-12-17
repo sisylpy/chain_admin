@@ -6,11 +6,16 @@
 
         <div class="box-body">
 
+
+
             <div class="col-md-2 category">
+                <a @click="importGoods" class="btn btn-primary btn-block margin-bottom">导入</a>
+                <a @click="downloadGoods" class="btn btn-primary btn-block margin-bottom">导出</a>
 
                 <!--<a class="btn btn-primary btn-block margin-bottom" @click="addCate">添加产品类别</a>-->
 
                 <div class="box box-primary">
+
 
                     <div class="box-header with-border">
 
@@ -57,19 +62,23 @@
             </div>
 
         </div>
+
     </div>
+
 
 </template>
 
 <script>
     import GoodsTable from '@/components/Background/Goods/GoodsTable.vue'
     import api from '../../../api/background/goods'
+    import importGoods from '@/components/Background/Goods/ImportGoods.vue'
 
     export default {
         name: "GoodsPanel",
 
         components: {
             GoodsTable,
+            importGoods
         },
         data() {
             return{
@@ -84,7 +93,7 @@
             }
         },
         watch: {
-            type: function(newVal,oldVal){
+            type: function(newVal){
                 console.log("watch....")
                 this.getCateGoods(newVal)
             },
@@ -97,7 +106,7 @@
         },
         methods: {
 
-            getCateGoods: function(type){
+            getCateGoods: function(){
 
                 api.getCateGoods().then(res => {
                     if (res) {
@@ -121,6 +130,14 @@
             addCate: function () {
                 this.$router.push('/addCategory')
             },
+
+            importGoods: function () {
+                this.$router.push('/importGoods')
+            },
+
+            downloadGoods: function () {
+                window.open("http://localhost:8080/chainPro_war_exploded/sys/ckgoods/downloadExcel")
+            }
 
 
         }

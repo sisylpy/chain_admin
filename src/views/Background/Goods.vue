@@ -6,6 +6,7 @@
             <div class="content">
 
                     <div class="nav-tabs-custom no-border">
+
                         <!-- Tabs within a box -->
                         <ul class="nav nav-tabs pull-left">
                             <li class="active"><a href="#products" data-toggle="tab" @click="onclick(1)">产品</a></li>

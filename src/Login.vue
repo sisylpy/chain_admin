@@ -60,7 +60,7 @@
                 captcha: '',
                 error: false,
                 errorMsg: '',
-                src: 'https://grainservice.club:8080/chainOrder/captcha.jpg'
+                src: 'http://localhost:8080/chainPro_war_exploded/captcha.jpg'
 
             }
         },
@@ -69,7 +69,7 @@
         methods: {
 
             refreshCode: function () {
-                // this.src = "https://grainservice.club:8080/chainOrder/captcha.jpg?t=" + $.now();
+                // this.src = "http://localhost:8080/chainPro_war_exploded/captcha.jpg?t=" + $.now();
             },
             login: function () {
 

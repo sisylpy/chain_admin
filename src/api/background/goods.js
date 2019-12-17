@@ -63,14 +63,23 @@ export default {
      * 删除商品
      */
     deleteGoods(data) {
-        console.log(data);
-
         return request({
             url: "sys/ckgoods/delete",
             method: 'post',
             data
         })
     },
+    /**
+     * upload
+     */
+    uploadExcel(data) {
+        return request({
+            url: 'sys/ckgoods/uploadExcel',
+            method: 'post',
+            data
+
+        })
+    }
 
 
 

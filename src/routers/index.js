@@ -9,13 +9,13 @@ import LineRouter from '../routers/background/line'
 import OutDepRouter from '../routers/background/outDep'
 import StaffRouter from './background/ckUser'
 import ProductsRouter from './GoodsManagement/Products'
-import OrderRouter from './StoreManagement/Order'
+import OrderRouter from './StoreManagement/order'
+import ReplaceOrder from './StoreManagement/replaceOrder'
 
 
 //店铺管理
 import StoreBuindessDataRouter from './StoreManagement/businessData'
 import CostControlDataRouter from './StoreManagement/costControl'
-
 
 
 Vue.use(Router)
@@ -44,6 +44,7 @@ export default new Router({
         CostControlDataRouter,
 
         OrderRouter,
+        ReplaceOrder,
 
 
         {
@@ -57,6 +58,10 @@ export default new Router({
         {
             path: '/addCategory',
             component: () => import('@/components/Background/Goods/AddCategory'),
+        },
+        {
+            path: '/importGoods',
+            component: () => import('@/components/Background/Goods/ImportGoods'),
         },
         {
             path: '/addStore',

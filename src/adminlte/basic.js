@@ -21,7 +21,7 @@ import '../../node_modules/admin-lte/bower_components/bootstrap-daterangepicker/
 //datepicker
 import '../../node_modules/admin-lte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker'
 
-import '../../node_modules/admin-lte/plugins/iCheck/icheck'
+import './plugins/iCheck/icheck.min'
 
 import '../../node_modules/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap'
 import '../../node_modules/admin-lte/dist/js/adminlte'

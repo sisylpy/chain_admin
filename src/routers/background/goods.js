@@ -14,7 +14,8 @@ export default {
             path: 'addGoods/:goodsId',
             component: () => import('@/components/Background/Goods/AddGoods'),
 
-        }
+        },
+
 
 
 

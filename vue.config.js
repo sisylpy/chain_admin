@@ -23,9 +23,9 @@ module.exports = {
         proxy: {
             '/sys': {
                 // target: 'http://localhost:8080/chainPro_war_exploded',
-                target: 'https://grainservice.club:8080/chainOrder',
+                target: 'http://localhost:8080/chainPro_war_exploded/',
 
-                //https://grainservice.club:8080/chainOrder
+                //http://localhost:8080/chainPro_war_exploded/
                 changeOrigin: true
             }
         }
