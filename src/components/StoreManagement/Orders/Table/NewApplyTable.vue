@@ -114,7 +114,6 @@
             applyType: function (newVal, oldVal) {
 
                 if (newVal === "orderApplicaton") {
-                    console.log("NewApplyTable la.....")
                     this.getGoodsandStoreSorts();
                     this.getApplyData();
 
