@@ -315,7 +315,7 @@
             });
 
             $('#body').on('keyup', '.price', function (e) {
-                console.log(e.keyCode)
+
                 //获取当前输入框
                 var input = $('#' + e.currentTarget.id)
                 if (e.keyCode === 13) {

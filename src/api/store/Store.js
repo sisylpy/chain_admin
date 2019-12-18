@@ -8,8 +8,9 @@ export default {
      */
     getApplysByStoreId(data) {
         return request({
-            url: 'sys/ckapplys/getApplys/'+ data,
-            method: 'get',
+            url: 'sys/ckapplys/storeGetApplysByLimit',
+            method: 'post',
+            data
         })
     },
 
@@ -19,12 +20,20 @@ export default {
      * 保存订货数据
      */
     saveReplaceApplys(data) {
-        console.log("api/////")
-        console.log(data)
         return request({
             url: 'sys/ckapplys/replaceOrder',
             method: 'post',
             data
+        })
+    },
+
+    /**
+     * 删除申请
+     */
+    delateApplyById(data) {
+        return request({
+            url: 'sys/ckapplys/deleteOne/'+data,
+            method: 'get',
         })
     }
 

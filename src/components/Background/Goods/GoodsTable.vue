@@ -227,9 +227,6 @@
 
 
             add: function () {
-                // this.$router.push('/Goods/addGoods')
-                console.log("add!!!!");
-                console.log(this.fatherName);
 
                 this.$router.push({
                     name: '/Goods/addGoods',
