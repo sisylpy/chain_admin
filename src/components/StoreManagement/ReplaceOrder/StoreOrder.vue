@@ -1,22 +1,17 @@
 <template>
 
-    <div class="box box-primary">
+    <div class="" style="position: relative;">
 
-        <div class="box-header">
-            <h4 class="box-title">{{storeName}}</h4>
-            <div class="box-tools pull-right">
-                <div class="nav-tabs-justified no-border">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#storeOrder" data-toggle="tab">今日申请</a></li>
-                        <li><a href="#replaceOrder" data-toggle="tab">代下单</a></li>
-                    </ul>
-                </div>
-            </div>
+        <div class="nav-tabs-custom no-border pull-left" style="float: left; width: 100%;">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#storeOrder" data-toggle="tab">今日申请</a></li>
+                <li><a href="#replaceOrder" data-toggle="tab">代下单</a></li>
+            </ul>
         </div>
 
-        <div class="box-body tab-content no-padding">
+        <div class="tab-content no-padding no-border" style="float: left; width: 100%;">
 
-            <div class="active tab-pane  table-responsive mailbox-messages no-border" id="storeOrder">
+            <div class="active tab-pane no-border table-responsive mailbox-messages" id="storeOrder">
 
                 <div class="mailbox-controls">
 
@@ -103,78 +98,70 @@
             <div class="tab-pane no-border" id="replaceOrder">
                 <div class="box-body table-responsive no-padding row">
 
-                    <div class="col-md-5" style="border: 1px solid green;">
+                    <div class="col-md-5 col-sm-5">
 
 
-                        <div class="mailbox-controls" style="border: 1px solid pink; margin-bottom: 5px;">
+                        <div class="mailbox-controls" style="margin-bottom: 5px;">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-default btn-sm active">拖拽图片：{{files.length}}张</button>
-                                <button type="button" class="btn btn-default btn-sm">黏贴文字</button>
+                                <button type="button" class="btn btn-default btn-sm active" @click="changeMethods('img')" id="dragBtn">拖拽图片：{{files.length}}张
+                                </button>
+                                <button type="button" class="btn btn-default btn-sm" @click="changeMethods('words')" id="pastBtn">黏贴文字</button>
 
                             </div>
                         </div>
-                        <div class="dropbox p-3" ref="dropbox">
-                            <h5
-                                    v-if="files.length===0"
-                                    class="text-center"
-                                    style="width:100%;color:#aaa;"
-                            >
+
+                        <div class="dropbox p-3" ref="dropbox" id="dropbox">
+                            <h5 v-if="files.length===0"  class="text-center"  style="width:100%; color:#aaa;">
                                 将文件拖到这里
                             </h5>
 
-
-                            <div
-                                    class="border m-2 d-inline-block p-4"
-                                    style="float: left;"
-                                    v-for="(file,index) in files"
-                                    :key="index"
-                            >
+                            <div class="border m-2 d-inline-block p-4"  style="float: left; margin-bottom: 20px;" v-for="(file,index) in files"
+                                    :key="index" >
                                 <!--<h5 class="mt-0">{{ file.name }}</h5>-->
-                                <img
-                                        :src="file.src"
-                                        style="width:300px;height:380px;"
-                                />
-                                <div class="progress" v-if="file.showPercentage">
-                                <div
-                                class="progress-bar progress-bar-striped"
-                                :style="{ height: file.uploadPercentage+'%' }"
-                                ></div>
-                                </div>
+                                    <div style=""  class="delImg" :index="index" :aaa="index" @click="delImage(index)"><button>删除</button></div>
+                                    <div style="top: -20px;">
+                                        <img :src="file.src" style="width:300px;height:380px;"/>
+                                    </div>
+                                <!--<div class="progress" v-if="file.showPercentage">-->
+                                    <!--<div class="progress-bar progress-bar-striped"-->
+                                         <!--:style="{ height: file.uploadPercentage+'%' }"-->
+                                    <!--&gt;</div>-->
+                                <!--</div>-->
                             </div>
+                        </div>
+
+                        <div class="past" id="words" style="display: none;">
+                            <textarea name="words"  cols="30" rows="15" placeholder="黏贴微信中的订货文字内容到这里" style="padding: 20px;"></textarea>
                         </div>
 
 
                     </div>
 
-                    <div class="col-md-7" style="border: 1px solid blue; position: relative;">
-                        <div class="" style="width: 100%;float: left; display: flex; justify-content: space-between;">
+                    <div class="col-md-7 col-sm-7" style="position: relative;">
+                        <div style="width: 100%;float: left; display: flex; justify-content: space-between;">
 
-
-                            <div class="btn-group" id="apply-btn-group">
-                                <!--<button type="button" class="btn btn-default btn-sm">1</button>-->
-                                申请：
-
+                            <div>
+                                <h4>{{storeName}}</h4>
                             </div>
                             <!-- /.btn-group -->
                             <!--<button type="button" class="btn btn-default btn-sm" @click="addGroup"><i-->
-                                    <!--class="fa fa-plus-square"></i></button>-->
+                            <!--class="fa fa-plus-square"></i></button>-->
+                        </div>
 
-                            <div class="">
-                                <button class="btn btn-danger" @click="saveGoods">
+
+                        <div class="table-body" id="body"
+                             style="border: 1px solid lightgray; border-radius: 2px; float: left;">
+
+                            <!--商品表部分-->
+                            <ul></ul>
+
+                            <div class="" style="float: right; margin-right: 40px;">
+                                <button class="btn btn-primary" @click="saveGoods">
                                     保存
                                 </button>
                             </div>
 
                         </div>
-
-
-
-                            <div class="table-body" id="body" style="border: 1px solid lightgray; border-radius: 2px; float: left;">
-
-                                <!--商品表部分-->
-                                <ul></ul>
-
-                            </div>
 
                     </div>
 
@@ -209,6 +196,7 @@
                 delApplyIds: [],
                 files: [],
                 groupIndex: 1,
+                delIndex: -1,
             }
         },
         computed: {
@@ -245,6 +233,7 @@
                 this.storeId = newVal;
                 if (this.storeType === "storeOrders") {
                     this.getStoreApplys();
+                    this.addIndexGoods = 11;
                 }
             },
 
@@ -266,6 +255,16 @@
             dropbox.addEventListener("dragover", this.onDrag, false);
             dropbox.addEventListener("dragleave", this.onDragLeave, false);
             dropbox.addEventListener("drop", this.onDrop, false);
+
+            // $('.dropbox').on('click', '.delImg', function (e) {
+            //     var index = e.currentTarget.attributes.index;
+            //     var aaa = e.currentTarget.attributes.aaa;
+            //     console.log(index);
+            //     console.log(aaa);
+            //     console.log(this.delIndex)
+            //     this.delIndex = index;
+            //
+            // });
 
 
             this.getStoreApplys();
@@ -430,7 +429,7 @@
                     $(input).attr("fatherid", fatherId);
                     $(input).attr("outdepid", outDepId);
 
-                    if(goodsId){
+                    if (goodsId) {
                         $(input).parent().siblings().children('.quantity').focus();
                         $(input).parent().siblings().children('.quantity').siblings().html(standardName);
                     }
@@ -446,8 +445,8 @@
                 //获取当前输入框
                 var input = $('#' + e.currentTarget.id);
 
-                var goodsId =  $(input).parent().prev().children('.goodsName').attr('goodsid');
-                if(goodsId) {
+                var goodsId = $(input).parent().prev().children('.goodsName').attr('goodsid');
+                if (goodsId) {
                     var applyNumber = e.currentTarget.value;
                     var goodsName = $(input).parent().prev().children('.goodsName').val();
                     var goodsId = $(input).parent().prev().children('.goodsName').attr("goodsid");
@@ -462,10 +461,9 @@
 
                     }
 
-                }else{
+                } else {
                     $(input).parent().prev().children('.goodsName').focus();
                 }
-
 
 
             });
@@ -520,17 +518,33 @@
                 }
             })
 
+
+
         },
 
         methods: {
 
+            changeMethods: function(e){
+                console.log(e);
+                if(e === "img"){
+                    $('#dropbox').show();
+                    $('#words').hide();
+                    $('#pastBtn').removeClass('active');
+                    $('#dragBtn').addClass('active');
 
-            addGroup: function () {
-                var groupIndex = this.groupIndex + 1;
-                var applyBtn = `<button type="button" class="btn btn-default btn-sm">` + groupIndex + `</button>`;
-                $('#apply-btn-group').append(applyBtn);
-                this.groupIndex = groupIndex;
+                }else if (e === "words"){
+                    $('#dropbox').hide();
+                    $('#words').show();
+                    $('#dragBtn').removeClass('active');
+                    $('#pastBtn').addClass('active');
+                }
 
+            },
+
+            //删除拖拽的图片
+            delImage: function(data){
+                console.log(data)
+                this.files.splice(data,1)
             },
 
 
@@ -647,15 +661,15 @@
 
                     var goods = ` <li style="margin-top: 5px; margin-bottom: 5px;">
                                 <div class="row no-padding">
-                                    <div class="body-item col-md-1 index" style="text-align: center;">` + indexGoods + `</div>
-                                    <div class="body-item col-md-5">
+                                    <div class="body-item col-md-1 col-sm-1 index" style="text-align: center;">` + indexGoods + `</div>
+                                    <div class="body-item col-md-5 col-sm-5">
                                         <input class="goodsName"  style="width: 100%;"  id= ` + indexGoods + `_goodsName  placeholder="商品名称"/>
                                     </div>
-                                    <div class="body-item col-md-4">
+                                    <div class="body-item col-md-4 col-sm-4">
                                         <input   type="number" class="quantity"  style="width: 80%;" id= ` + indexGoods + `_quantiry  placeholder="申请数量" />
                                         <a class="standard" style="width: 10%;color: gray;"></a>
                                     </div>
-                                    <div class="body-item col-md-2">
+                                    <div class="body-item col-md-1 col-sm-1">
                                         <button style="width: 50%;" class="btn btn-sm btn-default" id="delete">X</button>
                                     </div>
                                 </div>
@@ -680,43 +694,55 @@
 
             saveGoods: function (e) {
                 var liCount = $('#body').children().children().length;
+                console.log($('#body').children().children())
+
                 var $ul = $('#body').children().children()
                 var applys = [];
 
 
                 for (var i = 0; i < liCount; i++) {
                     var li = $($ul).children().eq(i);
-                    var goodsName = $(li).find('.goodsName').val();
 
-                    var goodsQuantity = $(li).find('.quantity').val();
 
-                    if (goodsName.length > 0 && goodsQuantity.length > 0) {
+                    console.log(li);
+                    console.log(applys.length);
+
+                    var goodsNameA = $(li).find('.goodsName').val();
+                    var goodsQuantityA = $(li).find('.quantity').val();
+
+                    if (goodsNameA  && goodsQuantityA ) {
+                        console.log("bushi null")
                         var goodsId = $(li).find('.goodsName').attr('goodsid');
                         var fatherId = $(li).find('.goodsName').attr('fatherid');
                         var outDepId = $(li).find('.goodsName').attr('outdepid');
-
-                        var applyStandard = $(li).find('.standard').val();
-
+                        var applyStandard = $(li).find('.standard').html();
                         var apply = {
-                            applyGoodsName: goodsName,
+                            applyGoodsName: goodsNameA,
                             applyGoodsId: goodsId,
-                            applyStandardName: applyStandard,
                             applyGoodsFatherId: fatherId,
                             outDepId: outDepId,
                             applyStoreId: this.storeId,
-                            applyNumber: goodsQuantity,
-                            applyStandard: applyStandard
+                            applyNumber: goodsQuantityA,
+                            applyStandardName: applyStandard
                         };
                         applys.push(apply)
                     }
                 }
 
-                apiS.saveReplaceApplys(applys).then(res => {
-                    if (res.code === 0) {
-                        $('#body ul').children().remove();
-                        this.initTenGoods();
-                    }
-                })
+
+                if(applys.length > 0) {
+                    console.log(applys.length)
+                    console.log("api oumeoumeouu ???????")
+                    apiS.saveReplaceApplys(applys).then(res => {
+                        if (res.code === 0) {
+                            $('#body ul').children().remove();
+                            this.initTenGoods();
+                            this.addIndexGoods = 11;
+                        }
+                    })
+                }
+
+
             }
         }
 
@@ -742,11 +768,16 @@
         align-items: center;
         flex-wrap: wrap;
     }
-    #body{
+
+    #body {
         overflow-y: auto;
         max-height: 360px;
         padding-bottom: 50px;
 
+    }
+
+    .nav-tabs-custom {
+        margin-bottom: 0;
     }
 
 

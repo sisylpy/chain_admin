@@ -16,7 +16,7 @@
 
                 <div class="tab-content no-padding">
                     <div class="active tab-pane" id="orderApplicaton">
-                        <OrderApplication/>
+                        <NewApplyTable/>
                     </div>
 
                     <div class="tab-pane" id="outStocking">
@@ -48,7 +48,7 @@
 
 <script>
     import PageHeader from '@/components/PageHeader.vue'
-    import OrderApplication from '@/components/StoreManagement/Orders/OrderApplication'
+    import NewApplyTable from '@/components/StoreManagement/Orders/Table/NewApplyTable'
     import EnterOutStock from '@/components/StoreManagement/Orders/EnterOutStock'
     import DeliveryOrder from '@/components/StoreManagement/Orders/DeliveryOrder'
 
@@ -56,7 +56,7 @@
         name: "Order",
         components: {
             PageHeader,
-            OrderApplication,
+            NewApplyTable,
             EnterOutStock,
             DeliveryOrder,
         },

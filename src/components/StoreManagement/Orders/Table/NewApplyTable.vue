@@ -7,7 +7,7 @@
             <div class="col-md-5">
 
                 <div class="form-group" id="fatherSide" :depId="outDepId">
-                    <label>产品大类</label>
+                    <label>出货部门</label>
                     <select class="form-control select2" multiple="multiple" data-placeholder="全部大类---可以选择产品类别"
                             style="width: 100%; " id="selectFatherId">
                         <option v-for="(item) in cateArr" :value="item.goodsId">{{item.goodsName}}</option>
@@ -216,11 +216,15 @@
                 queryStoreIds: [],
                 queryFatherIds: [],
                 storeArr: [],
-                cateArr: []
+                cateArr: [],
+
             }
         },
 
         methods: {
+
+
+
 
             // select 插件，根据选择到商品类别和分店，获取申请
             getSortIds(that) {
@@ -383,6 +387,9 @@
                 });
 
             },
+
+
+
 
         }
 

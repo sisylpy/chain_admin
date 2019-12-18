@@ -62,8 +62,8 @@
 </template>
 
 <script>
-    import apiS from '../../../api/store/Store'
-    import api from '../../../api/GoodsManagement/Products'
+    import apiS from '../../api/store/Store'
+    import api from '../../api/GoodsManagement/Products'
     import storage from 'good-storage'
 
     export default {

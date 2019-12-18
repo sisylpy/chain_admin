@@ -2,41 +2,47 @@
 
     <section>
 
-        <div class="row">
-            <div class="col-md-2">
 
-                <div class="box box-primary">
-
-                    <div class="box-header with-border">
-                        <h3 class="box-title">出货部门</h3>
-                    </div>
-
-                    <div class="box-body no-padding">
-                        <ul class="nav nav-pills nav-stacked">
-                            <!--<li class="active"><a>Inbox</a></li>-->
-                            <li v-for="(item,index) in outDepList" v-bind:key="item.id" :id="item.outDepId"
-                                :class="isactive == index ? 'active' : '' "
-                                @click='onclick(index, item.depId, item.depName)'>
-
-                                <a>{{item.depName}}</a></li>
-                        </ul>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-
-            </div>
-            <!-- 。/左侧店铺和商品-->
+        <NewApplyTable/>
 
 
-            <!-- 右侧列表-->
-            <div class="col-md-10">
-
-                <NewApplyTable/>
+        <!--<div class="row">-->
 
 
-            </div>
 
-        </div>
+            <!--<div class="col-md-2">-->
+
+                <!--<div class="box box-primary">-->
+
+                    <!--<div class="box-header with-border">-->
+                        <!--<h3 class="box-title">出货部门</h3>-->
+                    <!--</div>-->
+
+                    <!--<div class="box-body no-padding">-->
+                        <!--<ul class="nav nav-pills nav-stacked">-->
+                            <!--&lt;!&ndash;<li class="active"><a>Inbox</a></li>&ndash;&gt;-->
+                            <!--<li v-for="(item,index) in outDepList" v-bind:key="item.id" :id="item.outDepId"-->
+                                <!--:class="isactive == index ? 'active' : '' "-->
+                                <!--@click='onclick(index, item.depId, item.depName)'>-->
+
+                                <!--<a>{{item.depName}}</a></li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash; /.box-body &ndash;&gt;-->
+                <!--</div>-->
+
+            <!--</div>-->
+            <!--&lt;!&ndash; 。/左侧店铺和商品&ndash;&gt;-->
+
+
+            <!--&lt;!&ndash; 右侧列表&ndash;&gt;-->
+            <!--<div class="col-md-10">-->
+
+
+
+            <!--</div>-->
+
+        <!--</div>-->
 
     </section>
 

@@ -41,17 +41,13 @@
                         <div class="box-body">
                             <div class="nav-tabs-justified">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#storeOrders" data-toggle="tab" @click="changeStoreType('replaceOrder')">订货申请</a></li>
-                                    <li><a href="#storeGoods" data-toggle="tab" @click="changeStoreType('products')">产品</a></li>
+                                    <li class="active"><a href="#storeGoods" data-toggle="tab" @click="changeStoreType('products')">产品</a></li>
                                     <li><a href="#turnover" data-toggle="tab" @click="changeStoreType('turnover')">营业额</a></li>
                                     <li><a href="#promotion" data-toggle="tab" @click="changeStoreType(stock)">库存</a></li>
                                 </ul>
                                 <div class="tab-content">
 
 
-                                    <div class="active tab-pane" id="storeOrders">
-                                        <StoreOrderPanel/>
-                                    </div>
 
                                     <div class="tab-pane" id="storeGoods">
                                         <StoreGoodsPanel/>
@@ -89,7 +85,6 @@
     import PageHeader from '@/components/PageHeader.vue'
     import api from '../../api/background/store'
 
-    import StoreOrderPanel from '@/components/StoreManagement/BusinessData/StoreOrderPanel'
     import StoreGoodsPanel from '@/components/StoreManagement/BusinessData/StoreGoodsPanel'
     import TurnoverPanel from '@/components/StoreManagement/BusinessData/TurnoverPanel'
     export default {
@@ -116,7 +111,7 @@
                     this.storeName = res.page.list[0].storeName;
                     this.$store.state.store.storeId = res.page.list[0].storeId;
                     this.$store.state.store.storeName = res.page.list[0].storeName;
-                    this.$store.state.store.storeType = 'storeOrders';
+                    this.$store.state.store.storeType = 'products';
                 }
             })
         },
@@ -125,7 +120,6 @@
             PageHeader,
             StoreGoodsPanel,
             TurnoverPanel,
-            StoreOrderPanel,
         },
         methods: {
 
@@ -141,9 +135,7 @@
 
             //点击出货部门的三大业务
             changeStoreType: function (data) {
-                if (data === "storeOrders") {
-                    this.$store.dispatch('store/set_storeTYPE', data)
-                } else if (data === "products") {
+                if (data === "products") {
                     this.$store.dispatch('store/set_storeTYPE', data)
                 }
                 else if (data === "turnover") {
