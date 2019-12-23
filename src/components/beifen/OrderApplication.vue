@@ -49,7 +49,7 @@
 </template>
 
 <script>
-    import api from '../../../api/background/outDep'
+    import api from '../../api/background/outDep'
 
     import NewApplyTable from '@/components/StoreManagement/Orders/Table/NewApplyTable'
 

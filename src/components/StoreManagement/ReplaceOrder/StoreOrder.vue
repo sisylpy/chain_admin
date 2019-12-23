@@ -1,17 +1,152 @@
 <template>
 
-    <div class="" style="position: relative;">
+    <div>
 
-        <div class="nav-tabs-custom no-border pull-left" style="float: left; width: 100%;">
+        <div class="nav-tabs-custom no-border pull-left" style="width: 100%;">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#storeOrder" data-toggle="tab">今日申请</a></li>
-                <li><a href="#replaceOrder" data-toggle="tab">代下单</a></li>
+                <li class="active"><a href="#replaceOrder" data-toggle="tab">代下单</a></li>
+                <li><a href="#storeOrder" data-toggle="tab">今日申请</a></li>
             </ul>
         </div>
 
-        <div class="tab-content no-padding no-border" style="float: left; width: 100%;">
+        <div class="tab-content  no-border" style="float: left; width: 100%;">
 
-            <div class="active tab-pane no-border table-responsive mailbox-messages" id="storeOrder">
+            <div class="active tab-pane no-border" id="replaceOrder">
+
+                <div class="row"
+                     style="display: flex;flex-flow: row nowrap;">
+
+                    <div class="form-group col-md-5" style="display: flex;flex-flow: column nowrap;">
+
+                        <div class="first-line"
+                             style="display: flex; flex-flow: row nowrap; align-items: center; justify-content: flex-start; padding-top: 5px; margin-bottom:5px; ">
+                            <label style="margin-right: 5px; ">送货日期:</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="datepicker" data-format="MM月dd日">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+
+                        <div class="second-line"
+                             style="display: flex; flex-flow: row nowrap;align-items: center; justify-content: flex-start; padding-top: 5px; margin-bottom:5px; ">
+
+                            <label style="margin-right: 5px;">订货来源:</label>
+                            <div class="">
+                                <label @click="changeMethods('img')">
+                                    <input type="radio" name="r1" class="minimal" checked>
+                                    图片订货
+                                </label>
+                                <label for="selectImg" class="btn btn-default" id="forAddImg"
+                                       style="margin-left: 10px;">选择{{imgLen}}图片
+                                    <input type="file" id="selectImg" class="upload" @change="addImg" ref="inputer"
+                                           multiple
+                                           accept="image/png,image/jpeg,image/gif,image/jpg" style="display: none"/>
+                                </label>
+                            </div>
+
+                            <label style="margin-left: 10px;" @click="changeMethods('paste')">
+                                <input type="radio" name="r1" class="minimal">
+                                黏贴文字
+                            </label>
+                        </div>
+
+
+                        <div class="">
+
+                            <div class="p-3" id="imgs">
+
+                                <div class=" d-inline-block p-4" style="float: left; margin-bottom: 20px;"
+                                     v-for='(value, key) in imgs'
+                                     :key="key" ref="dropbox" id="dropbox">
+                                    <!--<h5 class="mt-0">{{ file.name }}</h5>-->
+                                    <div class="delImg" @click="delImg(key)">
+                                        <button>删除</button>
+                                    </div>
+                                    <div style="top: -20px;">
+                                        <img :src="getObjectURL(value)" style="width:300px;height:380px;"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  " -->
+                            <div class="paste" id="paste" style="display: none;">
+                            <textarea name="words" cols="30" rows="15" placeholder="黏贴微信中的订货文字内容到这里"
+                                      style="padding: 20px;"></textarea>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-7">
+
+                        <div style="display: flex; flex-flow: row nowrap;align-items: center; justify-content: flex-start;">
+                            <label style="width: 80px;">选择店铺:</label>
+                            <select class="form-control select2" id="replaceStore">
+                                <option value=""></option>
+                                <optgroup label="燕郊线">
+                                    <option v-for="(item) in storeList" :value="item.storeId">{{item.storeName}}
+                                    </option>
+                                </optgroup>
+                                <optgroup label="昌平线">
+                                    <option value="5">订单查询</option>
+                                    <option value="6">订单导入</option>
+                                    <option value="7">订单删除</option>
+                                    <option value="8">订单撤销</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+
+                        <div style="padding-top: 15px; ">
+                                <div class="form-group" style="display: flex; flex-flow: row nowrap; align-items: center; justify-content:space-around; padding-left: 20px; padding-right: 20px;">
+                                    <label>
+                                        <input type="radio" name="r3" class="flat-red" checked>
+                                        单列
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="r3" class="flat-red">
+                                        双列
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="r3" class="flat-red">
+                                        三列
+                                    </label>
+                                </div>
+
+
+
+                        <div class="table-body " id="body"
+                             style="display: none; border: 1px solid lightgray; border-radius: 2px; float: left;">
+                            <!--商品表部分-->
+                            <ul></ul>
+                            <div class="" style="float: right; margin-right: 40px;">
+                                <button class="btn btn-primary" @click="saveGoods">
+                                    保存
+                                </button>
+                            </div>
+                        </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+
+            </div>
+
+
+            <div class="tab-pane no-border table-responsive mailbox-messages" id="storeOrder">
+
 
                 <div class="mailbox-controls">
 
@@ -58,7 +193,6 @@
                         <!-- /.btn-group -->
                     </div>
 
-
                     <!-- /.pull-right -->
                 </div>
 
@@ -95,84 +229,51 @@
 
             </div>
 
-            <div class="tab-pane no-border" id="replaceOrder">
-                <div class="box-body table-responsive no-padding row">
-
-                    <div class="col-md-5 col-sm-5">
-
-
-                        <div class="mailbox-controls" style="margin-bottom: 5px;">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default btn-sm active" @click="changeMethods('img')" id="dragBtn">拖拽图片：{{files.length}}张
-                                </button>
-                                <button type="button" class="btn btn-default btn-sm" @click="changeMethods('words')" id="pastBtn">黏贴文字</button>
-
-                            </div>
-                        </div>
-
-                        <div class="dropbox p-3" ref="dropbox" id="dropbox">
-                            <h5 v-if="files.length===0"  class="text-center"  style="width:100%; color:#aaa;">
-                                将文件拖到这里
-                            </h5>
-
-                            <div class="border m-2 d-inline-block p-4"  style="float: left; margin-bottom: 20px;" v-for="(file,index) in files"
-                                    :key="index" >
-                                <!--<h5 class="mt-0">{{ file.name }}</h5>-->
-                                    <div style=""  class="delImg" :index="index" :aaa="index" @click="delImage(index)"><button>删除</button></div>
-                                    <div style="top: -20px;">
-                                        <img :src="file.src" style="width:300px;height:380px;"/>
-                                    </div>
-                                <!--<div class="progress" v-if="file.showPercentage">-->
-                                    <!--<div class="progress-bar progress-bar-striped"-->
-                                         <!--:style="{ height: file.uploadPercentage+'%' }"-->
-                                    <!--&gt;</div>-->
-                                <!--</div>-->
-                            </div>
-                        </div>
-
-                        <div class="past" id="words" style="display: none;">
-                            <textarea name="words"  cols="30" rows="15" placeholder="黏贴微信中的订货文字内容到这里" style="padding: 20px;"></textarea>
-                        </div>
-
-
-                    </div>
-
-                    <div class="col-md-7 col-sm-7" style="position: relative;">
-                        <div style="width: 100%;float: left; display: flex; justify-content: space-between;">
-
-                            <div>
-                                <h4>{{storeName}}</h4>
-                            </div>
-                            <!-- /.btn-group -->
-                            <!--<button type="button" class="btn btn-default btn-sm" @click="addGroup"><i-->
-                            <!--class="fa fa-plus-square"></i></button>-->
-                        </div>
-
-
-                        <div class="table-body" id="body"
-                             style="border: 1px solid lightgray; border-radius: 2px; float: left;">
-
-                            <!--商品表部分-->
-                            <ul></ul>
-
-                            <div class="" style="float: right; margin-right: 40px;">
-                                <button class="btn btn-primary" @click="saveGoods">
-                                    保存
-                                </button>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
         </div>
-
     </div>
+
+    <!--<div class="col-md-2">-->
+    <!--<div class="box box-primary">-->
+
+    <!--<div class="box-header with-border">-->
+    <!--<h3 class="box-title">店铺</h3>-->
+
+    <!--<div class="box-tools">-->
+    <!--<div class="btn-group">-->
+    <!--<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">-->
+    <!--<i class="fa fa-wrench"></i></button>-->
+    <!--<ul class="dropdown-menu" role="menu">-->
+    <!--<li><a>新增</a></li>-->
+    <!--<li><a href="#">修改</a></li>-->
+    <!--<li><a href="#">删除</a></li>-->
+    <!--&lt;!&ndash;<li class="divider"></li>&ndash;&gt;-->
+    <!--&lt;!&ndash;<li><a href="#">Separated link</a></li>&ndash;&gt;-->
+    <!--</ul>-->
+    <!--</div>-->
+
+    <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i-->
+    <!--class="fa fa-minus"></i>-->
+    <!--</button>-->
+    <!--</div>-->
+
+
+    <!--</div>-->
+
+    <!--<div class="box-body no-padding" style="max-height: 400px; overflow-y: auto;">-->
+    <!--<ul class="nav nav-pills nav-stacked" >-->
+    <!--&lt;!&ndash;<li class="active"><a>Inbox</a></li>&ndash;&gt;-->
+    <!--<li v-for="(item,index) in storeList" v-bind:key="item.storeId" :id="item.storeId"-->
+    <!--:class="isactive == index ? 'active' : '' "-->
+    <!--@click='onclick(index, item.storeId,item.storeName)'>-->
+
+    <!--<a>{{item.storeName}}</a></li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--&lt;!&ndash; /.box-body &ndash;&gt;-->
+    <!--</div>-->
+
+
+    <!--</div>-->
 
 
 </template>
@@ -182,6 +283,8 @@
     import apiS from '../../../api/store/Store'
     import api from '../../../api/GoodsManagement/Products'
     import storage from 'good-storage'
+
+    import apibs from '@/api/background/store'
 
 
     export default {
@@ -194,10 +297,21 @@
                 currPage: 1,
                 totalPage: '',
                 delApplyIds: [],
-                files: [],
                 groupIndex: 1,
                 delIndex: -1,
+                storeList: [],
+                isactive: 0,
+
+                formData: new FormData(),
+                imgs: {},
+                imgLen: 0,
+                replaceMethods: "img",
+                replaceStoreId: '',
+                replaceStoreName: '',
+                showReplace: false,
+
             }
+
         },
         computed: {
             storeId: {
@@ -229,6 +343,16 @@
         },
 
         watch: {
+            //
+            // replaceStoreId: function(newVal, oldVal) {
+            //     console.log("new?????")
+            //     this.replaceStoreId = newVal;
+            // },
+            // replaceStoreName: function (newVal, oldVal) {
+            //     this.replaceStoreName = newVal;
+            // },
+
+
             storeId: function (newVal, oldVal) {
                 this.storeId = newVal;
                 if (this.storeType === "storeOrders") {
@@ -249,22 +373,56 @@
         },
 
         mounted() {
+            //选择店铺
+            $('#replaceStore').on('change', function () {
+                var storeName = $("#replaceStore").find("option:selected").text();
+                var storeId = $("#replaceStore").val();
+                console.log("moutned=====")
+                console.log(this.replaceStoreId);
+                $('#body').show();
+            });
 
-            var dropbox = document.querySelector(".dropbox");
-            dropbox.addEventListener("dragenter", this.onDrag, false);
-            dropbox.addEventListener("dragover", this.onDrag, false);
-            dropbox.addEventListener("dragleave", this.onDragLeave, false);
-            dropbox.addEventListener("drop", this.onDrop, false);
 
-            // $('.dropbox').on('click', '.delImg', function (e) {
-            //     var index = e.currentTarget.attributes.index;
-            //     var aaa = e.currentTarget.attributes.aaa;
-            //     console.log(index);
-            //     console.log(aaa);
-            //     console.log(this.delIndex)
-            //     this.delIndex = index;
-            //
-            // });
+            //初始化select选择框
+            $('.select2').select2({
+                language: 'zh-CN',
+                width: '100%',
+                placeholder: '请选择店铺'
+            })
+
+            //Date picker
+            $('#datepicker').datepicker({
+                autoclose: true,
+                title: '默认第二天送货',
+                todayBtn: "linked",
+                todayHighlight: true,
+            });
+
+
+            //iCheck for checkbox and radio inputs
+            $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'iradio_minimal-blue'
+            });
+
+            //Flat red color scheme for iCheck
+            $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+                checkboxClass: 'icheckbox_flat-green',
+                radioClass   : 'iradio_flat-green'
+            });
+
+
+            var data = "page=1&limit=20";
+            apibs.getStoreList(data).then(res => {
+                if (res) {
+                    this.storeList = res.page.list;
+                    this.storeId = res.page.list[0].storeId;
+                    this.storeName = res.page.list[0].storeName;
+                    this.$store.state.store.storeId = res.page.list[0].storeId;
+                    this.$store.state.store.storeName = res.page.list[0].storeName;
+                    this.$store.state.store.storeType = 'storeOrders';
+                }
+            });
 
 
             this.getStoreApplys();
@@ -372,10 +530,7 @@
                                         selectGoods(goodsName, goodsId, standardName, fatherId, outDepId);
 
                                     });
-
-
                                 }
-
                             }
                         })
                     } else {
@@ -519,81 +674,82 @@
             })
 
 
-
         },
 
         methods: {
 
-            changeMethods: function(e){
-                console.log(e);
-                if(e === "img"){
-                    $('#dropbox').show();
-                    $('#words').hide();
-                    $('#pastBtn').removeClass('active');
-                    $('#dragBtn').addClass('active');
 
-                }else if (e === "words"){
-                    $('#dropbox').hide();
-                    $('#words').show();
-                    $('#dragBtn').removeClass('active');
-                    $('#pastBtn').addClass('active');
+            //选择订货来源导入图片还是黏贴
+            changeMethods: function (e) {
+                if (e == "img") {
+                    $('#imgs').show();
+                    $('#paste').hide();
+                    this.replaceMethods = "img";
+
+                } else if (e == "paste") {
+                    $('#imgs').hide();
+                    $('#paste').show();
+                    this.replaceMethods = "paste";
                 }
-
-            },
-
-            //删除拖拽的图片
-            delImage: function(data){
-                console.log(data)
-                this.files.splice(data,1)
             },
 
 
-            uploadFile: function (file, url) {
-                return new Promise((resolve, reject) => {
-                    var fr = new FileReader();
-                    var that = this;
-                    var item = {};
-                    fr.readAsDataURL(file);
 
+            // 导入图片
+            addImg(event) {
+                let inputDOM = this.$refs.inputer;
+                // 通过DOM取文件数据
+                this.fil = inputDOM.files;
+                let oldLen = this.imgLen;
+                let len = this.fil.length + oldLen;
+                if (len > 20) {
+                    alert('最多可上传4张，您还可以上传' + (4 - oldLen) + '张');
+                    return false;
+                }
+                for (let i = 0; i < this.fil.length; i++) {
+                    let size = Math.floor(this.fil[i].size / 1024);
+                    if (size > 5 * 1024 * 1024) {
+                        alert('请选择5M以内的图片！');
+                        return false
+                    }
+                    this.imgLen++;
+                    this.$set(this.imgs, this.fil[i].name + '?' + new Date().getTime() + i, this.fil[i]);
+                }
+                console.log(len)
 
-                    fr.onload = function () {
-                        item = {
-                            src: this.result,
-                            name: file.name,
-                            uploadPercentage: 0,
-                            showPercentage: true
-                        };
-                        that.files.push(item);
-                        var fd = new FormData();
-                        fd.append("file", file);
+                // $('#forAddImg').html("选择了"+ len + "张图片");
 
-                    };
+            },
+
+            getObjectURL(file) {
+                var url = null;
+                if (window.createObjectURL != undefined) { // basic
+                    url = window.createObjectURL(file);
+                } else if (window.URL != undefined) { // mozilla(firefox)
+                    url = window.URL.createObjectURL(file);
+                } else if (window.webkitURL != undefined) { // webkit or chrome
+                    url = window.webkitURL.createObjectURL(file);
+                }
+                return url;
+            },
+
+            delImg(key) {
+                this.$delete(this.imgs, key);
+                this.imgLen--;
+                // this.$refs.inputer.value = "ddd"
+                var length = this.imgs.length;
+                $('#selectImg').val(length);
+            },
+            submit() {
+                for (let key in this.imgs) {
+                    let name = key.split('?')[0];
+                    this.formData.append('multipartFiles', this.imgs[key], name);
+                }
+                this.$http.post('/opinion/feedback', this.formData, {
+                    headers: {'Content-Type': 'multipart/form-data'}
+                }).then(res => {
+                    this.alertShow = true;
                 });
-            },
-
-
-            onDrag: function (e) {
-                e.stopPropagation();
-                e.preventDefault();
-                console.log("进入");
-                //style=""
-                this.$refs.dropbox.style = "border:0.25rem dashed #ddd; position:relative; overflow-y:auto;max-height:350px";
-            },
-            onDragLeave: function (e) {
-                e.stopPropagation();
-                e.preventDefault();
-                console.log("离开");
-                this.$refs.dropbox.style = "border:0.25rem dashed #ddd; height: 350px;";
-            },
-            onDrop: function (e) {
-                e.stopPropagation();
-                e.preventDefault();
-                console.log("松手");
-                var url = "http://127.0.0.1:3000/upload-multiply";
-                var dt = e.dataTransfer;
-                for (var i = 0; i !== dt.files.length; i++) {
-                    this.uploadFile(dt.files[i], url);
-                }
             },
 
 
@@ -602,10 +758,7 @@
                 apiS.delateApplyById(id)
                     .then(res => {
                         if (res) {
-                            console.log(res)
-
                             this.getStoreApplys();
-
                         }
                     })
             },
@@ -659,7 +812,7 @@
                 for (var i = 0; i < 10; i++) {
                     var indexGoods = i + 1;
 
-                    var goods = ` <li style="margin-top: 5px; margin-bottom: 5px;">
+                    var replaceOrderLi = ` <li style="margin-top: 5px; margin-bottom: 5px;">
                                 <div class="row no-padding">
                                     <div class="body-item col-md-1 col-sm-1 index" style="text-align: center;">` + indexGoods + `</div>
                                     <div class="body-item col-md-5 col-sm-5">
@@ -674,7 +827,7 @@
                                     </div>
                                 </div>
                             </li>`
-                    $(body).append(goods);
+                    $(body).append(replaceOrderLi);
                 }
                 $(body).children().children(':last').children(':nth-child(2)').children('.goodsName').addClass('is-last')
 
@@ -699,6 +852,8 @@
                 var $ul = $('#body').children().children()
                 var applys = [];
 
+                console.log($("#datepicker").data("datepicker").getDate().toLocaleString())
+
 
                 for (var i = 0; i < liCount; i++) {
                     var li = $($ul).children().eq(i);
@@ -710,7 +865,7 @@
                     var goodsNameA = $(li).find('.goodsName').val();
                     var goodsQuantityA = $(li).find('.quantity').val();
 
-                    if (goodsNameA  && goodsQuantityA ) {
+                    if (goodsNameA && goodsQuantityA) {
                         console.log("bushi null")
                         var goodsId = $(li).find('.goodsName').attr('goodsid');
                         var fatherId = $(li).find('.goodsName').attr('fatherid');
@@ -730,7 +885,7 @@
                 }
 
 
-                if(applys.length > 0) {
+                if (applys.length > 0) {
                     console.log(applys.length)
                     console.log("api oumeoumeouu ???????")
                     apiS.saveReplaceApplys(applys).then(res => {
@@ -752,21 +907,31 @@
 </script>
 
 <style scoped>
-    /*.content{*/
-    /*background: #fff;*/
-    /*}*/
 
-    .panel-title {
-        height: 40px;
-    }
 
-    .dropbox {
+    .p-3 {
+        width: 100%;
         border: 0.25rem dashed #ddd;
         min-height: 350px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        flex-wrap: wrap;
+        max-height: 400px;
+        /*display: flex;*/
+        /*flex-flow: column nowrap;*/
+        overflow-y: auto;
+
+        /*justify-content: flex-start;*/
+        /*align-items: center;*/
+        /*flex-wrap: wrap;*/
+    }
+
+    .paste {
+        width: 100%;
+        border: 0.25rem dashed #ddd;
+        min-height: 350px;
+        max-height: 400px;
+        /*display: flex;*/
+        /*flex-flow: column nowrap;*/
+        overflow-y: auto;
+
     }
 
     #body {
@@ -780,5 +945,15 @@
         margin-bottom: 0;
     }
 
+    .paste textarea {
+        margin: 0 auto;
+        /*border: 1px solid red;*/
+        width: 100%;
+
+    }
+
+    #replaceUl .active {
+        display: block;;
+    }
 
 </style>

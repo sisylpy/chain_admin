@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import apia from '@/api/out/orderApplication'
+    import apia from '@/api/store/orderApplication'
     import api from '@/api/out/deliverOrder'
 
 

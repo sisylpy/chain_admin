@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="tab-pane" id="outStocking">
-                        <EnterOutStock/>
+                        <OutStockingTable/>
                     </div>
 
                     <div class="tab-pane" id="deliveryOrder">
@@ -49,7 +49,7 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
     import NewApplyTable from '@/components/StoreManagement/Orders/Table/NewApplyTable'
-    import EnterOutStock from '@/components/StoreManagement/Orders/EnterOutStock'
+    import OutStockingTable from '@/components/StoreManagement/Orders/Table/OutStockingTable'
     import DeliveryOrder from '@/components/StoreManagement/Orders/DeliveryOrder'
 
     export default {
@@ -57,7 +57,7 @@
         components: {
             PageHeader,
             NewApplyTable,
-            EnterOutStock,
+            OutStockingTable,
             DeliveryOrder,
         },
         methods:{

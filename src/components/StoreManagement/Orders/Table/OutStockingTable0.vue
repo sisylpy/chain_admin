@@ -65,7 +65,7 @@
 </template>
 
 <script>
-    import apia from '@/api/out/orderApplication'
+    import apia from '@/api/store/orderApplication'
 
     export default {
         name: "OutStockingTable",

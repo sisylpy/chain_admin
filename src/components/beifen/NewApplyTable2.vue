@@ -16,7 +16,7 @@
 <script>
     import api from '../../api/background/goods'
     import addGoods from '@/components/Background/Goods/AddGoods.vue'
-    import apia from '@/api/out/orderApplication'
+    import apia from '@/api/store/orderApplication'
     import {mapState, mapGetters} from 'vuex'
 
     export default {

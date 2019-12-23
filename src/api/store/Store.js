@@ -3,6 +3,18 @@ import request from '@/utils/request'
 export default {
 
 
+
+    /**
+     * queryApplysAndSorts
+     */
+    getApplysAndSorts(){
+        return request({
+            url: 'sys/ckapplys/queryApplysAndSorts',
+            method: 'get',
+        })
+    },
+
+
     /**
      * 获取今日订货申请
      */

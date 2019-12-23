@@ -34,7 +34,7 @@
 </template>
 
 <script>
-    import apia from '@/api/out/orderApplication'
+    import apia from '@/api/store/orderApplication'
     import api from '@/api/out/deliverOrder'
 
 
@@ -67,7 +67,7 @@
 
             var that = this;
 
-            that.getJqtableData();
+            // that.getJqtableData();
 
             $('#deliveryOrderNew').on('dblclick', 'input[name=price]', function () {
                 console.log("dblclick")

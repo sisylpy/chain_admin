@@ -1,16 +1,16 @@
 <template>
 
-    <div class="box box-primary">
+    <div class="">
 
-        <div class="row box-header">
+        <div class="row ">
 
             <div class="col-md-5">
 
-                <div class="form-group" id="fatherSide" :depId="outDepId">
+                <div class="form-group" id="fatherSide">
                     <label>出货部门</label>
-                    <select class="form-control select2" multiple="multiple" data-placeholder="全部大类---可以选择产品类别"
+                    <select class="form-control select2" multiple="multiple" data-placeholder="全部出货部门---可以选择出货部门"
                             style="width: 100%; " id="selectFatherId">
-                        <option v-for="(item) in cateArr" :value="item.goodsId">{{item.goodsName}}</option>
+                        <option v-for="(item) in outDepArr" :value="item.depId">{{item.depName}}</option>
                     </select>
                 </div>
 
@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <div class="box-body">
+        <div class="">
 
             <table class="table table-striped " id="apply-table">
                 <tbody>
@@ -75,61 +75,19 @@
 </template>
 
 <script>
-    import apia from '@/api/out/orderApplication'
+    import apia from '@/api/store/Store'
+    import  apio from '@/api/store/orderApplication'
 
     export default {
         name: "NewApplyTable",
-        computed: {
-            outDepId: {
-                get() {
-                    return this.$store.state.orders.outDepId
-                },
-                set() {
-                    // this.$store.commit('orders/set_ORDERSDEPID', value)
-                }
-            },
-            applyType: {
-                get() {
-                    return this.$store.state.orders.applyType
-                },
-                set() {
-                    // this.$store.commit('orders/set_ORDERSDEPID', value)
-                },
 
-            },
-        },
-
-        watch: {
-            outDepId: function (newVal, oldVal) {
-
-                if (this.applyType === "orderApplicaton") {
-                    console.log("NewApplyTable la.....")
-                    this.getGoodsandStoreSorts();
-                    this.getApplyData();
-
-                    //获取最大打印
-                    this.getPrintMax();
-                }
-            },
-            applyType: function (newVal, oldVal) {
-
-                if (newVal === "orderApplicaton") {
-                    this.getGoodsandStoreSorts();
-                    this.getApplyData();
-
-                    //获取最大打印
-                    this.getPrintMax();
-                }
-            },
-
-        },
 
         mounted() {
             var that = this;
 
             //获取产品和分店数据
-            this.getGoodsandStoreSorts();
-            this.getApplyData();
+            this.getApplysAndSortsData();
+            // this.getApplyData();
 
             //获取最大打印
             this.getPrintMax();
@@ -215,7 +173,7 @@
                 queryStoreIds: [],
                 queryFatherIds: [],
                 storeArr: [],
-                cateArr: [],
+                outDepArr: [],
 
             }
         },
@@ -272,30 +230,27 @@
 
 
             // 根据出货部门Id，获取select分店和商品大类下拉框数据
-            getGoodsandStoreSorts: function () {
-                console.log("getGoodsandStoreSortsgetGoodsandStoreSorts")
-                var status = 0;
-                var data = "status=" + status + "&depId=" + this.outDepId;
-                apia.outDepQuerySorts(data).then(res => {
+            getApplysAndSortsData: function () {
+
+                apia.getApplysAndSorts().then(res => {
                     if (res) {
-                        console.log(res);
-                        this.queryStoreIds = [];
-                        this.queryFatherIds = [];
 
-                        this.cateArr = res.data.fatherGoodsList;
-                        this.storeArr = res.data.storeList;
-                        console.log("this.CateArr")
-                        console.log(this.cateArr);
-                        console.log("this.storeArr")
-                        console.log(this.storeArr)
+                        // this.queryStoreIds = [];
+                        // this.queryFatherIds = [];
+                        //
+                        this.outDepArr = res.data.ddd;
+                        this.storeArr = res.data.sss;
+                        this.applyArr = res.data.applys;
+                        this.printArr = res.data.applys;
 
-                        for (var i = 0; i < this.storeArr.length; i++) {
-                            this.queryStoreIds.push(this.storeArr[i].storeId)
-                        }
 
-                        for (var j = 0; j < this.cateArr.length; j++) {
-                            this.queryFatherIds.push(this.cateArr[j].goodsId)
-                        }
+                        // for (var i = 0; i < this.storeArr.length; i++) {
+                        //     this.queryStoreIds.push(this.storeArr[i].storeId)
+                        // }
+                        //
+                        // for (var j = 0; j < this.cateArr.length; j++) {
+                        //     this.queryFatherIds.push(this.cateArr[j].goodsId)
+                        // }
 
                     }
                 })
@@ -358,35 +313,12 @@
             },
 
             getPrintMax() {
-                apia.getPirntMax().then(res => {
+                apio.getPirntMax().then(res => {
                     if (res) {
                         this.printMax = res.data;
                     }
                 })
             },
-
-
-            //获取表格数据
-            getApplyData: function () {
-
-                var data = "status=" + "0" + "&depId=" + this.outDepId;
-                this.bus.$emit('loading', true);
-
-                apia.outDepQueryApplys(data).then(res => {
-                    if (res) {
-                        console.log(res)
-                        this.bus.$emit('loading', false);
-
-                        this.applyArr = res.data;
-                        this.printArr = res.data;
-
-                    }
-
-
-                });
-
-            },
-
 
 
 

@@ -33,4 +33,7 @@ import './libs/dashboard'
 
 import '../utils/jQuery.print.min'
 // import './js/jweixin-1.3.2'
+// bootstrap datepicker
+// <script src="../../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+import '../../node_modules/admin-lte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker'
 

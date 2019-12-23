@@ -7,34 +7,34 @@
         <section>
             <div class="row">
 
-                <div class="col-md-2">
+                <!--<div class="col-md-2">-->
 
-                    <div class="box box-primary">
+                    <!--<div class="box box-primary">-->
 
-                        <div class="box-header with-border">
-                            <h3 class="box-title">店铺</h3>
-                        </div>
+                        <!--<div class="box-header with-border">-->
+                            <!--<h3 class="box-title">店铺</h3>-->
+                        <!--</div>-->
 
-                        <div class="box-body no-padding" style="max-height: 400px; overflow-y: auto;">
-                            <ul class="nav nav-pills nav-stacked" >
-                                <!--<li class="active"><a>Inbox</a></li>-->
-                                <li v-for="(item,index) in storeList" v-bind:key="item.storeId" :id="item.storeId"
-                                    :class="isactive == index ? 'active' : '' "
-                                    @click='onclick(index, item.storeId,item.storeName)'>
+                        <!--<div class="box-body no-padding" style="max-height: 400px; overflow-y: auto;">-->
+                            <!--<ul class="nav nav-pills nav-stacked" >-->
+                                <!--&lt;!&ndash;<li class="active"><a>Inbox</a></li>&ndash;&gt;-->
+                                <!--<li v-for="(item,index) in storeList" v-bind:key="item.storeId" :id="item.storeId"-->
+                                    <!--:class="isactive == index ? 'active' : '' "-->
+                                    <!--@click='onclick(index, item.storeId,item.storeName)'>-->
 
-                                    <a>{{item.storeName}}</a></li>
-                            </ul>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
+                                    <!--<a>{{item.storeName}}</a></li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash; /.box-body &ndash;&gt;-->
+                    <!--</div>-->
 
-                </div>
+                <!--</div>-->
 
-                <div class="col-md-10">
+                <!--<div class="col-md-10">-->
 
                     <StoreOrder/>
 
-                </div>
+                <!--</div>-->
 
 
             </div>
