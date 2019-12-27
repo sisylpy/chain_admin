@@ -9,7 +9,7 @@
                 <div class="form-group" id="fatherSide">
                     <label>出货部门</label>
                     <select class="form-control select2" multiple="multiple" data-placeholder="全部出货部门---可以选择出货部门"
-                            style="width: 100%; " id="selectFatherId">
+                            style="width: 100%; " id="selectOutDepId">
                         <option v-for="(item) in outDepArr" :value="item.depId">{{item.depName}}</option>
                     </select>
                 </div>
@@ -75,19 +75,48 @@
 </template>
 
 <script>
-    import apia from '@/api/store/Store'
-    import  apio from '@/api/store/orderApplication'
+    import apis from '@/api/store/Store'
+    import apio from '@/api/store/orderApplication'
 
     export default {
         name: "NewApplyTable",
+        props:['outType'],
+        watch: {
 
+            outType: function (newVal) {
+                if (newVal == "orderApplicaton") {
+                    //获取产品和分店数据
+                    this.getApplysAndSortsData();
+
+                    //获取最大打印
+                    this.getPrintMax();
+                }
+            }
+
+
+        },
+        data() {
+            return {
+                page: 1,
+                limit: 20,
+                applyArr: [],
+                printArr: [],
+                printMax: '',
+                printIds: [],
+
+                orderFatherGoodsArr: [],
+
+                storeArr: [],
+                outDepArr: [],
+
+            }
+        },
 
         mounted() {
             var that = this;
 
             //获取产品和分店数据
             this.getApplysAndSortsData();
-            // this.getApplyData();
 
             //获取最大打印
             this.getPrintMax();
@@ -95,7 +124,7 @@
             // 产品和分店的选择插件
             $('.select2').select2();
             // selcct 产品
-            $('#selectFatherId').on('change', function (e) {
+            $('#selectOutDepId').on('change', function (e) {
                 that.getSortIds(that);
             });
             // select分店
@@ -160,46 +189,30 @@
         },
 
 
-        data() {
-            return {
-                page: 1,
-                limit: 20,
-                applyArr: [],
-                printArr: [],
-                printMax: '',
-                printIds: [],
 
-                orderFatherGoodsArr: [],
-                queryStoreIds: [],
-                queryFatherIds: [],
-                storeArr: [],
-                outDepArr: [],
-
-            }
-        },
 
         methods: {
-
-
 
 
             // select 插件，根据选择到商品类别和分店，获取申请
             getSortIds(that) {
 
+                var outDepIds = []; //出货部门
                 var fatherIds = []; //商品类别
                 var storeIds = []; //分店
+                var ostr = '-1';
                 var gstr = '-1'; //默认商品类别全选
                 var sstr = '-1'; //默认分店全选
-                var selectFather = $("#selectFatherId").find("option:selected");
+                var selectOutDep = $("#selectOutDepId").find("option:selected");
                 var selectStore = $("#selectStoreId").find("option:selected");
 
-                if (selectFather.length > 0) {
-                    fatherIds = [];
-                    for (var i = 0; i < selectFather.length; i++) {
-                        var title = $(selectFather.eq(i)).attr('value');
-                        fatherIds.push(title)
+                if (selectOutDep.length > 0) {
+                    outDepIds = [];
+                    for (var i = 0; i < selectOutDep.length; i++) {
+                        var title = $(selectOutDep.eq(i)).attr('value');
+                        outDepIds.push(title)
                     }
-                    gstr = fatherIds.join()
+                    ostr = outDepIds.join()
                 }
 
                 if (selectStore.length > 0) {
@@ -211,9 +224,7 @@
                     sstr = storeIds.join()
                 }
 
-                var depId = $('#fatherSide').attr('depid');
-
-                var data = "status=0&depId=" + depId + "&queryFatherIds=" + gstr + "&queryStoreIds=" + sstr;
+                var data = "status=0&queryOutDepIds=" + ostr + "&queryFatherIds=" + gstr + "&queryStoreIds=" + sstr;
                 $.ajax({
                     cache: true,
                     type: "get",
@@ -221,7 +232,6 @@
                     data: data,
                     dataType: 'json',
                     success: function (data) {
-                        console.log(data.data)
                         that.applyArr = data.data;
                         that.printArr = data.data;
                     }
@@ -229,29 +239,15 @@
             },
 
 
-            // 根据出货部门Id，获取select分店和商品大类下拉框数据
+            // 获取select分店和商品大类的新申请
             getApplysAndSortsData: function () {
 
-                apia.getApplysAndSorts().then(res => {
+                apis.getApplysAndSorts(0).then(res => {
                     if (res) {
-
-                        // this.queryStoreIds = [];
-                        // this.queryFatherIds = [];
-                        //
-                        this.outDepArr = res.data.ddd;
-                        this.storeArr = res.data.sss;
+                        this.outDepArr = res.data.outDepList;
+                        this.storeArr = res.data.storeList;
                         this.applyArr = res.data.applys;
                         this.printArr = res.data.applys;
-
-
-                        // for (var i = 0; i < this.storeArr.length; i++) {
-                        //     this.queryStoreIds.push(this.storeArr[i].storeId)
-                        // }
-                        //
-                        // for (var j = 0; j < this.cateArr.length; j++) {
-                        //     this.queryFatherIds.push(this.cateArr[j].goodsId)
-                        // }
-
                     }
                 })
 
@@ -259,9 +255,9 @@
 
             PrintRow: function () {
                 console.log(this.printMax)
-                var printTimes = parseInt(this.printMax)+1
+                var printTimes = parseInt(this.printMax) + 1
 
-                var header = `<h2 class="header" id="title" style="text-align: center;" printmax=` + this.printMax + `>今天第`  +  printTimes  + `次打印</h2>`
+                var header = `<h2 class="header" id="title" style="text-align: center;" printmax=` + this.printMax + `>今天第` + printTimes + `次打印</h2>`
                 $('#test').append(header);
 
                 var applysArr = this.printArr;
@@ -274,7 +270,7 @@
                     var goodsName = applysArr[i]['goodsName'];
                     var totalNumber = applysArr[i]['totalNumber'];
                     var applyStandardName = applysArr[i]['applyStandardName'];
-                    var h3 = `<h3 style=" width: 100%">` + goodsName +`:  `+ totalNumber + applyStandardName +`</h3>`
+                    var h3 = `<h3 style=" width: 100%">` + goodsName + `:  ` + totalNumber + applyStandardName + `</h3>`
 
                     $('.goods-applys:eq(' + i + ')').append(h3);
                     var row = `<div class="goods-applys-row" style=" width: 100%;display: inline-block;"></div>`
@@ -319,7 +315,6 @@
                     }
                 })
             },
-
 
 
         }

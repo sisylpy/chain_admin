@@ -9,11 +9,12 @@ import LineRouter from '../routers/background/line'
 import OutDepRouter from '../routers/background/outDep'
 import StaffRouter from './background/ckUser'
 import ProductsRouter from './GoodsManagement/Products'
-import OrderRouter from './StoreManagement/order'
-import ReplaceOrder from './StoreManagement/replaceOrder'
+
 
 
 //店铺管理
+import TodayOrderRouter from './StoreManagement/todayOrder'
+import OutGoodsRouter from './StoreManagement/outGoods'
 import StoreBuindessDataRouter from './StoreManagement/businessData'
 import CostControlDataRouter from './StoreManagement/costControl'
 
@@ -43,8 +44,8 @@ export default new Router({
         StoreBuindessDataRouter,
         CostControlDataRouter,
 
-        OrderRouter,
-        ReplaceOrder,
+        TodayOrderRouter,
+        OutGoodsRouter,
 
 
         {

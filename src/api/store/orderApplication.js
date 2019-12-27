@@ -24,16 +24,7 @@ export default {
         })
     },
 
-    /**
-     *
-     */
-    saveOutQuantity(data) {
-        return request({
-            url: 'sys/ckstockrecord/save',
-            method: 'post',
-            data
-        })
-    },
+
 
 
     /**

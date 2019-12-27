@@ -39,7 +39,17 @@
 
     export default {
         name: "DeliveryOrder",
+        props:['outType'],
+        watch: {
 
+            outType: function (newVal) {
+                if (newVal == "deliveryOrder") {
+
+                }
+            }
+
+
+        },
         data() {
             return {
                 storeArr: [],

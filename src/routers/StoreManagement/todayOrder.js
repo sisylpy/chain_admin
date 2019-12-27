@@ -1,8 +1,8 @@
 export default {
 
-    path: '/replaceOrder',
-    name: 'replaceOrder',
-    component: () => import('@/views/StoreManagement/ReplaceOrder'),
+    path: '/todayOrder',
+    name: 'todayOrder',
+    component: () => import('@/views/StoreManagement/TodayOrder'),
     children: [
 
         // {

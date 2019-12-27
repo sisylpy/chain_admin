@@ -16,6 +16,16 @@ export default {
     /**
      * 获取分店列表
      */
+    getStoreListAll() {
+
+        return request({
+            url: 'sys/ckstore/queryLineStore',
+            method: 'get',
+        })
+    },
+    /**
+     * 获取分店列表
+     */
     getStoreList(data) {
 
         return request({

@@ -3,13 +3,43 @@ import request from '@/utils/request'
 export default {
 
 
+    /**
+     *
+     */
+    saveOutQuantity(data) {
+        return request({
+            url: 'sys/ckstockrecord/save',
+            method: 'post',
+            data
+        })
+    },
+
+    /**
+     *
+     */
+    getApplysByFatherId(data) {
+    return request({
+        url: 'sys/ckapplys/queryOutGoodsByFatherId/'+data,
+        method: 'get',
+    })
+},
+
+    /**
+     * 获取今天订货的店铺
+     */
+    getTodayApplysStores() {
+        return request({
+            url: 'sys/ckapplys/getTodayApplysStores',
+            method: 'get',
+        })
+    },
 
     /**
      * queryApplysAndSorts
      */
-    getApplysAndSorts(){
+    getApplysAndSorts(data){
         return request({
-            url: 'sys/ckapplys/queryApplysAndSorts',
+            url: 'sys/ckapplys/queryApplysAndSorts/'+ data,
             method: 'get',
         })
     },

@@ -1,138 +1,151 @@
 <template>
 
-    <div class="box box-primary" id="enterOutGoods">
+    <div>
 
-        <div class="box-body">
-            <div class="row box-header">
+        <!--<div class="row">-->
+
+        <!--<div class="col-md-4">-->
+
+        <!--<div class="form-group" id="selectOutDepList">-->
+        <!--<label>出货部门</label>-->
+
+        <!--<select class="form-control select2" data-placeholder="所有出货部门"-->
+        <!--style="width: 100%;" id="changeOutDep">-->
+        <!--<option></option>-->
+        <!--<option v-for="(item) in outDepArr" :value="item.depId" :key="item.depId"> {{item.depName}}</option>-->
+        <!--</select>-->
+
+        <!--</div>-->
+
+        <!--</div>-->
 
 
-                <div class="col-md-10">
+        <!--<div class="col-md-4">-->
 
-                    <div class="form-group" id="selectPrintTimes">
-                        <label>打印次数</label>
+        <!--<div class="form-group" id="selectPrintTimes">-->
+        <!--<label>申请店铺</label>-->
 
-                        <select class="form-control select2"  data-placeholder="所有打印次数"
-                                style="width: 100%;" id="changePrintTimes" >
-                            <option v-for="(item) in printTimes" :value="item" :key="item"> {{item}}</option>
-                        </select>
+        <!--<select class="form-control select2" data-placeholder="所有出货中分店"-->
+        <!--style="width: 100%;" id="changePrintTimes">-->
+        <!--<option></option>-->
+        <!--<option v-for="(item) in storeArr" :value="item.storeId" :key="item.storeId"> {{item.storeName}}</option>-->
+        <!--</select>-->
 
-                    </div>
+        <!--</div>-->
 
-                </div>
+        <!--</div>-->
 
-                <div class="col-md-2">
-                    <a class="btn my-warning btn-lg" @click="saveOutQutantity">保存</a>
-                </div>
+        <!--<div class="col-md-2">-->
+        <!--<a class="btn my-warning btn-lg" @click="saveOutQutantity">保存</a>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <div id="outStockTable" class="row">
+
+            <div class="col-md-3">
+
+
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="my-sidebar">
+
+                    <!-- /.search form -->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="my-sidebar-menu" style="font-size: 16px; border: 1px solid lightgray; border-radius: 2px;">
+
+                        <li class="my-treeview" v-for="(outDep,index) in outDepArr" style="padding: 5px; ">
+                            <a style="line-height: 40px;color: #2b2b2b;" >
+                                {{outDep.dep}}
+                            </a>
+                            <ul class="my-treeview-menu" style="width: 90%;margin-left: 5%;color: #2b2b2b;;">
+                                <li style="padding: 5px; width: 100%; "
+                                    v-for="(item, itemIndex) in outDep.fatherList" @click="getApplysByFatherId(item.goodsId, index,itemIndex)">
+                                    <a  class="fatherGoods" style="line-height: 30px;color: #3f3f3f; " :style='index == 0 && itemIndex == 0 ? "color:red" : ""'>{{item.goodsName}}</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+
+
             </div>
+            <div class="col-md-9" style="background: lightgray; padding-left: 20px; padding-right: 20px;">
+                <!--<tr>-->
+                <!--<th>出货数量</th>-->
+                <!--</tr>-->
 
-            <div class="box-body">
-                <div id="outStockTable">
-                    <div style="width: 100%;">
-                    <!--<tr>-->
-                    <!--<th>出货数量</th>-->
-                    <!--</tr>-->
+                <div>
+                    <!--<td>-->
+                    <div class="row" v-for="(item, index) in outApplyArr" :key="">
+                        <div style="display: flex;flex-flow: row nowrap; justify-items: flex-start;align-items: center;">
+                            <h4 style="margin-right: 10px;">{{item.goodsName}}</h4>
+                            <button @click="saveOneQutantity(index)">保存</button>
 
-                    <div v-for="(item) in outStockingArr" :key="item.goodsId">
-                        <!--<td>-->
-                            <div class="row">
-                                <h4>{{item.goodsName}}</h4>
-                                <div class="store-apply" style="padding: 0;width: 100%;">
-                                    <div v-for="(outApply) in item.applys" :key="outApply.applyId" class="one-apply col-md-4"
-                                         style="position: relative; padding: 0;">
-                                        <input type="hidden" :id="outApply.applyId" class="apply-id">
-                                        <input type="hidden" :inStoreId="outApply.applyStoreId" class="store-id">
-                                        <input type="hidden" :goodsId="item.goodsId" class="goods-id">
-                                        <input type="hidden" :price="item.price" class="price">
-                                        <div style="line-height: 30px;padding: 5px; float: left;">
-                                            {{outApply.storeEntity.printLabel}}{{outApply.applyNumber}}{{item.applyStandardName}}
-                                        </div>
+                        </div>
+                        <div class="store-apply" style="padding: 0;width: 100%; ">
+                            <div v-for="(outApply) in item.applys" :key="outApply.applyId" class="one-apply col-md-4"
+                                 style="position: relative; padding: 0;display: flex;flex-flow: row nowrap; justify-items: flex-start;align-items: center;">
+                                <input type="hidden" :id="outApply.applyId" class="apply-id">
+                                <input type="hidden" :inStoreId="outApply.applyStoreId" class="store-id">
+                                <input type="hidden" :goodsId="item.goodsId" class="goods-id">
+                                <input type="hidden" :price="item.price" class="price">
+                                <input type="hidden" :outdepid="outApply.outDepId" class="out-dep-id">
+                                <div style="line-height: 30px;padding: 5px; float: left; ">
+                                    {{outApply.storeEntity.printLabel}}  {{outApply.applyNumber}}{{item.applyStandardName}}
+                                </div >
 
-                                        <input type="text" class="outQuantity"
-                                               style="float: left; width:30% ;font-size: 18px;margin-left: 10px;border:none; border-bottom:1px solid #ddd">
-                                        <div style="float: left; line-height: 30px;padding: 5px">{{item.purStandardName}}</div>
-                                    </div>
-                                </div>
+                                <input type="text" class="outQuantity"
+                                       style="float: left; width:30% ;font-size: 18px;margin-left: 10px;border:none; border-bottom:1px solid #ddd">
+                                <div style="float: left; line-height: 30px;padding: 5px">{{item.purStandardName}}</div>
                             </div>
-                        <!--</td>-->
-
+                        </div>
                     </div>
+                    <!--</td>-->
 
-                    </div>
                 </div>
+
             </div>
-
-
-
-
         </div>
+
+
     </div>
 
 
 </template>
 
 <script>
-    import apia from '@/api/store/orderApplication'
+    import apis from '@/api/store/Store'
 
     export default {
         name: "OutStockingTable",
-        props: [ "depName"],
+        props: ['outType'],
+        watch: {
 
+            outType: function (newVal) {
+                if (newVal == "outStocking") {
+
+                    this.getApplysAndSortsData();
+                }
+            }
+
+
+        },
         data() {
             return {
                 page: 1,
-                limit: 21,
-                outStockingArr: [],
-                printTimes: [],
-                showPrintTimes: '',
+                limit: 20,
+                outDepArr: [],
+                outApplyArr: [],
+                fatherId: "",
+                fatherIndex: "0",
+                itemIndex: "0"
 
 
             }
         },
-        computed: {
-            outDepId: {
-                get() {
-                    return this.$store.state.orders.outDepId
-                },
-                set() {
-                    // this.$store.commit('orders/set_ORDERSDEPID', value)
-                },
-
-            },
-            applyType: {
-                get() {
-                    return this.$store.state.orders.applyType
-                },
-                set() {
-                    // this.$store.commit('orders/set_ORDERSDEPID', value)
-                },
-
-            },
-        },
-
-        watch: {
-
-            outDepId: function (newVal) {
-                if(this.applyType === "outStocking"){
-                    this.depId = newVal
-                    // this.getJqtableData();
-                    this.getPrintTime();
 
 
-                }
-
-            },
-            applyType: function (newVal) {
-                if(newVal === "outStocking"){
-                    this.depId = newVal
-                    // this.getJqtableData();
-                    this.getPrintTime();
-
-                }
-
-
-            },
-
-        },
         mounted() {
             var that = this;
 
@@ -140,9 +153,8 @@
 
             // selcct 产品
             $('#changePrintTimes').on('change', function (e) {
-               that.selectPrintTime(e);
+                that.selectPrintTime(e);
             });
-
 
 
             $('#outStockTable').on('keyup', '.outQuantity', function (e) {
@@ -154,7 +166,6 @@
 
                     } else {
                         $(this).parents('tr').next().find('.store-apply').children(":first").children("input").focus();
-
                     }
 
                 }
@@ -169,34 +180,101 @@
                 }
             });
 
+            $('#outStockTable').children().find('.my-sidebar-menu').addClass('open-view')
+
 
         },
 
         methods: {
-            selectPrintTime(e) {
-                console.log(1)
-                console.log(e);
 
-                this.showPrintTimes = parseInt(e.target.value)
-                this.getJqtableData();
+
+            getApplysByFatherId: function(fatherId, index, itemIndex){
+                this.fatherId = fatherId;
+                this.fatherIndex = index;
+                this.itemIndex= itemIndex;
+
+                apis.getApplysByFatherId(this.fatherId)
+                    .then(res => {
+                        if(res) {
+                            this.outApplyArr = res.data;
+                            $('.fatherGoods').css('color', '#3f3f3f')
+                            $('.my-treeview').eq(this.fatherIndex).children().find('.fatherGoods').eq(this.itemIndex).css('color','red')
+                        }
+                    })
             },
 
-            getPrintTime() {
-                apia.getPrintTimes(this.outDepId).then(res => {
-                    console.log(res)
-                    if (res) {
-                        this.printTimes = res.data;
-                        if(res.data.length > 0){
-                            this.showPrintTimes = res.data[0];
-                            this.getJqtableData();
-                        }else{
-                            this.showPrintTimes = '';
-                            this.outStockingArr = [];
-                        }
 
+            // 获取select分店和商品大类的新申请
+            getApplysAndSortsData: function () {
+                apis.getApplysAndSorts(1).then(res => {
+                    if (res) {
+                        this.outDepArr = res.data.list;
+                        this.outApplyArr = res.data.applys;
+                        this.fatherId = res.data.list[0]['fatherList']['0']['goodsId'];
 
                     }
                 })
+            },
+
+
+            saveOneQutantity(index) {
+
+                var outQuantityArr = [];
+                var apply =  $('.store-apply').eq(index);
+
+                console.log("======================")
+                console.log($(apply).parent().siblings().length)
+
+                var $applyIds = $('.store-apply').eq(index).find('.apply-id')
+                console.log(index)
+                console.log($('.store-apply').eq(index))
+                // var $applyIds = $('.apply-id');
+
+                if($applyIds.length > 0) {
+                    for (var i = 0; i < $applyIds.length; i++) {
+                        var quantity = $('.outQuantity:eq(' + i + ')').val();
+
+
+                        if (quantity.length > 0) {
+                            var outQuantity = {
+                                stApplyId: $('.apply-id:eq(' + i + ')').attr("id"),
+                                quantity: quantity,
+                                stGoodsId: $('.goods-id:eq(' + i + ')').attr("goodsid"),
+                                inStoreId: $('.store-id:eq(' + i + ')').attr("instoreid"),
+                                discountPrice: $('.price:eq(' + i + ')').attr("price"),
+                                outDepId: $('.out-dep-id:eq(' + i + ')').attr("outdepid"),
+
+
+                            }
+                            outQuantityArr.push(outQuantity);
+                        }
+
+                    }
+                    console.log(outQuantityArr)
+                    this.bus.$emit('loading', true);
+
+                    apis.saveOutQuantity(outQuantityArr).then(res => {
+                        if (res) {
+                            this.bus.$emit('loading', false);
+
+                            $('.outQuantity').val("");
+
+                            if($(apply).parent().siblings().length > 0){
+                                this.getApplysByFatherId(this.fatherId,this.fatherIndex, this.itemIndex);
+                            }else {
+                                this.getApplysAndSortsData();
+
+                            }
+
+
+
+
+
+                        }
+                    })
+                }
+
+
             },
 
 
@@ -223,37 +301,20 @@
                 console.log(outQuantityArr)
                 this.bus.$emit('loading', true);
 
-                apia.saveOutQuantity(outQuantityArr).then(res => {
+                apis.saveOutQuantity(outQuantityArr).then(res => {
                     if (res) {
                         this.bus.$emit('loading', false);
 
                         $('.outQuantity').val("");
+                        this.getApplysByFatherId(this.fatherId);
 
-                        this.getJqtableData();
-                        this.getPrintTime();
+                        // this.getJqtableData();
+                        // this.getPrintTime();
 
                     }
                 })
 
             },
-
-            //获取表格数据
-            getJqtableData: function () {
-
-
-
-                var data = "depId=" + this.outDepId + "&pageNumber=" + this.showPrintTimes;
-                this.bus.$emit('loading', true);
-                apia.outDepQueryApplysByPageNumber(data).then(res => {
-                    console.log("outstocking res")
-                    this.bus.$emit('loading', false);
-
-                    this.outStockingArr = res.data;
-
-                });
-
-            },
-
 
 
 
@@ -274,6 +335,9 @@
     .dropdown-menu li {
         line-height: 30px;
 
+    }
+    .my-treeview > a .active {
+        color: red;
     }
 
 </style>

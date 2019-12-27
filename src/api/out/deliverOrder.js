@@ -36,6 +36,23 @@ export default {
         })
     },
 
+    /**
+     * 获取店铺出货单
+     * @param data
+     */
+    deliveryStore() {
+        return request({
+            url: 'sys/ckstockrecord/getDeliveryOrderStores',
+            method: 'get',
+        })
+    },
+    getDeliveryBill(data) {
+        return request({
+            url: 'sys/ckstockrecord/listByDepId',
+            method: 'post',
+            data
+        })
+    }
 
 
 

@@ -8,7 +8,7 @@
             <!--<div class="nav-tabs-justified">-->
             <div class="nav-tabs-custom no-border">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#orderApplicaton" data-toggle="tab" @click="changeType('orderApplicaton')">今日申请</a></li>
+                    <li class="active"><a href="#orderApplicaton" data-toggle="tab" @click="changeType('orderApplicaton')">订货申请</a></li>
                     <li><a href="#outStocking" data-toggle="tab" @click="changeType('outStocking')">拣货单录入</a></li>
                     <li><a href="#deliveryOrder" data-toggle="tab" @click="changeType('deliveryOrder')">出货单</a></li>
                     <li><a href="#historyOrder" data-toggle="tab" @click="changeType('history')">历史申请</a></li>
@@ -16,15 +16,15 @@
 
                 <div class="tab-content no-padding">
                     <div class="active tab-pane" id="orderApplicaton">
-                        <NewApplyTable/>
+                        <NewApplyTable :outType="outType"/>
                     </div>
 
                     <div class="tab-pane" id="outStocking">
-                        <OutStockingTable/>
+                        <OutStockingTable :outType="outType"/>
                     </div>
 
                     <div class="tab-pane" id="deliveryOrder">
-                        <DeliveryOrder/>
+                        <DeliveryTable :outType="outType"/>
                     </div>
 
 
@@ -50,30 +50,37 @@
     import PageHeader from '@/components/PageHeader.vue'
     import NewApplyTable from '@/components/StoreManagement/Orders/Table/NewApplyTable'
     import OutStockingTable from '@/components/StoreManagement/Orders/Table/OutStockingTable'
-    import DeliveryOrder from '@/components/StoreManagement/Orders/DeliveryOrder'
+    import DeliveryTable from '@/components/StoreManagement/Orders/Table/DeliveryTable'
 
     export default {
-        name: "Order",
+        name: "OutGoods",
         components: {
             PageHeader,
             NewApplyTable,
             OutStockingTable,
-            DeliveryOrder,
+            DeliveryTable,
         },
+        data(){
+          return {
+              outType: "orderApplicaton"
+
+          }
+        },
+
         methods:{
 
             //点击出货部门的三大业务
             changeType: function (data) {
                 if (data === "orderApplicaton") {
-                    this.$store.dispatch('orders/set_APPLYTYPE', data)
+                    this.outType = "orderApplicaton";
                 } else if (data === "outStocking") {
-                    this.$store.dispatch('orders/set_APPLYTYPE', data)
+                    this.outType = "outStocking";
                 }
                 else if (data === "deliveryOrder") {
-                    this.$store.dispatch('orders/set_APPLYTYPE', data)
+                    this.outType = "deliveryOrder";
 
                 } else if (data === "history") {
-                    this.$store.dispatch('orders/set_APPLYTYPE', data)
+                    this.outType = "history";
                 }
 
             },
