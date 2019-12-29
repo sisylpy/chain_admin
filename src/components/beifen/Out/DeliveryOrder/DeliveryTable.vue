@@ -34,8 +34,7 @@
 </template>
 
 <script>
-    import apia from '@/api/store/orderApplication'
-    import api from '@/api/out/deliverOrder'
+    import api from '@/api/store/outGoods'
 
 
     export default {

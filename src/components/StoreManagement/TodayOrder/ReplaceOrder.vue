@@ -26,7 +26,7 @@
                             <select class="form-control select2" id="replaceStore">
                                 <option value=""></option>
                                 <optgroup v-for="(line) in storeList" :label="line.lineName">
-                                    <option v-for="(item) in line.storelist" :value="item.storeId">{{item.storeName}}
+                                    <option v-for="(item) in line.storelist" :value="item.storeId">{{item.storeName}}-{{item.wxNickName}}
                                     </option>
                                 </optgroup>
                             </select>
@@ -235,7 +235,7 @@
 
 <script>
 
-    import apiS from '@/api/store/Store'
+    import apiS from '@/api/store/todayOrder'
     import api from '@/api/GoodsManagement/Products'
 
     import apibs from '@/api/background/store'
@@ -620,10 +620,13 @@
 
             getAllOutDep: function () {
                 console.log("new getAlloutdep")
+                this.bus.$emit('loading', true);
 
                 //获取所有店铺列表
-                apibs.getStoreListAll().then(res => {
+                apibs.getStoreListAllWithLine().then(res => {
                     if (res) {
+                        this.bus.$emit('loading', false);
+
                         console.log(res)
                         this.storeList = res.data;
                     }
@@ -682,8 +685,12 @@
 
 
                 if (applysArr.length > 0) {
+                    this.bus.$emit('loading', true);
+
                     apiS.saveReplaceApplys(applysArr).then(res => {
                         if (res.code === 0) {
+                            this.bus.$emit('loading', false);
+
                             console.log("save success;")
                             location.reload()
 
@@ -770,21 +777,6 @@
         display: block;;
     }
 
-    .flex-row {
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: flex-start;
-        align-items: center;
-        /*padding-left: 5px;*/
-        /*padding-right: 5px;*/
-    }
-
-    .flex-row-applys {
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: flex-start;
-        align-items: center;
-    }
 
     .margin-right {
         margin-right: 20px;

@@ -113,9 +113,9 @@
 
 <script>
     import PageHeader from '@/components/PageHeader.vue'
-    import api from '../../api/background/outDep'
-    import StaffPanel from '@/components/Background/OutDep/StaffPanel'
-    import OutGoodsPanel from '@/components/Background/OutDep/OutGoodsPanel'
+    import api from '../../api/background/ckDep'
+    import StaffPanel from '@/components/Background/CkDep/StaffPanel'
+    import OutGoodsPanel from '@/components/Background/CkDep/OutGoodsPanel'
 
 
     export default {

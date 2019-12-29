@@ -17,9 +17,9 @@ export default {
     /**
      *
      */
-    getApplysByFatherId(data) {
+    getPickApplysByFatherId(data) {
     return request({
-        url: 'sys/ckapplys/queryOutGoodsByFatherId/'+data,
+        url: 'sys/ckapplys/queryPickApplysByFatherId/'+data,
         method: 'get',
     })
 },
@@ -43,6 +43,8 @@ export default {
             method: 'get',
         })
     },
+
+
 
 
     /**

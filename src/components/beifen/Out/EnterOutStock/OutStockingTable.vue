@@ -89,7 +89,7 @@
 </template>
 
 <script>
-    import apia from '@/api/store/orderApplication'
+    import apia from '@/api/store/outGoods'
 
     export default {
         name: "OutStockingTable",

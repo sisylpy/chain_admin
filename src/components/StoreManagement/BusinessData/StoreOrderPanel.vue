@@ -75,7 +75,7 @@
 
 <script>
 
-  import api from '../../../api/store/Store'
+  import api from '../../../api/store/todayOrder'
     export default {
         name: "StoreOrderPanel",
         data() {

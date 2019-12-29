@@ -33,7 +33,7 @@
 </template>
 
 <script>
-    import api from '../../../api/background/outDep'
+    import api from '../../../api/background/ckDep'
     import PageHeader from '@/components/PageHeader.vue'
 
     export default {

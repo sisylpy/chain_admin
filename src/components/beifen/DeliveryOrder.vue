@@ -34,7 +34,7 @@
 
 <script>
     import PageHeader from '@/components/PageHeader.vue'
-    import api from '@/api/out/deliverOrder'
+    import api from '@/api/store/outGoods'
     import DeliveryTable from '@/components/StoreManagement/Orders/Table/DeliveryTable'
 
     export default {

@@ -87,7 +87,7 @@
 
 <script>
     import PageHeader from '@/components/PageHeader.vue'
-    import api from '../../api/background/outDep'
+    import api from '../../api/background/ckDep'
 
     import NewApplyPanel from '@/components/Out/OrderApplication/NewApplyPanel'
     import OutStockingPanel from '@/components/Out/OrderApplication/OutStockingPanel'

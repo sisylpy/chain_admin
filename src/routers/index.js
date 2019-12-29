@@ -6,7 +6,7 @@ import Home from '../views/Home'
 import GoodsRouter from '../routers/background/goods'
 import StoreListRouter from '../routers/background/store'
 import LineRouter from '../routers/background/line'
-import OutDepRouter from '../routers/background/outDep'
+import CkDepRouter from '../routers/background/ckDep'
 import StaffRouter from './background/ckUser'
 import ProductsRouter from './GoodsManagement/Products'
 
@@ -17,6 +17,9 @@ import TodayOrderRouter from './StoreManagement/todayOrder'
 import OutGoodsRouter from './StoreManagement/outGoods'
 import StoreBuindessDataRouter from './StoreManagement/businessData'
 import CostControlDataRouter from './StoreManagement/costControl'
+
+//供货商
+import SupplierRouter from './supplier/supplier'
 
 
 Vue.use(Router)
@@ -37,7 +40,7 @@ export default new Router({
         GoodsRouter,
         StoreListRouter,
         LineRouter,
-        OutDepRouter,
+        CkDepRouter,
         StaffRouter,
         ProductsRouter,
 
@@ -47,6 +50,7 @@ export default new Router({
         TodayOrderRouter,
         OutGoodsRouter,
 
+        SupplierRouter,
 
         {
             path: '/',
@@ -79,7 +83,7 @@ export default new Router({
         {
             path: '/addOutDep',
             name: 'addOutDep',
-            component: () => import('@/components/Background/OutDep/AddOutDep'),
+            component: () => import('@/components/Background/CkDep/AddOutDep'),
         },
         {
             path: '/addUser',

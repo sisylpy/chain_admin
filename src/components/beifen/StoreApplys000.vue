@@ -124,7 +124,7 @@
 
 <script>
 
-    import apiS from '@/api/store/Store'
+    import apiS from '@/api/store/todayOrder'
     import api from '@/api/GoodsManagement/Products'
 
     import apibs from '@/api/background/store'

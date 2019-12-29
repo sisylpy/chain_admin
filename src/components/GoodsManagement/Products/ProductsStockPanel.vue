@@ -18,42 +18,12 @@
 
 
 
-            <!--<div class="my-dropDown-group col-md-5">-->
-                <!--<h5>主要负责订货商品的称重拣货</h5>-->
-                <!--<div class="my-dropDown">-->
-                    <!--<div class="my-dropDown-item">-->
-                        <!--<div class="drop-frame">-->
-
-                            <!--<span class="my-span">所有的出货部门</span>-->
-                            <!--<span class="caret my-caret my-span"></span>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div style="display: none">-->
-                        <!--<ul class="nav nav-pills nav-stacked">-->
-                            <!--<li v-for="(item,index) in outDepList" v-bind:key="item.id" :id="item.outDepId"-->
-                                <!--:class="isactive == index ? 'active' : '' "-->
-                                <!--@click='onclick(index, item.depId, item.depName)'>-->
-
-                                <!--<a>{{item.depName}}</a></li>-->
-                        <!--</ul>-->
-                    <!--</div>-->
-
-                <!--</div>-->
-
-            <!--</div>-->
-
-
-
 
 
             <div class="my-dropDown-group col-md-5">
                 <h5>产品分类</h5>
                 <div class="my-dropDown">
                     <div class="my-dropDown-item">
-
-
-
-
 
                         <div class="drop-frame">
 
@@ -105,7 +75,7 @@
 
 <script>
     import api from '../../../api/GoodsManagement/Products'
-    import apid from '../../../api/background/outDep'
+    import apid from '../../../api/background/ckDep'
 
     export default {
         name: "ProductsStockPanel",

@@ -123,10 +123,8 @@
 
 <script>
 
-    import apiS from '@/api/store/Store'
-    import api from '@/api/GoodsManagement/Products'
+    import apiS from '@/api/store/todayOrder'
 
-    import apibs from '@/api/background/store'
 
 
     export default {
@@ -168,13 +166,17 @@
 
             //获取订货店铺列表
             getApplyStoreList: function () {
+                this.bus.$emit('loading', true);
 
                 apiS.getTodayApplysStores()
                     .then(res => {
                         if (res) {
+                            this.bus.$emit('loading', false);
+
                             console.log(res);
                             this.applyStoreArr = res.data;
                             this.storeId = res.data[0].storeId;
+                            this.getStoreApplys()
                         }
                     })
             },
@@ -199,9 +201,13 @@
             },
 
             getApplysByData: function (data) {
+                this.bus.$emit('loading', true);
+
                 apiS.getApplysByStoreId(data)
                     .then(res => {
                         if (res) {
+                            this.bus.$emit('loading', false);
+
                             console.log(res.data)
                             this.applyArr = res.data.list;
                             this.currPage = res.data.currPage;
@@ -214,9 +220,13 @@
 
             delApply: function (id) {
                 console.log(id);
+                this.bus.$emit('loading', true);
+
                 apiS.delateApplyById(id)
                     .then(res => {
                         if (res) {
+                            this.bus.$emit('loading', false);
+
                             this.getStoreApplys();
                         }
                     })

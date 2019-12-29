@@ -91,7 +91,7 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
     // import api from '../../api/background/store'
-    import api from '../../api/background/outDep'
+    import api from '../../api/background/ckDep'
 
     import NewBillPanel from '@/components/GoodsManagement/Products/NewBillPanel'
     import HistoryBillPanel from '@/components/GoodsManagement/Products/HistoryBillPanel'

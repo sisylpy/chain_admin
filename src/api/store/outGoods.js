@@ -3,6 +3,48 @@ import request from '@/utils/request'
 export default {
 
 
+
+    /**
+     * update
+     */
+    updatePrice(data) {
+        return request({
+            url: 'sys/ckstockrecord/update',
+            method: 'post',
+            data
+        })
+    },
+    /**
+     *
+     */
+
+    deliverOrderStores() {
+        return request({
+            url: 'sys/ckstockrecord/getDeliveryOrderStores',
+            method: 'get',
+        })
+    },
+
+
+    /**
+     * 获取店铺出货单
+     * @param data
+     */
+    deliveryStore() {
+        return request({
+            url: 'sys/ckstockrecord/getDeliveryOrderStores',
+            method: 'get',
+        })
+    },
+
+    getDeliveryBill(data) {
+        return request({
+            url: 'sys/ckstockrecord/listByStoreId/'+data,
+            method: 'get',
+        })
+    },
+
+
     /**
      *
      */
@@ -23,8 +65,6 @@ export default {
             method: 'get',
         })
     },
-
-
 
 
     /**

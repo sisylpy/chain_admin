@@ -19,21 +19,21 @@ export default {
     getStoreListAll() {
 
         return request({
-            url: 'sys/ckstore/queryLineStore',
+            url: 'sys/ckstore/listAll',
             method: 'get',
         })
     },
     /**
      * 获取分店列表
      */
-    getStoreList(data) {
+    getStoreListAllWithLine() {
 
         return request({
-            url: 'sys/ckstore/list',
-            method: 'post',
-            data
+            url: 'sys/ckstore/queryLineStore',
+            method: 'get',
         })
     },
+
 
 
 

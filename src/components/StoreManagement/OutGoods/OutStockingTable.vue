@@ -115,7 +115,7 @@
 </template>
 
 <script>
-    import apis from '@/api/store/Store'
+    import api from '@/api/store/todayOrder'
 
     export default {
         name: "OutStockingTable",
@@ -193,7 +193,7 @@
                 this.fatherIndex = index;
                 this.itemIndex= itemIndex;
 
-                apis.getApplysByFatherId(this.fatherId)
+                api.getPickApplysByFatherId(this.fatherId)
                     .then(res => {
                         if(res) {
                             this.outApplyArr = res.data;
@@ -206,12 +206,11 @@
 
             // 获取select分店和商品大类的新申请
             getApplysAndSortsData: function () {
-                apis.getApplysAndSorts(1).then(res => {
+                api.getPickStoresAndApplys().then(res => {
                     if (res) {
                         this.outDepArr = res.data.list;
                         this.outApplyArr = res.data.applys;
                         this.fatherId = res.data.list[0]['fatherList']['0']['goodsId'];
-
                     }
                 })
             },
@@ -253,7 +252,7 @@
                     console.log(outQuantityArr)
                     this.bus.$emit('loading', true);
 
-                    apis.saveOutQuantity(outQuantityArr).then(res => {
+                    api.saveOutQuantity(outQuantityArr).then(res => {
                         if (res) {
                             this.bus.$emit('loading', false);
 
@@ -301,7 +300,7 @@
                 console.log(outQuantityArr)
                 this.bus.$emit('loading', true);
 
-                apis.saveOutQuantity(outQuantityArr).then(res => {
+                api.saveOutQuantity(outQuantityArr).then(res => {
                     if (res) {
                         this.bus.$emit('loading', false);
 

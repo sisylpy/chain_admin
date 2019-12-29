@@ -132,7 +132,7 @@
 
 <script>
     import api from '../../../api/background/goods'
-    import apio from '../../../api/background/outDep'
+    import apio from '../../../api/background/ckDep'
 
     export default {
         name: "AddGoods",

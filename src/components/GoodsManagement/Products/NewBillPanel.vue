@@ -2,43 +2,35 @@
 
     <div class="my_panel">
 
-        <div class="panel panel-default">
             <!-- Default panel contents -->
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <h4 class="pull-left">日期：2019-10-20</h4>
+                <div class="row flex-row">
+                    <div class="form-group col-md-4">
+                        <label>入库日期:</label>
+                        <div> {{new Date().toLocaleDateString()}}</div>
+                    </div>
 
-                    <div class="pull-right margin-left">
+                    <div class="form-group col-md-4">
+                        <label>选择供货商</label>
+                        <select class="form-control select2" data-placeholder="选择供货商"
+                                style="width: 100%;" ref="select">
+                            <option></option>
+                            <option v-for="(item) in supArr" :value="item.supplierId">{{item.supplierName}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
                         <button class="btn btn-danger" @click="saveGoods">
                             保存
                         </button>
                     </div>
 
-                    <div class="pull-right">
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                供货商
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="#">供货商A</a></li>
-                                <li><a href="#">供货商B</a></li>
-                                <li><a href="#"></a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                            </ul>
-                        </div>
-                    </div>
 
                 </div>
-            </div>
 
 
-            <div class="panel-body no-padding">
-                <div class="box-body table-responsive no-padding">
+            <div class="no-padding">
+                <div class="table-responsive no-padding">
 
-                    <div class="table-header row no-padding"  id="header">
+                    <div class="table-header row no-padding" id="header">
                         <ul style="height: 100%; ">
                             <li class="table-header-content col-md-3">商品名称</li>
                             <li class="table-header-content col-md-2">入库数量</li>
@@ -51,18 +43,12 @@
                     <div class="table-body" id="body">
 
                         <!--商品表部分-->
-                        <ul ></ul>
+                        <ul></ul>
 
                     </div>
                 </div>
             </div>
 
-
-
-
-
-
-        </div>
 
     </div>
 
@@ -70,20 +56,23 @@
 </template>
 
 <script>
-import api from '../../../api/GoodsManagement/Products'
+    import api from '../../../api/GoodsManagement/Products'
+    import apisu from '@/api/supplier/supplier'
+
 
     export default {
         name: "NewBillPanel",
 
         mounted() {
 
+            this.getAll();
             var indexGoods = 6;
 
             //初始化5条输入商品
             this.initFiveGoods();
 
             //给商品输入框初始化输入事件和选择搜索页面事件
-            $('#body').on('keyup','.goodsName',function (e) {
+            $('#body').on('keyup', '.goodsName', function (e) {
 
 
                 console.log("heihei")
@@ -92,7 +81,7 @@ import api from '../../../api/GoodsManagement/Products'
                 var input = $('#' + e.currentTarget.id)
 
                 //如果不是"回车，向下"2个按键
-                if(e.keyCode !== 40 && e.keyCode !== 13){
+                if (e.keyCode !== 40 && e.keyCode !== 13) {
 
                     //1.1 删除原来查询结果
                     $('#query_result li').remove();
@@ -104,7 +93,7 @@ import api from '../../../api/GoodsManagement/Products'
                     //1.3 接口返回商品
                     api.queryGoodsWithPinyin(value).then(res => {
                         console.log(res)
-                        if(res) {
+                        if (res) {
 
                             //1.0 获取商品数组
                             this.queryArr = res.data;
@@ -130,29 +119,29 @@ import api from '../../../api/GoodsManagement/Products'
 
                             //1.3.4 计算搜索页面到定位
                             var $search_result = $('#search_result');
-                            $($search_result).width(width+6);
+                            $($search_result).width(width + 6);
                             $($search_result).css({position: "absolute"})
-                            $($search_result).css("left",left );
-                            $($search_result).css("top",top + height + 10);
+                            $($search_result).css("left", left);
+                            $($search_result).css("top", top + height + 10);
 
                             //1.3.5 获取新搜索页面
                             var $query_result = $('#query_result');
 
                             //1.3.6 添加li到新搜索页面
-                            for(var i = 0; i < this.queryArr.length; i++) {
+                            for (var i = 0; i < this.queryArr.length; i++) {
                                 var goods = this.queryArr[i];
-                                if( i === 0) {
+                                if (i === 0) {
                                     //添加attr sel="select"
-                                    $($query_result).append(`<li sel="select" class="query-item" style="list-style: none; line-height: 30px; padding-left: 5px" id=`+goods.goodsId+` standard=`+goods.purStandardName+`>`+goods.goodsName+`</li>`)
-                                }else {
-                                    $($query_result).append(`<li class="query-item" style="list-style: none; line-height: 30px; padding-left: 5px; " id=`+goods.goodsId+` standard=`+goods.standardName+`>`+goods.goodsName+`</li>`)
+                                    $($query_result).append(`<li sel="select" class="query-item" style="list-style: none; line-height: 30px; padding-left: 5px" id=` + goods.goodsId + ` standard=` + goods.purStandardName + `>` + goods.goodsName + `</li>`)
+                                } else {
+                                    $($query_result).append(`<li class="query-item" style="list-style: none; line-height: 30px; padding-left: 5px; " id=` + goods.goodsId + ` standard=` + goods.standardName + `>` + goods.goodsName + `</li>`)
                                 }
                             }
 
 
                             //1.3.7 给第一条数据添加背景色
                             var item = $('.query-item')[0];
-                            $(item).css('background','#ddd');
+                            $(item).css('background', '#ddd');
 
 
                             // 2，点击搜索结果的商品
@@ -163,7 +152,7 @@ import api from '../../../api/GoodsManagement/Products'
                                 var standardName = $(this).attr('standard')
 
                                 //选择点击商品到行内
-                                selectGoods(goodsName, goodsId,standardName);
+                                selectGoods(goodsName, goodsId, standardName);
 
                             });
                         }
@@ -172,11 +161,11 @@ import api from '../../../api/GoodsManagement/Products'
                 //如果点击enter或者向下键
                 else {
                     // 如果是向下键
-                    if(e.keyCode == 40) {
+                    if (e.keyCode == 40) {
 
                         //移除第一个商品到背景色
                         var sel = $('[sel="select"]');
-                        $(sel).css('background','none').removeAttr('sel');
+                        $(sel).css('background', 'none').removeAttr('sel');
 
                         //如果背景色是最后一个商品，则从第一个商品开始
                         var selIndex = $(sel).index();
@@ -184,12 +173,13 @@ import api from '../../../api/GoodsManagement/Products'
                         console.log(selIndex);
                         console.log(xxx)
 
-                        if(selIndex === xxx ){
-                            $('#query_result').children(":first").attr('sel','select').css('background','#ddd')
-                        }else {
-                            $(sel).next().css('background','#ddd').attr('sel','select');
+                        if (selIndex === xxx) {
+                            $('#query_result').children(":first").attr('sel', 'select').css('background', '#ddd')
+                        } else {
+                            $(sel).next().css('background', '#ddd').attr('sel', 'select');
                         }
-                    }if (e.keyCode == 13) {
+                    }
+                    if (e.keyCode == 13) {
 
                         //如果点击enter键
                         var selEle = $('[sel="select"]');
@@ -204,7 +194,7 @@ import api from '../../../api/GoodsManagement/Products'
                 }
 
                 //提取选择商品公共方法
-                function selectGoods (goodsName,goodsId,standardName) {
+                function selectGoods(goodsName, goodsId, standardName) {
 
                     $(input).val(goodsName);
                     $(input).parent().siblings().children('.quantity').focus();
@@ -219,7 +209,7 @@ import api from '../../../api/GoodsManagement/Products'
                 console.log(e.keyCode)
                 //获取当前输入框
                 var input = $('#' + e.currentTarget.id)
-                if(e.keyCode == 13) {
+                if (e.keyCode == 13) {
                     $(input).parent().siblings().children('.price').focus();
 
                 }
@@ -231,33 +221,33 @@ import api from '../../../api/GoodsManagement/Products'
                 console.log(e.keyCode)
                 //获取当前输入框
                 var input = $('#' + e.currentTarget.id)
-                if(e.keyCode == 13) {
+                if (e.keyCode == 13) {
                     $(input).parent().parent().parent().next().children().children().children('.goodsName').focus();
                 }
 
             })
 
-            $('#body').on('focus','.goodsName', function (e) {
+            $('#body').on('focus', '.goodsName', function (e) {
 
                 var body = $('#body ul');
 
-                if($(this).hasClass('is-last')){
+                if ($(this).hasClass('is-last')) {
                     console.log("you")
                     $(this).removeClass('is-last')
 
                     var goods = ` <li>
                                 <div class="row no-padding">
                                     <div class="body-item col-md-3">
-                                        <input class="goodsName is-last"  style="width: 100%;"  id= `+indexGoods+`_goodsName />
+                                        <input class="goodsName is-last"  style="width: 100%;"  id= ` + indexGoods + `_goodsName />
                                     </div>
                                     <div class="body-item col-md-2">
-                                        <input  class="quantity"  style="width: 100%" id= `+indexGoods+`_quantiry />
+                                        <input  class="quantity"  style="width: 100%" id= ` + indexGoods + `_quantiry />
                                     </div>
                                     <div class="body-item col-md-2">
                                         <input class="standard" style="width: 100%" placeholder="商品规格" disabled/>
                                     </div>
                                     <div class="body-item col-md-2">
-                                        <input class="price" style="width: 100%" id=`+indexGoods+`_price />
+                                        <input class="price" style="width: 100%" id=` + indexGoods + `_price />
                                     </div>
                                     <div class="body-item col-md-3">
                                         <button style="width: 50%;" class="btn btn-sm btn-default" id="delete">X</button>
@@ -268,7 +258,7 @@ import api from '../../../api/GoodsManagement/Products'
                     $(body).append(goods);
 
                 }
-                indexGoods= indexGoods+1;
+                indexGoods = indexGoods + 1;
 
             })
 
@@ -278,43 +268,41 @@ import api from '../../../api/GoodsManagement/Products'
 
             })
 
+
         },
 
         components: {},
 
         data() {
             return {
-                abc: "fff",
-                type: "1",
                 inputVal: "",
                 inputIndex: '1',
                 queryArr: [],
-                bill:{
-
-                },
+                bill: {},
                 subBillArr: [],
-                goodsTotal: 5
+                goodsTotal: 5,
+                supArr: [],
             }
         },
         methods: {
 
-            initFiveGoods: function() {
+            initFiveGoods: function () {
                 var body = $('#body ul');
-                for(var i = 0; i < 5; i++) {
-                    var indexGoods = i+1;
+                for (var i = 0; i < 5; i++) {
+                    var indexGoods = i + 1;
                     var goods = ` <li>
                                 <div class="row no-padding">
                                     <div class="body-item col-md-3">
-                                        <input class="goodsName"  style="width: 100%;"  id= `+indexGoods+`_goodsName />
+                                        <input class="goodsName"  style="width: 100%;"  id= ` + indexGoods + `_goodsName />
                                     </div>
                                     <div class="body-item col-md-2">
-                                        <input  class="quantity"  style="width: 100%" id= `+indexGoods+`_quantiry />
+                                        <input  class="quantity"  style="width: 100%" id= ` + indexGoods + `_quantiry />
                                     </div>
                                     <div class="body-item col-md-2">
                                         <input class="standard" style="width: 100%" placeholder="商品规格" disabled/>
                                     </div>
                                     <div class="body-item col-md-2">
-                                        <input class="price" style="width: 100%" id=`+indexGoods+`_price />
+                                        <input class="price" style="width: 100%" id=` + indexGoods + `_price />
                                     </div>
                                     <div class="body-item col-md-3">
                                         <button style="width: 50%;" class="btn btn-sm btn-default" id="delete">X</button>
@@ -329,13 +317,10 @@ import api from '../../../api/GoodsManagement/Products'
             },
 
 
-
-
-
-            next: function(){
+            next: function () {
                 console.log("yeah")
                 var inputting = $('.inputting')[0];
-                console.log( $(inputting).parent().parent().parent().next())
+                console.log($(inputting).parent().parent().parent().next())
                 $(inputting).parent().parent().parent().next().children().find('.goodsName').focus();
 
             },
@@ -347,18 +332,24 @@ import api from '../../../api/GoodsManagement/Products'
                 var liCount = $('#body').children().children().length;
                 var $ul = $('#body').children().children()
                 var subBills = [];
+                let optionV = this.$refs.select.value;
+                console.log(optionV)
 
 
-                for (var i =0; i < liCount; i ++){
+                for (var i = 0; i < liCount; i++) {
                     var li = $($ul).children().eq(i);
                     var goodsName = $(li).find('.goodsName').val();
                     var goodsId = $(li).find('.goodsName').attr('id');
                     var goodsQuantity = $(li).find('.quantity').val();
+                    var unitPrice = $(li).find('.price').val();
 
-                    if(goodsName.length > 0 && goodsQuantity.length > 0)  {
+
+                    if (goodsName.length > 0 && goodsQuantity.length > 0) {
                         var subbill = {
                             sGoodsId: goodsId,
-                            inQuantity: goodsQuantity
+                            inQuantity: goodsQuantity,
+                            unitPrice: unitPrice
+
                         }
                         subBills.push(subbill)
                     }
@@ -370,18 +361,26 @@ import api from '../../../api/GoodsManagement/Products'
                 this.subBillArr = subBills;
                 this.bill = {
                     inDepId: this.depId,
-                    inSupplierId: -1,
+                    inSupplierId: optionV,
                     subBillEntities: subBills,
 
                 }
                 api.saveInBill(this.bill).then(res => {
-                    if(res) {
+                    if (res) {
                         console.log(res)
                     }
                 })
 
 
+            },
 
+            getAll: function () {
+                apisu.getAll()
+                    .then(res => {
+                        if (res) {
+                            this.supArr = res.data
+                        }
+                    })
             }
 
         }
@@ -390,7 +389,6 @@ import api from '../../../api/GoodsManagement/Products'
     }
 
 </script>
-
 
 
 <style scoped>
@@ -414,7 +412,7 @@ import api from '../../../api/GoodsManagement/Products'
 
     .box-body {
         /*background: grey;*/
-        font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }
 
     .table-header {
@@ -428,6 +426,7 @@ import api from '../../../api/GoodsManagement/Products'
         height: 100%;
         border-bottom: 1px solid #ddd;
     }
+
     .table-header li {
         line-height: 40px;
         display: inline-block;
@@ -437,20 +436,22 @@ import api from '../../../api/GoodsManagement/Products'
         min-height: 200px;
     }
 
-
     .table-body input {
         height: 30px;
     }
-    #header>ul:after{
+
+    #header > ul:after {
         content: "";
         display: block;
         clear: both;
     }
-    #body>ul:after{
+
+    #body > ul:after {
         content: "";
         display: block;
         clear: both;
     }
+
     #body ul li {
         display: block;
         border-bottom: 1px solid #ddd;
@@ -458,9 +459,6 @@ import api from '../../../api/GoodsManagement/Products'
         padding-bottom: 8px;
 
     }
-
-
-
 
 
 </style>

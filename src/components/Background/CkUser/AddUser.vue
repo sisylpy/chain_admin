@@ -62,7 +62,7 @@
 </template>
 
 <script>
-    import apiDep from '../../../api/background/outDep'
+    import apiDep from '../../../api/background/ckDep'
     import apiUser from '../../../api/background/ckUser'
     import PageHeader from '@/components/PageHeader.vue'
 

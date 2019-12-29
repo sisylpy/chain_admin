@@ -8,8 +8,8 @@
             <!--<div class="nav-tabs-justified">-->
             <div class="nav-tabs-custom no-border">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#orderApplicaton" data-toggle="tab" @click="changeType('orderApplicaton')">订货申请</a></li>
-                    <li><a href="#outStocking" data-toggle="tab" @click="changeType('outStocking')">拣货单录入</a></li>
+                    <li class="active"><a href="#orderApplicaton" data-toggle="tab" @click="changeType('orderApplicaton')">备货</a></li>
+                    <li><a href="#outStocking" data-toggle="tab" @click="changeType('outStocking')">分拣</a></li>
                     <li><a href="#deliveryOrder" data-toggle="tab" @click="changeType('deliveryOrder')">出货单</a></li>
                     <li><a href="#historyOrder" data-toggle="tab" @click="changeType('history')">历史申请</a></li>
                 </ul>
@@ -48,9 +48,9 @@
 
 <script>
     import PageHeader from '@/components/PageHeader.vue'
-    import NewApplyTable from '@/components/StoreManagement/Orders/Table/NewApplyTable'
-    import OutStockingTable from '@/components/StoreManagement/Orders/Table/OutStockingTable'
-    import DeliveryTable from '@/components/StoreManagement/Orders/Table/DeliveryTable'
+    import NewApplyTable from '@/components/StoreManagement/OutGoods/NewApplyTable'
+    import OutStockingTable from '@/components/StoreManagement/OutGoods/OutStockingTable'
+    import DeliveryTable from '@/components/StoreManagement/OutGoods/DeliveryTable'
 
     export default {
         name: "OutGoods",

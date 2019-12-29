@@ -269,4 +269,20 @@
     .wrapper{
       height: 600px;
     }
+    .flex-row {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        /*padding-left: 5px;*/
+        /*padding-right: 5px;*/
+    }
+
+    .flex-row-applys {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
 </style>

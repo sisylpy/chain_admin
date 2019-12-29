@@ -9,14 +9,14 @@
 
                 <div class="col-md-2">
 
-                    <div class="box box-primary">
+                    <div class="box" style="max-height: 450px; overflow-y: auto;">
 
                         <div class="box-header with-border">
-                            <h3 class="box-title">店铺</h3>
+                            <h4 class="box-title">店铺: {{storeList.length}}家</h4>
                         </div>
 
-                        <div class="box-body no-padding">
-                            <ul class="nav nav-pills nav-stacked">
+                        <div class="box-body no-padding" >
+                            <ul class="nav nav-pills nav-stacked" style="padding-bottom: 20px;">
                                 <!--<li class="active"><a>Inbox</a></li>-->
                                 <li v-for="(item,index) in storeList" v-bind:key="item.storeId" :id="item.storeId"
                                     :class="isactive == index ? 'active' : '' "
@@ -41,13 +41,17 @@
                         <div class="box-body">
                             <div class="nav-tabs-justified">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#storeGoods" data-toggle="tab" @click="changeStoreType('products')">产品</a></li>
+                                    <li class="active"><a href="#inBill" data-toggle="tab" @click="changeStoreType('inBill')">入库单</a></li>
+                                    <li><a href="#storeGoods" data-toggle="tab" @click="changeStoreType('products')">产品</a></li>
                                     <li><a href="#turnover" data-toggle="tab" @click="changeStoreType('turnover')">营业额</a></li>
                                     <li><a href="#promotion" data-toggle="tab" @click="changeStoreType(stock)">库存</a></li>
                                 </ul>
                                 <div class="tab-content">
 
 
+                                    <div class="tab-pane" id="inBill">
+                                        <StoreGoodsPanel/>
+                                    </div>
 
                                     <div class="tab-pane" id="storeGoods">
                                         <StoreGoodsPanel/>
@@ -84,6 +88,7 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
     import api from '../../api/background/store'
+    import apib from  '@/api/store/businessData'
 
     import StoreGoodsPanel from '@/components/StoreManagement/BusinessData/StoreGoodsPanel'
     import TurnoverPanel from '@/components/StoreManagement/BusinessData/TurnoverPanel'
@@ -103,15 +108,20 @@
         },
 
         mounted() {
-            var data = "page=" + this.page + "&limit=" + this.limit;
-            api.getStoreList(data).then(res => {
+
+            api.getStoreListAll().then(res => {
                 if (res) {
-                    this.storeList = res.page.list;
-                    this.storeId = res.page.list[0].storeId;
-                    this.storeName = res.page.list[0].storeName;
-                    this.$store.state.store.storeId = res.page.list[0].storeId;
-                    this.$store.state.store.storeName = res.page.list[0].storeName;
-                    this.$store.state.store.storeType = 'products';
+                    console.log(res)
+                    this.storeList = res.data;
+                    this.storeId = res.data[0].storeId;
+                    this.storeName = res.data[0].storeName;
+                    this.$store.state.store.storeId = res.data[0].storeId;
+                    this.$store.state.store.storeName = res.data[0].storeName;
+                    this.$store.state.store.storeType = 'inBill'
+
+                    this.getThreeBill();
+
+
                 }
             })
         },
@@ -123,6 +133,15 @@
         },
         methods: {
 
+            getThreeBill: function(){
+                apib.getLastThreeStockBill(this.storeId)
+                    .then(res => {
+                        if(res) {
+                            console.log(res.data)
+                        }
+                    })
+            },
+
             //点击产品类别
             onclick(index, storeId, storeName) {
                 this.isactive = index;
@@ -130,13 +149,19 @@
                 this.storeName = storeName;
                 this.$store.state.store.storeId = storeId;
                 this.$store.state.store.storeName = storeName;
+                this.getThreeBill();
+
+
             },
 
 
             //点击出货部门的三大业务
             changeStoreType: function (data) {
-                if (data === "products") {
+                if (data === "inBill") {
                     this.$store.dispatch('store/set_storeTYPE', data)
+                } else if (data === "products") {
+                    this.$store.dispatch('store/set_storeTYPE', data)
+
                 }
                 else if (data === "turnover") {
                     this.$store.dispatch('store/set_storeTYPE', data)

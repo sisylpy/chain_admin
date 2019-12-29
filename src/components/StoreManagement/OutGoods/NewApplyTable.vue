@@ -75,8 +75,8 @@
 </template>
 
 <script>
-    import apis from '@/api/store/Store'
-    import apio from '@/api/store/orderApplication'
+    import apis from '@/api/store/todayOrder'
+    import apio from '@/api/store/outGoods'
 
     export default {
         name: "NewApplyTable",
@@ -135,16 +135,22 @@
 
             //chormes 浏览器不起作用！
             //打印前监听方法
-            window.onbeforeprint = function () {
+            window.onbeforeprint = function (e) {
+                console.log(e)
                 console.log("hahahh")
             }
             //打印后监听方法
             window.addEventListener("afterprint", function (event) {
+                console.log(event)
 
                 var $applys = $('body').children().find('.one-goods-apply');
                 var printMax = $('body').children('h2').attr('printmax');
                 console.log($('body').children('h2').attr('printmax'))
                 console.log(printMax);
+
+                var trs = $('tr');
+                    console.log(trs.length);
+                    console.log("trs.length up")
 
                 var ids = [];
                 for (var i = 0; i < $applys.length; i++) {
@@ -241,9 +247,11 @@
 
             // 获取select分店和商品大类的新申请
             getApplysAndSortsData: function () {
-
+                this.bus.$emit('loading', true);
                 apis.getApplysAndSorts(0).then(res => {
                     if (res) {
+                        this.bus.$emit('loading', false);
+
                         this.outDepArr = res.data.outDepList;
                         this.storeArr = res.data.storeList;
                         this.applyArr = res.data.applys;
@@ -309,8 +317,12 @@
             },
 
             getPrintMax() {
+                this.bus.$emit('loading', true);
+
                 apio.getPirntMax().then(res => {
                     if (res) {
+                        this.bus.$emit('loading', false);
+
                         this.printMax = res.data;
                     }
                 })
