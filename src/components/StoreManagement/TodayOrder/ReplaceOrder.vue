@@ -26,7 +26,8 @@
                             <select class="form-control select2" id="replaceStore">
                                 <option value=""></option>
                                 <optgroup v-for="(line) in storeList" :label="line.lineName">
-                                    <option v-for="(item) in line.storelist" :value="item.storeId">{{item.storeName}}-{{item.wxNickName}}
+                                    <option v-for="(item) in line.storelist" :value="item.storeId">
+                                        {{item.storeName}}-{{item.wxNickName}}
                                     </option>
                                 </optgroup>
                             </select>
@@ -235,18 +236,14 @@
 
 <script>
 
-    import apiS from '@/api/store/todayOrder'
+    import apito from '@/api/store/todayOrder'
     import api from '@/api/GoodsManagement/Products'
-
-    import apibs from '@/api/background/store'
 
 
     export default {
         name: "ReplaceOrder",
         data() {
             return {
-
-
                 formData: new FormData(),
                 imgs: {},
                 imgLen: 0,
@@ -266,7 +263,6 @@
         props: ['orderType'],
 
         watch: {
-
             orderType: function (newVal) {
                 if (newVal == "replace") {
                     this.getAllOutDep();
@@ -623,7 +619,7 @@
                 this.bus.$emit('loading', true);
 
                 //获取所有店铺列表
-                apibs.getStoreListAllWithLine().then(res => {
+                apito.getStoreListAllWithLine().then(res => {
                     if (res) {
                         this.bus.$emit('loading', false);
 
@@ -687,7 +683,7 @@
                 if (applysArr.length > 0) {
                     this.bus.$emit('loading', true);
 
-                    apiS.saveReplaceApplys(applysArr).then(res => {
+                    apito.saveTomorrowApplys(applysArr).then(res => {
                         if (res.code === 0) {
                             this.bus.$emit('loading', false);
 
@@ -776,7 +772,6 @@
     #replaceUl .active {
         display: block;;
     }
-
 
     .margin-right {
         margin-right: 20px;

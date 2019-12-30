@@ -75,8 +75,7 @@
 </template>
 
 <script>
-    import apis from '@/api/store/todayOrder'
-    import apio from '@/api/store/outGoods'
+    import api from '@/api/store/outGoods'
 
     export default {
         name: "NewApplyTable",
@@ -234,7 +233,7 @@
                 $.ajax({
                     cache: true,
                     type: "get",
-                    url: "http://localhost:8080/chainPro_war_exploded/sys/ckapplys/outDepQueryApplysBySorts",
+                    url: "http://localhost:8080/chainPro_war_exploded/sys/ckapplys/getGatherApplys",
                     data: data,
                     dataType: 'json',
                     success: function (data) {
@@ -248,7 +247,7 @@
             // 获取select分店和商品大类的新申请
             getApplysAndSortsData: function () {
                 this.bus.$emit('loading', true);
-                apis.getApplysAndSorts(0).then(res => {
+                api.initPrepareData().then(res => {
                     if (res) {
                         this.bus.$emit('loading', false);
 
@@ -319,7 +318,7 @@
             getPrintMax() {
                 this.bus.$emit('loading', true);
 
-                apio.getPirntMax().then(res => {
+                api.getPirntMax().then(res => {
                     if (res) {
                         this.bus.$emit('loading', false);
 

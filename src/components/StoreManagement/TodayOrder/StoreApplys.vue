@@ -3,10 +3,8 @@
 
     <div class="row">
 
-
         <div class="col-md-2">
             <div class="box  box-primary">
-
                 <div class="box-header with-border">
                     <h3 class="box-title">订货店铺</h3>
                 </div>
@@ -54,10 +52,8 @@
                     <!-- /.btn-group -->
                 </div>
 
-                <div class="pull-right" v-else-if="currPage >= totalPage && applyArr.length > 0">{{(currPage
-                    -
-                    1) *
-                    limit + 1}}-{{totalCount}}/{{totalCount}}
+                <div class="pull-right" v-else-if="currPage >= totalPage && applyArr.length > 0">
+                    {{(currPage - 1) * limit + 1}}-{{totalCount}}/{{totalCount}}
                     <div class="btn-group">
 
                         <button type="button" class="btn btn-default btn-sm" v-if="currPage > 1"
@@ -86,9 +82,6 @@
                 <table v-if="applyArr.length > 0" class="table table-hover  table-striped">
                     <tbody>
                     <tr v-for="(item, index) in  applyArr" v-bind:key="item.applyId">
-                        <!--<td style="width: 30px; "><input type="checkbox" v-if="item.applyStatus > 0" disabled>-->
-                        <!--<input v-else type="checkbox"  v-on:click="selectApply(item.applyId)" >-->
-                        <!--</td>-->
                         <td style="width: 30px;">{{(currPage - 1) * limit + index + 1}}</td>
                         <td style="width: 100px;">{{item.ckGoodsEntity.goodsName}}</td>
                         <td style="width: 80px;">{{item.applyNumber}} {{item.applyStandardname}}</td>
@@ -123,9 +116,7 @@
 
 <script>
 
-    import apiS from '@/api/store/todayOrder'
-
-
+    import api from '@/api/store/todayOrder'
 
     export default {
         name: "StoreApplys",
@@ -149,7 +140,6 @@
 
             orderType: function (newVal) {
                 if (newVal == "today") {
-                    console.log("zai storeapplys == today le")
                     this.getApplyStoreList();
                     this.getStoreApplys();
                 }
@@ -157,10 +147,6 @@
 
         },
 
-        mounted() {
-
-
-        },
 
         methods: {
 
@@ -168,12 +154,10 @@
             getApplyStoreList: function () {
                 this.bus.$emit('loading', true);
 
-                apiS.getTodayApplysStores()
+                api.getTodayApplysStores()
                     .then(res => {
                         if (res) {
                             this.bus.$emit('loading', false);
-
-                            console.log(res);
                             this.applyStoreArr = res.data;
                             this.storeId = res.data[0].storeId;
                             this.getStoreApplys()
@@ -200,15 +184,13 @@
                 this.getApplysByData(data);
             },
 
+
             getApplysByData: function (data) {
                 this.bus.$emit('loading', true);
-
-                apiS.getApplysByStoreId(data)
+                api.getApplysByStoreId(data)
                     .then(res => {
                         if (res) {
                             this.bus.$emit('loading', false);
-
-                            console.log(res.data)
                             this.applyArr = res.data.list;
                             this.currPage = res.data.currPage;
                             this.totalCount = res.data.totalCount;
@@ -222,7 +204,7 @@
                 console.log(id);
                 this.bus.$emit('loading', true);
 
-                apiS.delateApplyById(id)
+                api.delateApplyById(id)
                     .then(res => {
                         if (res) {
                             this.bus.$emit('loading', false);
@@ -239,12 +221,10 @@
             },
 
 
-
             onclick: function (index, storeId) {
                 this.storeId = storeId;
                 this.isactive = index;
                 this.currPage = 1;
-
                 this.getStoreApplys();
             }
 

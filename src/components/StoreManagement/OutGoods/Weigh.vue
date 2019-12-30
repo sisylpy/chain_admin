@@ -2,48 +2,11 @@
 
     <div>
 
-        <!--<div class="row">-->
-
-        <!--<div class="col-md-4">-->
-
-        <!--<div class="form-group" id="selectOutDepList">-->
-        <!--<label>出货部门</label>-->
-
-        <!--<select class="form-control select2" data-placeholder="所有出货部门"-->
-        <!--style="width: 100%;" id="changeOutDep">-->
-        <!--<option></option>-->
-        <!--<option v-for="(item) in outDepArr" :value="item.depId" :key="item.depId"> {{item.depName}}</option>-->
-        <!--</select>-->
-
-        <!--</div>-->
-
-        <!--</div>-->
 
 
-        <!--<div class="col-md-4">-->
-
-        <!--<div class="form-group" id="selectPrintTimes">-->
-        <!--<label>申请店铺</label>-->
-
-        <!--<select class="form-control select2" data-placeholder="所有出货中分店"-->
-        <!--style="width: 100%;" id="changePrintTimes">-->
-        <!--<option></option>-->
-        <!--<option v-for="(item) in storeArr" :value="item.storeId" :key="item.storeId"> {{item.storeName}}</option>-->
-        <!--</select>-->
-
-        <!--</div>-->
-
-        <!--</div>-->
-
-        <!--<div class="col-md-2">-->
-        <!--<a class="btn my-warning btn-lg" @click="saveOutQutantity">保存</a>-->
-        <!--</div>-->
-        <!--</div>-->
-
-        <div id="outStockTable" class="row">
+        <div id="weighGoods" class="row">
 
             <div class="col-md-3">
-
 
                 <!-- sidebar: style can be found in sidebar.less -->
                 <section class="my-sidebar">
@@ -58,7 +21,7 @@
                             </a>
                             <ul class="my-treeview-menu" style="width: 90%;margin-left: 5%;color: #2b2b2b;;">
                                 <li style="padding: 5px; width: 100%; "
-                                    v-for="(item, itemIndex) in outDep.fatherList" @click="getApplysByFatherId(item.goodsId, index,itemIndex)">
+                                    v-for="(item, itemIndex) in outDep.fathers" @click="getApplysByFatherId(item.goodsId, index,itemIndex)">
                                     <a  class="fatherGoods" style="line-height: 30px;color: #3f3f3f; " :style='index == 0 && itemIndex == 0 ? "color:red" : ""'>{{item.goodsName}}</a>
                                 </li>
                             </ul>
@@ -115,7 +78,7 @@
 </template>
 
 <script>
-    import api from '@/api/store/todayOrder'
+    import api from '@/api/store/outGoods'
 
     export default {
         name: "OutStockingTable",
@@ -123,7 +86,7 @@
         watch: {
 
             outType: function (newVal) {
-                if (newVal == "outStocking") {
+                if (newVal == "weigh") {
 
                     this.getApplysAndSortsData();
                 }
@@ -157,7 +120,7 @@
             });
 
 
-            $('#outStockTable').on('keyup', '.outQuantity', function (e) {
+            $('#weighGoods').on('keyup', '.outQuantity', function (e) {
                 //获取当前输入框
 
                 if (e.keyCode == 13) {
@@ -180,7 +143,7 @@
                 }
             });
 
-            $('#outStockTable').children().find('.my-sidebar-menu').addClass('open-view')
+            $('#weighGoods').children().find('.my-sidebar-menu').addClass('open-view')
 
 
         },
@@ -193,7 +156,7 @@
                 this.fatherIndex = index;
                 this.itemIndex= itemIndex;
 
-                api.getPickApplysByFatherId(this.fatherId)
+                api.getApplysForWeighByFatherId(this.fatherId)
                     .then(res => {
                         if(res) {
                             this.outApplyArr = res.data;
@@ -206,23 +169,20 @@
 
             // 获取select分店和商品大类的新申请
             getApplysAndSortsData: function () {
-                api.getPickStoresAndApplys().then(res => {
+                api.initWeightData().then(res => {
                     if (res) {
-                        this.outDepArr = res.data.list;
-                        this.outApplyArr = res.data.applys;
-                        this.fatherId = res.data.list[0]['fatherList']['0']['goodsId'];
+                        console.log(res.data[0].applys)
+                        this.outDepArr = res.data;
+                        this.outApplyArr = res.data[0].applys;
+                        this.fatherId = res.data[0]['fathers']['0']['goodsId'];
                     }
                 })
             },
 
 
             saveOneQutantity(index) {
-
                 var outQuantityArr = [];
                 var apply =  $('.store-apply').eq(index);
-
-                console.log("======================")
-                console.log($(apply).parent().siblings().length)
 
                 var $applyIds = $('.store-apply').eq(index).find('.apply-id')
                 console.log(index)
@@ -242,8 +202,6 @@
                                 inStoreId: $('.store-id:eq(' + i + ')').attr("instoreid"),
                                 discountPrice: $('.price:eq(' + i + ')').attr("price"),
                                 outDepId: $('.out-dep-id:eq(' + i + ')').attr("outdepid"),
-
-
                             }
                             outQuantityArr.push(outQuantity);
                         }
@@ -262,13 +220,7 @@
                                 this.getApplysByFatherId(this.fatherId,this.fatherIndex, this.itemIndex);
                             }else {
                                 this.getApplysAndSortsData();
-
                             }
-
-
-
-
-
                         }
                     })
                 }
@@ -276,7 +228,9 @@
 
             },
 
-
+            /**
+             * wait
+             */
             saveOutQutantity() {
 
                 var outQuantityArr = [];

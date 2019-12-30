@@ -2,30 +2,37 @@ import request from '@/utils/request'
 
 export default {
 
+    /**===  代下单接口 ====
+
+     /**
+     * 1, 获取路线分店列表
+     */
+    getStoreListAllWithLine() {
+        return request({
+            url: 'sys/ckstore/queryLineStore',
+            method: 'get',
+        })
+    },
+
 
     /**
-     *
+     * 2,保存订货数据
      */
-    saveOutQuantity(data) {
+    saveTomorrowApplys(data) {
         return request({
-            url: 'sys/ckstockrecord/save',
+            url: 'sys/ckapplys/saveTomorrowApplys',
             method: 'post',
             data
         })
     },
 
-    /**
-     *
-     */
-    getPickApplysByFatherId(data) {
-    return request({
-        url: 'sys/ckapplys/queryPickApplysByFatherId/'+data,
-        method: 'get',
-    })
-},
 
-    /**
-     * 获取今天订货的店铺
+
+
+    /** === 今日申请接口 ====
+
+     /**
+     * 1， 获取今天订货的店铺
      */
     getTodayApplysStores() {
         return request({
@@ -35,56 +42,25 @@ export default {
     },
 
     /**
-     * queryApplysAndSorts
+     * 3，删除申请
      */
-    getApplysAndSorts(data){
+    delateApplyById(data) {
         return request({
-            url: 'sys/ckapplys/queryApplysAndSorts/'+ data,
+            url: 'sys/ckapplys/deleteOne/' + data,
             method: 'get',
         })
     },
-
-
-
 
     /**
      * 获取今日订货申请
      */
     getApplysByStoreId(data) {
         return request({
-            url: 'sys/ckapplys/storeGetApplysByLimit',
+            url: 'sys/ckapplys/getStoreApplysByLimit',
             method: 'post',
             data
         })
     },
-
-
-
-    /**
-     * 保存订货数据
-     */
-    saveReplaceApplys(data) {
-        return request({
-            url: 'sys/ckapplys/replaceOrder',
-            method: 'post',
-            data
-        })
-    },
-
-    /**
-     * 删除申请
-     */
-    delateApplyById(data) {
-        return request({
-            url: 'sys/ckapplys/deleteOne/'+data,
-            method: 'get',
-        })
-    }
-
-
-
-
-
 
 
 }
