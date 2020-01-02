@@ -24,11 +24,11 @@
 
         </div>
 
-        <div class="col-md-9">
+        <div class="col-md-9" style="position: relative;">
 
-            <div class="mailbox-controls">
-
-                <div class="pull-right" v-if="currPage < totalPage">{{(currPage - 1) * limit + 1}}-{{limit *
+            <div class="" style="float: left; height: 100%; width:100%;">
+<!--<button class="btn btn-default btn-sm checkbox-toggle">aa</button>-->
+                <div style="float: right;" v-if="currPage < totalPage">{{(currPage - 1) * limit + 1}}-{{limit *
                     currPage}}/{{totalCount}}
                     <div class="btn-group">
 
@@ -52,7 +52,7 @@
                     <!-- /.btn-group -->
                 </div>
 
-                <div class="pull-right" v-else-if="currPage >= totalPage && applyArr.length > 0">
+                <div  style="float: right;" v-else-if="currPage >= totalPage && applyArr.length > 0">
                     {{(currPage - 1) * limit + 1}}-{{totalCount}}/{{totalCount}}
                     <div class="btn-group">
 
@@ -78,25 +78,23 @@
                 <!-- /.pull-right -->
             </div>
 
-            <div style="min-height: 400px;">
+            <div style="min-height: 400px; float: left; margin-top: 5px; width: 100%;">
                 <table v-if="applyArr.length > 0" class="table table-hover  table-striped">
                     <tbody>
                     <tr v-for="(item, index) in  applyArr" v-bind:key="item.applyId">
                         <td style="width: 30px;">{{(currPage - 1) * limit + index + 1}}</td>
-                        <td style="width: 100px;">{{item.ckGoodsEntity.goodsName}}</td>
-                        <td style="width: 80px;">{{item.applyNumber}} {{item.applyStandardname}}</td>
-                        <td v-if="item.applyStatus === 0">新申请</td>
-                        <td v-else-if="item.applyStatus === 1 ">出货中</td>
-                        <td v-else-if="item.applyStatus ===2 ">出货完成</td>
+                        <td style="width: 120px;">{{item.ckGoodsEntity.goodsName}}</td>
+                        <td style="width: 120px;">申请：{{item.applyNumber}} {{item.applyStandardname}}</td>
                         <td v-if="item.applyStatus === 2">
                             出库数量：{{item.stockRecordEntity.quantity}}{{item.ckGoodsEntity.purStandardName}}
                         </td>
                         <td v-else>出库数量：暂无</td>
+                        <td v-if="item.applyStatus === 0"><span class="label label-primary">新申请</span></td>
+                        <td v-else-if="item.applyStatus === 1 "><span class="label label-warning">出货中</span></td>
+                        <td v-else-if="item.applyStatus ===2 "><span class="label label-success">出货完成</span></td>
                         <td>{{(item.applyTime).slice(12)}}</td>
                         <td v-if="item.applyStatus === 0">
-                            <button type="button" class="btn btn-default btn-sm"
-                                    @click="delApply(item.applyId)"><i
-                                    class="fa fa-trash-o"></i></button>
+                            <i class="fa fa-trash-o" @click="delApply(item.applyId)"></i>
                         </td>
                         <td v-else>
                         </td>
@@ -156,7 +154,7 @@
 
                 api.getTodayApplysStores()
                     .then(res => {
-                        if (res) {
+                        if (res.data) {
                             this.bus.$emit('loading', false);
                             this.applyStoreArr = res.data;
                             this.storeId = res.data[0].storeId;

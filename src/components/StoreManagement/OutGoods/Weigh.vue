@@ -81,7 +81,7 @@
     import api from '@/api/store/outGoods'
 
     export default {
-        name: "OutStockingTable",
+        name: "Weigh",
         props: ['outType'],
         watch: {
 
@@ -150,7 +150,6 @@
 
         methods: {
 
-
             getApplysByFatherId: function(fatherId, index, itemIndex){
                 this.fatherId = fatherId;
                 this.fatherIndex = index;
@@ -170,11 +169,14 @@
             // 获取select分店和商品大类的新申请
             getApplysAndSortsData: function () {
                 api.initWeightData().then(res => {
-                    if (res) {
-                        console.log(res.data[0].applys)
-                        this.outDepArr = res.data;
-                        this.outApplyArr = res.data[0].applys;
-                        this.fatherId = res.data[0]['fathers']['0']['goodsId'];
+                    if (res.data) {
+                        this.outDepArr = res.data.fatherList;
+                        this.outApplyArr = res.data.applys;
+                        this.fatherId = res.data['fatherList'][0]['fathers']['0']['goodsId'];
+                    }else{
+                        this.outDepArr = [];
+                        this.outApplyArr = [];
+                        this.fatherId = "";
                     }
                 })
             },
@@ -192,7 +194,14 @@
                 if($applyIds.length > 0) {
                     for (var i = 0; i < $applyIds.length; i++) {
                         var quantity = $('.outQuantity:eq(' + i + ')').val();
+                        var price =  $('.price:eq(' + i + ')').attr("price");
 
+                        console.log("----->>>>>>>>>>>")
+                        console.log(quantity);
+                        console.log(price);
+                        var subTotal = (Number(quantity) * Number(price)).toFixed(1);
+                        console.log(subTotal)
+                        console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<,")
 
                         if (quantity.length > 0) {
                             var outQuantity = {
@@ -200,8 +209,10 @@
                                 quantity: quantity,
                                 stGoodsId: $('.goods-id:eq(' + i + ')').attr("goodsid"),
                                 inStoreId: $('.store-id:eq(' + i + ')').attr("instoreid"),
-                                discountPrice: $('.price:eq(' + i + ')').attr("price"),
+                                discountPrice: price,
                                 outDepId: $('.out-dep-id:eq(' + i + ')').attr("outdepid"),
+                                subTotal: subTotal
+
                             }
                             outQuantityArr.push(outQuantity);
                         }
@@ -237,6 +248,10 @@
                 var $applyIds = $('.apply-id');
                 for (var i = 0; i < $applyIds.length; i++) {
                     var quantity = $('.outQuantity:eq(' + i + ')').val();
+                    var price =  $('.price:eq(' + i + ')').attr("price");
+
+                    var subTotal = (Number(quantity) * Number(price)).toFixed(1);
+
 
                     if (quantity.length > 0) {
                         var outQuantity = {
@@ -245,7 +260,9 @@
                             outDepId: this.outDepId,
                             stGoodsId: $('.goods-id:eq(' + i + ')').attr("goodsid"),
                             inStoreId: $('.store-id:eq(' + i + ')').attr("instoreid"),
-                            discountPrice: $('.price:eq(' + i + ')').attr("price"),
+                            discountPrice: price,
+                            subTotal: subTotal
+
                         }
                         outQuantityArr.push(outQuantity);
                     }

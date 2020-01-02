@@ -9,7 +9,7 @@ export default {
      */
     getLastThreeStockBill(data) {
         return request({
-            url: 'sys/ckstockbill/queryLastThreeInBillByStoreId/'+data,
+            url: 'sys/ckstockbill/getLastThreeInBillByStoreId/' +data,
             method: 'get',
         })
     },

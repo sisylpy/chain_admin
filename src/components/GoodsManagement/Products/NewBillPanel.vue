@@ -56,7 +56,7 @@
 </template>
 
 <script>
-    import api from '../../../api/GoodsManagement/Products'
+    import api from '../../../api/goodsManagement/products'
     import apisu from '@/api/supplier/supplier'
 
 

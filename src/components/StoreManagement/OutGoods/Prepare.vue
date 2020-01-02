@@ -37,19 +37,54 @@
 
         <div class="">
 
-            <table class="table table-striped " id="apply-table">
-                <tbody>
+            <table class="table table-striped " id="apply_table">
+
+                <thead>
+
                 <tr>
                     <th style="width:60px;">序号</th>
                     <th style="width:100px;">商品名称</th>
-                    <th style="width: 80px;">申请总数</th>
+                    <th style="width:80px;">库存</th>
+                    <th style="width:120px;">采购数量</th>
+                    <th style="width:80px;">申请总数</th>
                     <th>申请</th>
-
                 </tr>
+
+                </thead>
+                <tbody>
+
                 <tr v-for="(item, index) in applyArr">
 
                     <td>{{index + 1}}</td>
                     <td>{{item.goodsName}}</td>
+                    <td>{{item.stockPurStandard}}{{item.purStandardName}}</td>
+                    <td>
+
+
+
+
+
+
+                        <input v-if='Number(item.stockPurStandard) - Number(item.alarmWeight) > Number(item.todayQuantity) && item.planPurchase == "0" '
+                         type="text" style='width: 80%; color: gray;'
+                               disabled
+                               :value="item.planPurchase"
+                               :id="item.goodsId" name="plan">
+
+
+                        <input v-else-if='Number(item.stockPurStandard) - Number(item.alarmWeight) < Number(item.todayQuantity) && item.planPurchase == "0" '
+                            style='width: 80%; color: red;'
+                               disabled
+                               :value="item.planPurchase"
+                               :id="item.goodsId" name="plan"/>
+                        <input v-else type="text" style='width: 80%; color: blue;'
+                               disabled
+                               :value="item.planPurchase"
+                               :id="item.goodsId" name="plan"/>
+
+
+                        {{item.purStandardName}}
+                    </td>
                     <td>{{item.totalNumber}}{{item.applyStandardName}}</td>
                     <td>
                         <div class="" style="display: flex;flex-flow: row wrap;">
@@ -76,9 +111,10 @@
 
 <script>
     import api from '@/api/store/outGoods'
+    import apig from '@/api/background/goods'
 
     export default {
-        name: "NewApplyTable",
+        name: "Prepare",
         props:['outType'],
         watch: {
 
@@ -189,6 +225,40 @@
                 $('body').on('click', '#cancelPrint', function () {
                     window.location.reload();
                 });
+            });
+
+            $('#apply_table').on('dblclick', 'input[name=plan]' ,function (e) {
+                $(this).removeAttr("disabled");
+                $(this).focus();
+
+
+            })
+
+            $('#apply_table').on('keyup', 'input[name=plan]', function (e) {
+
+                if (e.keyCode == 13) {
+                    // var newPrice = $(this).val();
+                    console.log(e.currentTarget.id)
+
+
+                   var goodsId = e.currentTarget.id;
+                    var goods = {
+                       goodsId:  goodsId,
+                        planPurchase: $(this).val(),
+                    }
+
+                    apig.updateGoods(goods).then(res =>{
+                        if(res.code == 0){
+                            that.getApplysAndSortsData();
+
+                            $(e.currentTarget).blur();
+                            $(e.currentTarget).attr("disabled")
+
+                        }
+                    })
+
+
+                }
             });
 
         },

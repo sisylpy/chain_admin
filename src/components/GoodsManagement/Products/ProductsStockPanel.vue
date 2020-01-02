@@ -4,7 +4,7 @@
 
         <div class="row my-drop-group">
 
-            <div class="my-dropDown-group col-md-5">
+            <div class="my-dropDown-group col-md-6">
                 <h5>主要负责订货商品的称重拣货</h5>
                 <div class="form-group"  style="background: yellow">
                     <select class="form-control select2"  data-placeholder="出库部门"
@@ -16,11 +16,7 @@
 
             </div>
 
-
-
-
-
-            <div class="my-dropDown-group col-md-5">
+            <div class="my-dropDown-group col-md-6">
                 <h5>产品分类</h5>
                 <div class="my-dropDown">
                     <div class="my-dropDown-item">
@@ -42,9 +38,6 @@
                 </div>
 
             </div>
-            <div class="col-md-2">
-                <a class="btn my-warning btn-lg" >加入采购计划</a>
-            </div>
 
 
         </div>
@@ -53,7 +46,7 @@
 
 
         <div class="panel panel-default">
-            <div class="panel-body  no-border">
+            <div class="panel-body  no-border no-padding">
                 <div class="box-body  no-padding">
 
                     <table id="jqGrid"></table>
@@ -74,7 +67,7 @@
 </template>
 
 <script>
-    import api from '../../../api/GoodsManagement/Products'
+    import api from '../../../api/goodsManagement/products'
     import apid from '../../../api/background/ckDep'
 
     export default {
@@ -123,7 +116,8 @@
                 cateArr: [],
                 fatherId: -1,
                 outDepList:[],
-                depId: 1
+                depId: 1,
+                goodsList:[]
             }
         },
 
@@ -216,42 +210,52 @@
                         colModel: [
                             {label: 'goodsId', name: 'goodsId', width: 50, key: true, hidden: true},
                             {label: '产品名称', name: 'goodsName', width: 120},
-                            {label: '进货规格库存', name: 'stockPurStandard', width: 110, formatter: function(value, options, row){
-                                   var num = row.stockPurStandard;
+
+                            // {label: '申请规格库存', name: 'stockApplyStandard', width: 150, formatter: function(value, options, row){
+                            //         var num = row.stockApplyStandard;
+                            //         var st = row.applyStandardName;
+                            //         return name = num + st;
+                            //     }},
+                            {label: '保质期天数', name: 'qualityPeriod', width: 80, formatter: function(value, options, row){
+                                    return name = value + "天";
+                                }},
+                            {label: '报警数量', name: 'alarmWeight', width: 80, formatter: function(value, options, row){
+                                    return name = value + row.purStandardName;
+                                }},
+                            {label: '现在库存', name: 'stockPurStandard', width: 110, formatter: function(value, options, row){
+                                    var num = row.stockPurStandard;
                                     var st = row.purStandardName;
                                     return name = num + st;
                                 } },
-                            {label: '申请规格库存', name: 'stockApplyStandard', width: 150, formatter: function(value, options, row){
-                                    var num = row.stockApplyStandard;
-                                    var st = row.applyStandardName;
-                                    return name = num + st;
-                                }},
-                            {label: '保质期天数', name: 'qualityPeriod', width: 120, formatter: function(value, options, row){
-                                    return name = value + "天";
-                                }},
-                            {label: '报警数量', name: 'alarmWeight', width: 120, formatter: function(value, options, row){
-                                    return name = value + row.purStandardName;
-                                }},
 
-                            {
-                                label: '库存情况',
-                                name: 'status',
-                                width: 200,
-                                formatter: function (value, options, rowData) {
-                                    if (value === 1) {
-                                        return  "<span class='label label-success'> 库存充足</span>";
-                                    } else if (value === 2) {
-                                        return  "<span class='label label-danger'> 库存不足</span>";
-                                    } else {
-                                        return  "<span class='label label-warning'> 已加入采购计划</span>";
-                                    }
+                            // {
+                            //     label: '库存情况',
+                            //     name: 'status',
+                            //     width: 100,
+                            //     formatter: function (value, options, row) {
+                            //         if (row.stockPurStandard > row.alarmWeight) {
+                            //             return  "<span class='label label-success'> 库存充足</span>";
+                            //         } else {
+                            //             return  "<span class='label label-danger'> 库存不足</span>";
+                            //         }
+                            //     }
+                            // },
+                            {label: '今日订货', name: 'todayQuantity', width: 120, formatter: function(value, options, row){
+                                    return name = value + row.purStandardName
+                                }},
+                            {label: '采购数量', name: 'planPurchase', width: 120, formatter: function(value, options, row){
+                                if(value){
+                                    return "<input style='width: 60%' disabled id="+row.goodsId+" value=  "+value+" />"+row.purStandardName+"";
+                                }else {
+                                    return "<input style='width: 60%' disabled id="+row.goodsId+" placeholder='0' />" + row.purStandardName+" "
                                 }
-                            }
+                                }}
+
                         ],
 
 
                         viewrecords: true,
-                        height: 400,
+                        height: 440,
                         rowNum: 10,
                         rowList: [10, 30, 50],
                         rownumbers: true,
@@ -259,7 +263,7 @@
                         shrinkToFit:false,
                         autowidth: true,
                         autoScroll: true,
-                        multiselect: true,
+                        multiselect: false,
                         pager: "#jqGridPager",
                         jsonReader: {
                             root: "page.list",

@@ -237,7 +237,7 @@
 <script>
 
     import apito from '@/api/store/todayOrder'
-    import api from '@/api/GoodsManagement/Products'
+    import api from '@/api/goodsManagement/products'
 
 
     export default {

@@ -74,15 +74,14 @@
         methods: {
 
             getJqtableData: function () {
-                var data = "page=" + this.page + "&limit=" + this.limit;
-                api.getStoreList(data).then(res => {
-                    console.log(data);
-                    console.log(res.page);
+                api.getStoreListAll().then(res => {
+                    if(res) {
+                        console.log(res.page);
+                        this.storeList = res.data;
+                        //加载表格数据
+                        this.jqtable()
+                    }
 
-
-                    this.storeList = res.page.list;
-                    //加载表格数据
-                    this.jqtable()
 
                 });
             },

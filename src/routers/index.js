@@ -8,8 +8,10 @@ import StoreListRouter from '../routers/background/store'
 import LineRouter from '../routers/background/line'
 import CkDepRouter from '../routers/background/ckDep'
 import StaffRouter from './background/ckUser'
-import ProductsRouter from './GoodsManagement/Products'
 
+//产品管理
+import ProductsRouter from './goodsManagement/products'
+import PlanRouter from './goodsManagement/plan'
 
 
 //店铺管理
@@ -42,13 +44,15 @@ export default new Router({
         LineRouter,
         CkDepRouter,
         StaffRouter,
-        ProductsRouter,
+
 
         StoreBuindessDataRouter,
         CostControlDataRouter,
-
         TodayOrderRouter,
         OutGoodsRouter,
+
+        ProductsRouter,
+        PlanRouter,
 
         SupplierRouter,
 

@@ -7,11 +7,11 @@ const store = {
     },
 
     state: {
-        storeId: "",
-        storeName: "",
-        storeType: "",
-        storeOutType: "",
-        storeOrderType: ""
+        // storeId: "",
+        // storeName: "",
+        // bussinessType: "",
+
+
 
 
 
@@ -23,15 +23,15 @@ const store = {
         SET_STORENAME: () => {
             state.storeName = data ;
         },
-        SET_STORETYPE: (state, data) => {
-            state.storeType = data;
+        SET_BUSINESSTYPE: (state, data) => {
+            state.bussinessType = data;
         },
-        SET_STOREOUTTYPE: (state, data) => {
-            state.storeOutType = data;
-        },
-        SET_STOREORDERTYPE: (state, data) => {
-            state.storeOrderType = data;
-        },
+        // SET_STOREOUTTYPE: (state, data) => {
+        //     state.storeOutType = data;
+        // },
+        // SET_STOREORDERTYPE: (state, data) => {
+        //     state.storeOrderType = data;
+        // },
 
 
 
@@ -43,15 +43,15 @@ const store = {
         set_STORENAME: () => {
             context.commit('SET_STORENAME', data);
         },
-        set_STORETYPE (context, data) {
-            context.commit('SET_STORETYPE', data);
+        set_BUSINESSTYPE (context, data) {
+            context.commit('SET_BUSINESSTYPE', data);
         },
-        set_STOREOUTTYPE (context, data) {
-            context.commit('SET_STOREOUTTYPE', data);
-        },
-        set_STOREORDERTYPE (context, data) {
-            context.commit('SET_STOREORDERTYPE', data);
-        }
+        // set_STOREOUTTYPE (context, data) {
+        //     context.commit('SET_STOREOUTTYPE', data);
+        // },
+        // set_STOREORDERTYPE (context, data) {
+        //     context.commit('SET_STOREORDERTYPE', data);
+        // }
 
 
 

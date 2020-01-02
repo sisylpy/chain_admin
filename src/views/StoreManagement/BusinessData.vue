@@ -42,19 +42,19 @@
                             <div class="nav-tabs-justified">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#inBill" data-toggle="tab" @click="changeStoreType('inBill')">入库单</a></li>
-                                    <li><a href="#storeGoods" data-toggle="tab" @click="changeStoreType('products')">产品</a></li>
+                                    <li><a href="#storeGoods" data-toggle="tab" @click="changeStoreType('storeGoods')">产品</a></li>
                                     <li><a href="#turnover" data-toggle="tab" @click="changeStoreType('turnover')">营业额</a></li>
-                                    <li><a href="#promotion" data-toggle="tab" @click="changeStoreType(stock)">库存</a></li>
+                                    <li><a href="#stock" data-toggle="tab" @click="changeStoreType(stock)">库存</a></li>
                                 </ul>
                                 <div class="tab-content">
 
 
-                                    <div class="tab-pane" id="inBill">
-                                        <StoreGoodsPanel/>
+                                    <div class="tab-pane active" id="inBill">
+                                        <InBill :storeId="storeId" :storeName="storeName" :businessType="businessType"/>
                                     </div>
 
                                     <div class="tab-pane" id="storeGoods">
-                                        <StoreGoodsPanel/>
+                                        <StoreGoodsPanel :storeId="storeId" :storeName="storeName" :businessType="businessType"/>
                                     </div>
 
                                     <!-- /.tab-pane -->
@@ -62,7 +62,7 @@
                                         <TurnoverPanel/>
                                     </div>
 
-                                    <div class="tab-pane" id="promotion">
+                                    <div class="tab-pane" id="stock">
                                         promation
 
                                     </div>
@@ -88,10 +88,10 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
     import api from '../../api/background/store'
-    import apib from  '@/api/store/businessData'
 
     import StoreGoodsPanel from '@/components/StoreManagement/BusinessData/StoreGoodsPanel'
     import TurnoverPanel from '@/components/StoreManagement/BusinessData/TurnoverPanel'
+    import InBill from '@/components/StoreManagement/BusinessData/InBill'
     export default {
         name: "BusinessData",
 
@@ -99,10 +99,9 @@
             return {
                 storeList: [],
                 isactive: 0,
-                page: 1,
-                limit: 20,
-                type: 1,
+                storeId: "",
                 storeName: "",
+                businessType: "inBill"
 
             }
         },
@@ -115,11 +114,6 @@
                     this.storeList = res.data;
                     this.storeId = res.data[0].storeId;
                     this.storeName = res.data[0].storeName;
-                    this.$store.state.store.storeId = res.data[0].storeId;
-                    this.$store.state.store.storeName = res.data[0].storeName;
-                    this.$store.state.store.storeType = 'inBill'
-
-                    this.getThreeBill();
 
 
                 }
@@ -130,26 +124,17 @@
             PageHeader,
             StoreGoodsPanel,
             TurnoverPanel,
+            InBill,
         },
         methods: {
-
-            getThreeBill: function(){
-                apib.getLastThreeStockBill(this.storeId)
-                    .then(res => {
-                        if(res) {
-                            console.log(res.data)
-                        }
-                    })
-            },
 
             //点击产品类别
             onclick(index, storeId, storeName) {
                 this.isactive = index;
                 this.storeId = storeId;
                 this.storeName = storeName;
-                this.$store.state.store.storeId = storeId;
-                this.$store.state.store.storeName = storeName;
-                this.getThreeBill();
+                // this.$store.state.store.storeId = storeId;
+                // this.$store.state.store.storeName = storeName;
 
 
             },
@@ -158,16 +143,14 @@
             //点击出货部门的三大业务
             changeStoreType: function (data) {
                 if (data === "inBill") {
-                    this.$store.dispatch('store/set_storeTYPE', data)
-                } else if (data === "products") {
-                    this.$store.dispatch('store/set_storeTYPE', data)
-
+                    this.businessType = "inBill"
+                } else if (data === "storeGoods") {
+                    this.businessType = "storeGoods"
                 }
                 else if (data === "turnover") {
-                    this.$store.dispatch('store/set_storeTYPE', data)
-
+                    this.businessType = "turnover"
                 } else if (data === "stock") {
-                    this.$store.dispatch('store/set_storeTYPE', data)
+                    this.businessType = "stock"
                 }
 
             },

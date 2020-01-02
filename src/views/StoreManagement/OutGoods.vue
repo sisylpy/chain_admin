@@ -10,7 +10,7 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#prepare" data-toggle="tab" @click="changeType('prepare')">备货</a></li>
                     <li><a href="#weigh" data-toggle="tab" @click="changeType('weigh')">分拣</a></li>
-                    <li><a href="#deliveryOrder" data-toggle="tab" @click="changeType('deliveryOrder')">出货单</a></li>
+                    <li><a href="#deliveryBill" data-toggle="tab" @click="changeType('deliveryBill')">出货单</a></li>
                     <li><a href="#historyOrder" data-toggle="tab" @click="changeType('history')">历史申请</a></li>
                 </ul>
 
@@ -23,8 +23,8 @@
                         <Weigh :outType="outType"/>
                     </div>
 
-                    <div class="tab-pane" id="deliveryOrder">
-                        <DeliveryTable :outType="outType"/>
+                    <div class="tab-pane" id="deliveryBill">
+                        <deliveryBill :outType="outType"/>
                     </div>
 
 
@@ -50,7 +50,7 @@
     import PageHeader from '@/components/PageHeader.vue'
     import Prepare from '@/components/StoreManagement/OutGoods/Prepare'
     import Weigh from '@/components/StoreManagement/OutGoods/Weigh'
-    import DeliveryTable from '@/components/StoreManagement/OutGoods/DeliveryBill'
+    import deliveryBill from '@/components/StoreManagement/OutGoods/DeliveryBill'
 
     export default {
         name: "OutGoods",
@@ -58,7 +58,7 @@
             PageHeader,
             Prepare,
             Weigh,
-            DeliveryTable,
+            deliveryBill,
         },
         data(){
           return {
@@ -76,8 +76,8 @@
                 } else if (data === "weigh") {
                     this.outType = "weigh";
                 }
-                else if (data === "deliveryOrder") {
-                    this.outType = "deliveryOrder";
+                else if (data === "deliveryBill") {
+                    this.outType = "deliveryBill";
 
                 } else if (data === "history") {
                     this.outType = "history";

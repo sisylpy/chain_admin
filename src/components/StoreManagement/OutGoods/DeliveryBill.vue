@@ -29,12 +29,10 @@
                 <div class="box-header with-border">
                     <div class="row">
                         <div class="col-md-4">
-                            <!--<h5>出货日期：{{date}}</h5>-->
                             <h5>出库总金额：{{totalCost}} 元</h5>
                         </div>
                         <div class="col-md-4">
                             <h5>订货店铺：{{storeName}}</h5>
-                            <!--<h5>操作人：李沛谊</h5>-->
                         </div>
                         <div class="col-md-4">
                             <button @click="PrintBill">打印出货单</button>
@@ -49,7 +47,7 @@
                     <div id="deliveryOrderNew">
                         <table class="table table-striped">
 
-                            <tbody>
+                            <thead>
                             <tr>
                                 <th>序号</th>
                                 <th>商品名称</th>
@@ -58,29 +56,40 @@
                                 <th>单价</th>
                                 <th>小计</th>
                             </tr>
+                            </thead>
+
+                            <tbody  v-if="deliveryArr.length > 0" >
+
                             <tr v-for="(item, index) in deliveryArr">
                                 <td>{{index+1}}</td>
                                 <td>{{item.goodsEntity.goodsName}}</td>
                                 <td>{{item.applysEntity.applyNumber}}{{item.goodsEntity.applyStandardName}}</td>
-                                <td>{{item.quantity}} {{item.goodsEntity.purStandardName}}</td>
+                                <td>
+                                    <input type="text" name="quantity"
+                                           :value="item.quantity"
+                                           :stockRecordId="item.stockRecordId"
+                                           :index="index"
+                                           disabled
+                                    >{{item.goodsEntity.purStandardName}}
+                                </td>
                                 <td :style='item.discountPrice !== item.goodsEntity.price? "color: blue": "" '>
-                                    <input  class="stockId"  name="price" type="text"
+                                    <input  type="text" name="price"
                                             :value="item.discountPrice"
                                             :stockRecordId="item.stockRecordId"
-                                            :instoreid = "item.inStoreId"
+                                            :index="index"
                                             disabled></td>
-                           <!--row.quantity * row.discountPrice).toFixed(1)-->
-                                <td class="cost">{{(item.quantity * item.discountPrice).toFixed(1)}}</td>
+                                <td class="cost" :instoreid = "item.inStoreId" :stockRecordId="item.stockRecordId">{{item.subTotal}}</td>
 
                             </tr>
+                            </tbody>
+
+                            <tbody v-else>
+                            <tr style="min-height: 200px;">暂无数据</tr>
 
                             </tbody>
                         </table>
 
                     </div>
-
-                    <!--<table id="deliveryOrderNew"></table>-->
-                    <!--<div id="deliveryOrderPager"></div>-->
                 </div>
 
             </div>
@@ -99,16 +108,15 @@
 
 
     export default {
-        name: "DeliveryTable",
+        name: "deliveryBill",
         components: {},
         props: ['outType'],
         watch: {
 
             outType: function (newVal) {
-                if (newVal == "deliveryOrder") {
+                if (newVal == "deliveryBill") {
                     this.isactive = 0;
                     this.getStore();
-
 
                 }
             }
@@ -128,34 +136,34 @@
                 date: ""
             }
         },
-
-
         mounted() {
 
             var that = this;
-
-            $('#deliveryOrderNew').on('dblclick', 'input[name=price]', function () {
+            $('#deliveryOrderNew').on('dblclick', 'input', function () {
                 console.log("dblclick")
                 $(this).removeAttr("disabled");
                 $(this).focus();
             });
 
-            $('#deliveryOrderNew').on('keyup', 'input[name=price]', function (e) {
+            $('#deliveryOrderNew').on('keyup', 'input', function (e) {
 
                 if (e.keyCode == 13) {
-
-                    var newPrice = $(this).val();
-
-                    var stockRecordId = $(this).attr('stockrecordid');
-
+                    // var newPrice = $(this).val();
+                    var index = $(this).attr('index');
+                    var newPrice = $('input[name=price]').eq(index).val();
+                    var newQuantity = $('input[name=quantity]').eq(index).val();
+                    var stockRecordId = $('input[name=price]').eq(index).attr('stockrecordid');
+                    var subTotal = Number(newPrice).toFixed(1) * Number(newQuantity).toFixed(1)
                     var data = {
                         stockRecordId: stockRecordId,
                         discountPrice: newPrice,
                         isDiscount: 1,
+                        quantity: newQuantity,
+                        subTotal: subTotal.toFixed(1)
                     }
                     api.updatePrice(data).then(res => {
                         if (res.code == 0) {
-                            that.getJqtableData();
+                            that.getDeliveryData();
                             $(this).blur();
                             $(this).attr("disabled")
                         }
@@ -165,31 +173,32 @@
 
 
             $('body').on('click', '#sucPrint', function () {
-                        console.log("success!sucPrintsucPrint!")
-                var stockIds = $('.stockId');
-                        var stockRecords = [];
-                    console.log(stockIds.length);
-                    console.log("stockIds.length up")
-                for(var i= 0; i < stockIds.length; i++) {
-                    var stock = stockIds[i];
+                var costTds = $('.cost');
+                var stockRecords = [];
+                var total = 0;
+                var inStoreId = "";
+                for(var i= 0; i < costTds.length; i++) {
+                    var td = costTds[i];
+
+                    var subtotal = $(td).html();
+                    total  = (Number(total) + Number(subtotal)).toFixed(1);
+                    inStoreId = $(td).attr('instoreid');
                     var stockRecord = {
-                        stockRecordId : $(stock).attr('stockrecordid'),
-                        subTotal: $(stock).parent().next().html(),
-                        inStoreId: $(stock).attr('instoreid')
-                    }
-
+                        stockRecordId : $(td).attr('stockrecordid'),
+                    };
                     stockRecords.push(stockRecord);
-
                 }
-                console.log(stockRecords)
-
+                var bill = {
+                    ckStockRecordEntities: stockRecords,
+                    inStoreId: inStoreId,
+                    total: total
+                };
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost:8080/chainPro_war_exploded/sys/ckstockrecord/deliveryPrintSuccess/",
-                    data: JSON.stringify(stockRecords),
+                    url: "http://localhost:8080/chainPro_war_exploded/sys/ckstockbill/deliveryPrintSuccess/",
+                    data: JSON.stringify(bill),
                     dataType: 'json',
                     success: function (data) {
-
                         if (data.code == 0) {
                             window.location.reload();
                         }
@@ -369,8 +378,7 @@
             getStore: function () {
                 this.bus.$emit('loading', true);
                 api.deliveryStore().then(res => {
-                    if (res) {
-                        console.log(res)
+                    if (res.data) {
                         this.bus.$emit('loading', false);
                         this.storeArr = res.data;
                         this.storeId = res.data[0].storeId;
@@ -378,6 +386,9 @@
 
                         //加载表格数据
                         this.getDeliveryData()
+                    }else{
+                        this.bus.$emit('loading', false);
+
                     }
                 });
             },
