@@ -1,13 +1,12 @@
 <template>
     <div class="">
 
-        <PageHeader/>
 
         <section>
             <div class="content">
                 <div class="row">
 
-                    <div class="col-md-6" v-for="(item) in arr">
+                    <div class="col-md-12" v-for="(item) in arr">
 
                         <div class="box">
                             <div class="box-header  with-border">
@@ -27,7 +26,7 @@
                                     <tr>
                                         <th style="width: 10px">#</th>
                                         <th>商品</th>
-                                        <th>计划采购数量</th>
+                                        <th>采购数量</th>
                                         <th>申请店铺</th>
                                         <th style="width: 80px"> </th>
                                     </tr>
@@ -37,12 +36,12 @@
                                     <tr v-for="(goods, index) in item.goodsList">
                                         <td>{{index + 1}}</td>
                                         <td>{{goods.goodsName}}</td>
-                                        <td>{{goods.planPurchase}}{{goods.purStandardName}}</td>
+                                        <td>{{goods.todayQuantity}}{{goods.applyStandardName}}</td>
                                         <td>
                                             <div class="flex-row">
 
                                             <div v-for="(applys, applysIndex) in goods.ckApplysEntities">
-                                               {{applys.storeEntity.storeName}} {{applys.applyNumber}}{{goods.purStandardName}}
+                                               {{applys.storeEntity.storeName}} {{applys.applyNumber}}{{goods.applyStandardName}}
                                             </div>
                                             </div>
 
@@ -70,17 +69,12 @@
 </template>
 
 <script>
-    import PageHeader from '@/components/PageHeader.vue'
-    import api from '@/api/goodsManagement/plan'
+    import api from '@/api/goodsManagement/purchase'
 
-    import NewBillPanel from '@/components/GoodsManagement/Products/NewBillPanel'
-    import HistoryBillPanel from '@/components/GoodsManagement/Products/HistoryBillPanel'
-    import ProductsStockPanel from '@/components/GoodsManagement/Products/ProductsStockPanel'
 
     export default {
-        name: "Plan",
+        name: "PurchaseOrder",
         components: {
-            PageHeader,
 
         },
         data() {
@@ -88,18 +82,33 @@
                 arr: []
             }
         },
+        props:['dailyType'],
+        watch: {
 
-        mounted() {
-            api.planGoods("0").then(res => {
-                if (res.data) {
-                    console.log(res.data);
-                    this.arr = res.data;
+            dailyType: function (newVal) {
+                if (newVal == "purchaseOrder") {
+                    this.getPurchaseOrder()
                 }
-            })
+            }
+
 
         },
 
-        methods: {}
+        mounted() {
+
+
+        },
+
+        methods: {
+            getPurchaseOrder:function () {
+                api.purchaseGoods("0").then(res => {
+                    if (res.data) {
+                        console.log(res.data);
+                        this.arr = res.data;
+                    }
+                })
+            }
+        }
     }
 </script>
 

@@ -78,7 +78,7 @@
 </template>
 
 <script>
-    import api from '@/api/store/outGoods'
+    import api from '@/api/goodsManagement/outGoods'
 
     export default {
         name: "Weigh",
@@ -170,6 +170,7 @@
             getApplysAndSortsData: function () {
                 api.initWeightData().then(res => {
                     if (res.data) {
+                        console.log(res.data)
                         this.outDepArr = res.data.fatherList;
                         this.outApplyArr = res.data.applys;
                         this.fatherId = res.data['fatherList'][0]['fathers']['0']['goodsId'];

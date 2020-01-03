@@ -20,7 +20,7 @@
                             </div>
 
                             <div class="chart tab-pane" id="rawMaterial">
-                                <RawMaterialPanel/>
+                                <!--<RawMaterialPanel/>-->
                             </div>
 
                         </div>
@@ -33,7 +33,6 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
     import GoodsPanel from '@/components/Background/Goods/GoodsPanel.vue'
-    import RawMaterialPanel from '@/components/Background/Goods/RawMaterialPanel.vue'
 
 
     export default {
@@ -48,11 +47,10 @@
         components: {
             PageHeader,
             GoodsPanel,
-            RawMaterialPanel
         },
         methods: {
             //点击产品类别
-            onclick(type) {
+            onclick() {
                 this.$refs.child.getCateGoods()
             },
         }

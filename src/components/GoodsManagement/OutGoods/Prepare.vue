@@ -44,8 +44,8 @@
                 <tr>
                     <th style="width:60px;">序号</th>
                     <th style="width:100px;">商品名称</th>
-                    <th style="width:80px;">库存</th>
-                    <th style="width:120px;">采购数量</th>
+                    <!--<th style="width:80px;">库存</th>-->
+                    <!--<th style="width:120px;">采购数量</th>-->
                     <th style="width:80px;">申请总数</th>
                     <th>申请</th>
                 </tr>
@@ -57,34 +57,30 @@
 
                     <td>{{index + 1}}</td>
                     <td>{{item.goodsName}}</td>
-                    <td>{{item.stockPurStandard}}{{item.purStandardName}}</td>
-                    <td>
+                    <!--<td>{{item.stockPurStandard}}{{item.purStandardName}}</td>-->
+                    <!--<td>-->
+                        <!---->
+
+                        <!--<input v-if='Number(item.stockPurStandard) - Number(item.alarmWeight) > Number(item.todayQuantity) && item.planPurchase == "0" '-->
+                         <!--type="text" style='width: 80%; color: gray;'-->
+                               <!--disabled-->
+                               <!--:value="item.planPurchase"-->
+                               <!--:id="item.goodsId" name="plan">-->
 
 
+                        <!--<input v-else-if='Number(item.stockPurStandard) - Number(item.alarmWeight) < Number(item.todayQuantity) && item.planPurchase == "0" '-->
+                            <!--style='width: 80%; color: red;'-->
+                               <!--disabled-->
+                               <!--:value="item.planPurchase"-->
+                               <!--:id="item.goodsId" name="plan"/>-->
+                        <!--<input v-else type="text" style='width: 80%; color: blue;'-->
+                               <!--disabled-->
+                               <!--:value="item.planPurchase"-->
+                               <!--:id="item.goodsId" name="plan"/>-->
 
 
-
-
-                        <input v-if='Number(item.stockPurStandard) - Number(item.alarmWeight) > Number(item.todayQuantity) && item.planPurchase == "0" '
-                         type="text" style='width: 80%; color: gray;'
-                               disabled
-                               :value="item.planPurchase"
-                               :id="item.goodsId" name="plan">
-
-
-                        <input v-else-if='Number(item.stockPurStandard) - Number(item.alarmWeight) < Number(item.todayQuantity) && item.planPurchase == "0" '
-                            style='width: 80%; color: red;'
-                               disabled
-                               :value="item.planPurchase"
-                               :id="item.goodsId" name="plan"/>
-                        <input v-else type="text" style='width: 80%; color: blue;'
-                               disabled
-                               :value="item.planPurchase"
-                               :id="item.goodsId" name="plan"/>
-
-
-                        {{item.purStandardName}}
-                    </td>
+                        <!--{{item.purStandardName}}-->
+                    <!--</td>-->
                     <td>{{item.totalNumber}}{{item.applyStandardName}}</td>
                     <td>
                         <div class="" style="display: flex;flex-flow: row wrap;">
@@ -110,7 +106,7 @@
 </template>
 
 <script>
-    import api from '@/api/store/outGoods'
+    import api from '@/api/goodsManagement/outGoods'
     import apig from '@/api/background/goods'
 
     export default {

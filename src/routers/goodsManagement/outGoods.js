@@ -2,7 +2,7 @@ export default {
 
     path: '/outGoods',
     name: 'outGoods',
-    component: () => import('@/views/StoreManagement/OutGoods'),
+    component: () => import('@/views/GoodsManagement/OutGoods'),
     children: [
 
 

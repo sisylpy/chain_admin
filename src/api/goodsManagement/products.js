@@ -7,25 +7,33 @@ export default {
      * 出货部门获取商品列表
      */
 
-    getOutDepGoodsList(data) {
+    getOutDepTypeGoodsList(data) {
+        console.log(data)
+        console.log("kankandata??")
         return request({
-            url: 'sys/ckgoods/outDepGoodsList',
+            url: 'sys/ckgoods/getGoodsByParams',
             method: 'post',
             data
         })
     },
-     /**
-     * 出货部门产品类别
-     */
-    getOutDepCateList(data) {
-        return request({
-            url: 'sys/ckgoods/outDepCatoutDepGoodsListeList/' + data,
-            method: 'get',
-        })
-    },
+
 
     /**
-     * 获取员工列表
+     * 查询sorts
+     */
+    getOutDepAndCate(data){
+    return request({
+        url: 'sys/ckgoods/getGoodsStorsByType/'+data,
+        method: 'get',
+
+    })
+    },
+
+
+
+
+    /**
+     * 查询商品
      * @param data
      */
     queryGoodsWithPinyin(data) {
@@ -56,8 +64,6 @@ export default {
 
         })
     },
-
-
 
 
 

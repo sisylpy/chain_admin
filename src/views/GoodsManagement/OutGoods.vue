@@ -48,9 +48,9 @@
 
 <script>
     import PageHeader from '@/components/PageHeader.vue'
-    import Prepare from '@/components/StoreManagement/OutGoods/Prepare'
-    import Weigh from '@/components/StoreManagement/OutGoods/Weigh'
-    import deliveryBill from '@/components/StoreManagement/OutGoods/DeliveryBill'
+    import Prepare from '@/components/GoodsManagement/OutGoods/Prepare'
+    import Weigh from '@/components/GoodsManagement/OutGoods/Weigh'
+    import deliveryBill from '@/components/GoodsManagement/OutGoods/DeliveryBill'
 
     export default {
         name: "OutGoods",

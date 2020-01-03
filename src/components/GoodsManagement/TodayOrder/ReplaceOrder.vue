@@ -236,7 +236,7 @@
 
 <script>
 
-    import apito from '@/api/store/todayOrder'
+    import apito from '@/api/goodsManagement/todayOrder'
     import api from '@/api/goodsManagement/products'
 
 
@@ -688,7 +688,11 @@
                             this.bus.$emit('loading', false);
 
                             console.log("save success;")
-                            location.reload()
+
+                            let NewPage = '_empty' + '?time=' + new Date().getTime()/500;
+                            this.$router.push(NewPage);
+                            this.$router.go(-1);
+                            // window.location.reload()
 
                         }
                     })

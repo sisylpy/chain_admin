@@ -1,8 +1,8 @@
 export default {
 
-    path: '/plan',
-    name: 'plan',
-    component: () => import('@/views/GoodsManagement/Plan'),
+    path: '/todayOrder',
+    name: 'todayOrder',
+    component: () => import('@/views/GoodsManagement/TodayOrder'),
     children: [
 
         // {

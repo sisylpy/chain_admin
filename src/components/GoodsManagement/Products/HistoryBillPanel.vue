@@ -84,6 +84,7 @@ import api from '../../../api/goodsManagement/products'
             this.initBill();
 
         },
+
         watch: {
             depId: function(newVal,oldVal){
                 this.searchBill(newVal)

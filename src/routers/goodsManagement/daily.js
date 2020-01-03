@@ -1,8 +1,8 @@
 export default {
 
-    path: '/todayOrder',
-    name: 'todayOrder',
-    component: () => import('@/views/StoreManagement/TodayOrder'),
+    path: '/daily',
+    name: 'daily',
+    component: () => import('@/views/GoodsManagement/Daily'),
     children: [
 
         // {

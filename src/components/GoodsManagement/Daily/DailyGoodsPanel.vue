@@ -4,13 +4,14 @@
 
         <div class="row my-drop-group">
 
+
             <div class="my-dropDown-group col-md-6">
                 <h5>负责订货商品的称重拣货</h5>
                 <div class="form-group"  style="background: yellow">
                     <select class="form-control select2"  data-placeholder="出库部门"
-                            style="width: 100%;" id="selectOutDepPro" >
+                            style="width: 100%;" id="selectOutDep" >
                         <option ></option>
-                        <option v-for="(item) in outDepArr" :value="item.depId" :key="item.depId"> {{item.depName}}</option>
+                        <option v-for="(item) in outDepArr" :value="item.depId"> {{item.depName}}</option>
                     </select>
 
                 </div>
@@ -21,7 +22,7 @@
                 <h5>商品类别</h5>
                 <div class="form-group"  style="background: yellow">
                     <select class="form-control select2"  data-placeholder="类别"
-                            style="width: 100%;" id="selectFatherPro" >
+                            style="width: 100%;" id="selectFather" >
                         <option ></option>
                         <option v-for="(item) in cateArr" :value="item.goodsId" > {{item.goodsName}}</option>
                     </select>
@@ -61,45 +62,29 @@
     import apid from '../../../api/background/ckDep'
 
     export default {
-        name: "ProductsStockPanel",
-        computed: {
-
-            stockType: {
-                get() {
-                    return this.$store.state.stock.stockType
-                },
-                set(value) {
-                    // this.$store.commit('orders/set_ORDERSDEPID', value)
-                },
-            },
-        },
+        name: "DailyGoodsPanel",
+        props:['dailyType'],
         watch: {
 
-            stockType: function (newVal, oldVal) {
-                console.log(newVal)
-
-                if (newVal === "productsStock") {
-                    console.log("meiyouma?")
-                    this.getSortsList();
+            dailyType: function (newVal) {
+                if (newVal == "dailyGoods") {
+                    this.getSortsList()
                     this.getJqtableData();
                 }
-            },
-
+            }
 
         },
-
 
         data() {
             return {
                 page: 1,
-                limit: 20,
-                goodsType: 0,
+                limit: 200,
+                goodsType: 1,
                 fatherId: -1,
                 depId: -1,
                 goodsList:[],
                 outDepArr: [],
                 cateArr: [],
-
             }
         },
 
@@ -109,41 +94,35 @@
             $('.select2').select2();
 
             // selcct 产品
-
-            $('#selectOutDepPro').on('change', function (e) {
+            $('#selectOutDep').on('change', function (e) {
 
                 that.depId = $(this).val();
                 that.getJqtableData();
             });
 
-            $('#selectFatherPro').on('change', function (e) {
+            $('#selectFather').on('change', function (e) {
 
                 console.log("selfatheer")
                 that.fatherId = $(this).val();
                 that.getJqtableData();
             });
-
-
-
-
-
-
             this.getSortsList()
-            this.getJqtableData();
+
 
         },
         methods: {
 
 
 
-            queryFatherGoods: function(event) {
-                var $this = $(event.currentTarget);
-             this.fatherId = $this.attr('fatherId');
-             this.fatherName = $this.html();
-             this.getJqtableData(this.depId, this.fatherId)
-                $('#dropdownMenu1').html( this.fatherName+`<span class="caret"></span>`)
-
-            },
+            //
+            // queryFatherGoods: function(event) {
+            //     var $this = $(event.currentTarget);
+            //     this.fatherId = $this.attr('fatherId');
+            //     this.fatherName = $this.html();
+            //     this.getJqtableData(this.depId, this.fatherId)
+            //     $('#dropdownMenu1').html( this.fatherName+`<span class="caret"></span>`)
+            //
+            // },
 
             getSortsList: function () {
                 api.getOutDepAndCate(this.goodsType).then(res => {
@@ -151,6 +130,7 @@
                         console.log(res)
                         this.cateArr = res.data.fatherList;
                         this.outDepArr = res.data.outDepList;
+                        this.getJqtableData();
 
                     }
                 })
@@ -169,7 +149,6 @@
                 });
 
             },
-
 
             // 初始化表格
             jqtable() {
@@ -198,29 +177,21 @@
                         colModel: [
                             {label: 'goodsId', name: 'goodsId', width: 50, key: true, hidden: true},
                             {label: '产品名称', name: 'goodsName', width: 120},
-
                             {label: '出货部门', name: 'goodsName', width: 120, formatter: function(value, options, row){
                                     return name = row.depEntity.depName
                                 }},
-                            {label: '保质期天数', name: 'qualityPeriod', width: 120, formatter: function(value, options, row){
-                                    return name = value + "天";
+
+
+                            {label: '今日订货', name: 'todayQuantity', width: 120, formatter: function(value, options, row){
+                                    return name = value + row.purStandardName
                                 }},
-                            {label: '报警数量', name: 'alarmWeight', width: 120, formatter: function(value, options, row){
-                                    return name = value + row.purStandardName;
-                                }},
-                            {label: '单价', name: 'price', width: 120, formatter: function(value, options, row){
-
-                                    return name = value + "元";
-                                } },
-                            {label: '现在库存', name: 'stockPurStandard', width: 120, formatter: function(value, options, row){
-                                    var num = row.stockPurStandard;
-                                    var st = row.purStandardName;
-                                    return name = num + st;
-                                } },
-
-
-
-
+                            {label: '采购数量', name: 'planPurchase', width: 120, formatter: function(value, options, row){
+                                if(value){
+                                    return "<input style='width: 60%' disabled id="+row.goodsId+" value=  "+value+" />"+row.purStandardName+"";
+                                }else {
+                                    return "<input style='width: 60%' disabled id="+row.goodsId+" placeholder='0' />" + row.purStandardName+" "
+                                }
+                                }}
 
                         ],
 

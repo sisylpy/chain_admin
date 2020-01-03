@@ -16,7 +16,7 @@
                         </div>
 
                         <div class="box-body no-padding">
-                            <ul class="nav nav-pills nav-stacked">
+                            <ul class="nav nav-pills nav-stacked" style="max-height: 400px; overflow-y: auto;">
                                 <!--<li class="active"><a>Inbox</a></li>-->
                                 <li v-for="(item,index) in storeList" v-bind:key="item.storeId" :id="item.storeId"
                                     :class="isactive == index ? 'active' : '' "
@@ -107,12 +107,11 @@
         },
 
         mounted() {
-            var data = "page=" + this.page + "&limit=" + this.limit;
-            api.getStoreList(data).then(res => {
+            api.getStoreListAll().then(res => {
                 if (res) {
                     console.log(res);
 
-                    this.storeList = res.page.list;
+                    this.storeList = res.data;
                     // this.fatherId = res.data[0].goodsId;
                     // console.log(res.data[0].goodsName);
 

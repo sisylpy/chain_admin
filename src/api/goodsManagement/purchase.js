@@ -8,9 +8,9 @@ export default {
     /**
      * 获取采购计划商品
      */
-    planGoods(data) {
+    purchaseGoods(data) {
         return request({
-            url: 'sys/ckgoods/getPlanGoods/'+data,
+            url: 'sys/ckgoods/getPurchase/'+data,
             method: 'get',
         })
     },

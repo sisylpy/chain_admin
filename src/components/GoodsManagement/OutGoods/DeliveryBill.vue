@@ -58,7 +58,7 @@
                             </tr>
                             </thead>
 
-                            <tbody  v-if="deliveryArr.length > 0" >
+                            <tbody v-if="deliveryArr.length > 0">
 
                             <tr v-for="(item, index) in deliveryArr">
                                 <td>{{index+1}}</td>
@@ -73,12 +73,14 @@
                                     >{{item.goodsEntity.purStandardName}}
                                 </td>
                                 <td :style='item.discountPrice !== item.goodsEntity.price? "color: blue": "" '>
-                                    <input  type="text" name="price"
-                                            :value="item.discountPrice"
-                                            :stockRecordId="item.stockRecordId"
-                                            :index="index"
-                                            disabled></td>
-                                <td class="cost" :instoreid = "item.inStoreId" :stockRecordId="item.stockRecordId">{{item.subTotal}}</td>
+                                    <input type="text" name="price"
+                                           :value="item.discountPrice"
+                                           :stockRecordId="item.stockRecordId"
+                                           :index="index"
+                                           disabled></td>
+                                <td class="cost" :instoreid="item.inStoreId" :stockRecordId="item.stockRecordId">
+                                    {{item.subTotal}}
+                                </td>
 
                             </tr>
                             </tbody>
@@ -96,7 +98,6 @@
             <div style="display: none" id="test"></div>
 
 
-
         </div>
     </div>
 
@@ -104,7 +105,7 @@
 </template>
 
 <script>
-    import api from '@/api/store/outGoods'
+    import api from '@/api/goodsManagement/outGoods'
 
 
     export default {
@@ -133,7 +134,7 @@
                 storeArr: [],
                 storeName: "",
                 storeId: -1,
-                date: ""
+                date: "2020-01-03"
             }
         },
         mounted() {
@@ -177,14 +178,14 @@
                 var stockRecords = [];
                 var total = 0;
                 var inStoreId = "";
-                for(var i= 0; i < costTds.length; i++) {
+                for (var i = 0; i < costTds.length; i++) {
                     var td = costTds[i];
 
                     var subtotal = $(td).html();
-                    total  = (Number(total) + Number(subtotal)).toFixed(1);
+                    total = (Number(total) + Number(subtotal)).toFixed(1);
                     inStoreId = $(td).attr('instoreid');
                     var stockRecord = {
-                        stockRecordId : $(td).attr('stockrecordid'),
+                        stockRecordId: $(td).attr('stockrecordid'),
                     };
                     stockRecords.push(stockRecord);
                 }
@@ -193,17 +194,17 @@
                     inStoreId: inStoreId,
                     total: total
                 };
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/chainPro_war_exploded/sys/ckstockbill/deliveryPrintSuccess/",
-                    data: JSON.stringify(bill),
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.code == 0) {
-                            window.location.reload();
-                        }
-                    }
-                })
+                // $.ajax({
+                //     type: "POST",
+                //     url: "http://localhost:8080/chainPro_war_exploded/sys/ckstockbill/deliveryPrintSuccess/",
+                //     data: JSON.stringify(bill),
+                //     dataType: 'json',
+                //     success: function (data) {
+                //         if (data.code == 0) {
+                //             window.location.reload();
+                //         }
+                //     }
+                // })
             });
 
             //取消打印
@@ -211,8 +212,6 @@
                 console.log("nonono")
                 window.location.reload();
             });
-
-
 
 
         },
@@ -235,9 +234,13 @@
                     var applyBody = `<div id="page1" class="applyBody" style="position: relative;"></div>`
                     $('#test').append(applyBody);
 
-                    var header = `<div class="header" style="display: flex; flex-flow: row nowrap; align-items: flex-start;" >
-<div style="margin-right: 30px;">店铺:` + this.storeName + `</div> <div style="margin-right: 30px;">日期:` + this.date + `</div>
-<div>第1页 共1页</div> </div>`;
+                    var header = `<div class="header" style="position:relative; width: 100%;">
+                        <div style="float: left; width: 100%; background: #f0ad4e; font-size: 30px;">` + this.storeName + `</div>
+                            <div style="float: left; width: 100%;" >
+                              <div style="float: left; width: 50%; margin-left: 25%;background: yellow;text-align: center;">`+this.storeName + this.date + ` 出库单</div>
+                              <div style="float:left; background: green; margin-right: 50px;">第1页 共1页</div>
+                            </div>
+                          </div>`;
                     $('#page1').append(header);
 
 
@@ -342,7 +345,15 @@
                     }
                 }
 
-                var printStr = "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head><body >";
+                // var printStr = "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head><body >";
+                var printStr = "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'>" +
+                    "<style media=\"print\">" +
+                    "    @page {" +
+                    "      size: auto;  /* auto is the initial value */\n" +
+                    "      margin: 0mm; /* this affects the margin in the printer settings */\n" +
+                    "    }" +
+                    "</style>" +
+                    "</head><body >";
                 var content = "";
                 for (var m = 0; m < totalPriPage; m++) {
                     var newm = m + 1;
@@ -374,7 +385,6 @@
             },
 
 
-
             getStore: function () {
                 this.bus.$emit('loading', true);
                 api.deliveryStore().then(res => {
@@ -386,7 +396,7 @@
 
                         //加载表格数据
                         this.getDeliveryData()
-                    }else{
+                    } else {
                         this.bus.$emit('loading', false);
 
                     }
@@ -411,16 +421,14 @@
                 });
 
 
-
-
-
             },
 
             onclick: function (index, storeId, storeName) {
                 this.isactive = index;
                 this.storeId = storeId;
                 this.storeName = storeName;
-                this.getJqtableData()
+                this.getDeliveryData()
+
             },
 
 

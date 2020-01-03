@@ -37,8 +37,8 @@
 
 <script>
     import PageHeader from '@/components/PageHeader.vue'
-    import ReplaceOrder from '@/components/StoreManagement/TodayOrder/ReplaceOrder'
-    import StoreApplys from '@/components/StoreManagement/TodayOrder/StoreApplys'
+    import ReplaceOrder from '@/components/GoodsManagement/TodayOrder/ReplaceOrder'
+    import StoreApplys from '@/components/GoodsManagement/TodayOrder/StoreApplys'
 
 
     export default {

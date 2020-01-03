@@ -9,12 +9,10 @@ import './adminlte/basic'
 import Print from '@/utils/print'
 
 
-
 Vue.use(Print);
 Vue.prototype.bus = new Vue;
 
-
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 Vue.prototype.$moment = moment;//赋值使用
 
 moment.locale('zh-cn');//需要汉化

@@ -2,7 +2,7 @@
 const modeUrlObj = {
   // 生产环境
   'production': {
-    baseURL: 'http://xxxx:9091/pro/',
+    baseURL: 'http://localhost:8080/chainPro_war_exploded/',
     authBaseURL: ''
   },
   // 开发环境

@@ -114,7 +114,7 @@
 
 <script>
 
-    import api from '@/api/store/todayOrder'
+    import api from '@/api/goodsManagement/todayOrder'
 
     export default {
         name: "StoreApplys",

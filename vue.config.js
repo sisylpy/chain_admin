@@ -1,8 +1,8 @@
 const webpack = require('webpack');
 
 
-module.exports = {
 
+module.exports = {
 
     chainWebpack: config => {
         config.plugin('provide').use(webpack.ProvidePlugin, [{
@@ -49,6 +49,7 @@ module.exports = {
             template: 'public/index.html'
         }
     },
+
 
 
 }

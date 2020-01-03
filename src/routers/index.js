@@ -1,5 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+const routerPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+    return routerPush.call(this, location).catch(error=> error)
+}
+Vue.use(Router)
+
 import Home from '../views/Home'
 
 //后台数据管理
@@ -11,20 +18,23 @@ import StaffRouter from './background/ckUser'
 
 //产品管理
 import ProductsRouter from './goodsManagement/products'
-import PlanRouter from './goodsManagement/plan'
+import DailyRouter from './goodsManagement/daily'
 
 
 //店铺管理
-import TodayOrderRouter from './StoreManagement/todayOrder'
-import OutGoodsRouter from './StoreManagement/outGoods'
+import TodayOrderRouter from './goodsManagement/todayOrder'
+import OutGoodsRouter from './goodsManagement/outGoods'
 import StoreBuindessDataRouter from './StoreManagement/businessData'
 import CostControlDataRouter from './StoreManagement/costControl'
 
 //供货商
 import SupplierRouter from './supplier/supplier'
+//
+// const routerPush = Router.prototype.push
+// Router.prototype.push = function push(location) {
+//     return routerPush.call(this, location).catch(error=> error)
+// }
 
-
-Vue.use(Router)
 
 export default new Router({
 
@@ -34,7 +44,6 @@ export default new Router({
 
         console.log(to);
         console.log(from);
-
 
     },
     routes: [
@@ -52,7 +61,7 @@ export default new Router({
         OutGoodsRouter,
 
         ProductsRouter,
-        PlanRouter,
+        DailyRouter,
 
         SupplierRouter,
 
