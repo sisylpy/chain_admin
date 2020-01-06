@@ -1,8 +1,8 @@
 export default {
 
-    path: '/products',
-    name: 'products',
-    component: () => import('@/views/GoodsManagement/Stock'),
+    path: '/inventory',
+    name: 'inventory',
+    component: () => import('@/views/GoodsManagement/Inventory'),
     children: [
 
         // {

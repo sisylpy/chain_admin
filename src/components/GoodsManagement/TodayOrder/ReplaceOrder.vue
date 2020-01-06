@@ -379,6 +379,8 @@
                     }
 
                     if (value.length > 0 && reg.test(value)) {
+
+
                         api.queryGoodsWithPinyin(value).then(res => {
                             console.log(res)
                             if (res) {
@@ -520,20 +522,17 @@
 
                 //获取当前输入框
                 var input = $('#' + e.currentTarget.id);
+                var val = $(input).val();
 
                 var goodsId = $(input).parent().prev().children('.goodsName').attr('goodsid');
-                if (goodsId) {
+                if (goodsId && val) {
                     var goodsName = $(input).parent().prev().children('.goodsName').val();
                     if (e.keyCode === 13 && goodsName.length > 0) {
                         $(input).parent().parent().next().children().children('.goodsName').focus();
                         // $(input).parent().parent().next().next().children().children('.goodsName').focus();
 
                     }
-
-                } else {
-                    $(input).parent().prev().children('.goodsName').focus();
                 }
-
 
             });
 

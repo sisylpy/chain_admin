@@ -15,7 +15,6 @@
                                 <li class="active"><a href="#productsStock" data-toggle="tab" @click="changeStockPanel('stockGoods')">商品</a></li>
                                 <li><a href="#inStock" data-toggle="tab"  @click="changeStockPanel('inStock')">商品入库</a></li>
                                 <li><a href="#stockBill" data-toggle="tab"  @click="changeStockPanel('stockBill')">入库单据</a></li>
-                                <li><a href="#stockLog" data-toggle="tab"  @click="changeStockPanel('stockLog')">店铺出货日志</a></li>
                                 <li><a href="#stockCount" data-toggle="tab"  @click="changeStockPanel('stockCount')">盘库</a></li>
                             </ul>
                             <div class="tab-content">
@@ -34,10 +33,6 @@
                                     stockBill
                                 </div>
 
-                                <div class="tab-pane" id="stockLog">
-                                    <!--<HistoryBillPanel :depId="depId" :depName="depName" ref="child"/>-->
-                                    stockLog
-                                </div>
 
 
                                 <div class="tab-pane" id="stockCount">
@@ -68,12 +63,12 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
 
-    import NewBillPanel from '@/components/GoodsManagement/Stock/NewBillPanel'
-    import HistoryBillPanel from '@/components/GoodsManagement/Stock/HistoryBillPanel'
-    import StockListPanel from '@/components/GoodsManagement/Stock/StockListPanel'
+    import NewBillPanel from '@/components/GoodsManagement/Inventory/NewBillPanel'
+    import HistoryBillPanel from '@/components/GoodsManagement/Inventory/HistoryBillPanel'
+    import StockListPanel from '@/components/GoodsManagement/Inventory/StockListPanel'
 
     export default {
-        name: "Products",
+        name: "Inventory",
         components: {
             PageHeader,
             NewBillPanel,
@@ -99,10 +94,7 @@
                     this.stockType = data;
                 } else if (data === "inStock") {
                     this.stockType = data;
-                }
-                else if (data === "stockBill") {
-                    this.stockType = data;
-                } else if (data === "stockLog") {
+                } else if (data === "stockBill") {
                     this.stockType = data;
                 } else if (data === "stockCount") {
                     this.stockType = data;

@@ -17,7 +17,7 @@ import CkDepRouter from '../routers/background/ckDep'
 import StaffRouter from './background/ckUser'
 
 //产品管理
-import StockRouter from './goodsManagement/stock'
+import InventoryRouter from './goodsManagement/inventory'
 import DailyRouter from './goodsManagement/daily'
 import HandlingRouter from './goodsManagement/handling'
 
@@ -66,7 +66,7 @@ export default new Router({
         TodayOrderRouter,
         OutGoodsRouter,
 
-        StockRouter,
+        InventoryRouter,
         HandlingRouter,
         DailyRouter,
 

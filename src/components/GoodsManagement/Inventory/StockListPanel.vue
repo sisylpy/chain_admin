@@ -70,7 +70,6 @@
 
                 if (newVal === "stockGoods") {
                     console.log("meiyouma?")
-                    this.getSortsList();
                     this.getJqtableData();
                 }
             },
@@ -118,7 +117,6 @@
 
 
 
-            this.getSortsList()
             this.getJqtableData();
 
         },
@@ -136,11 +134,9 @@
             },
 
             getSortsList: function () {
-                this.bus.$emit('loading', true);
 
                 api.getOutDepAndCate(this.goodsType).then(res => {
                     if(res) {
-                        this.bus.$emit('loading', false);
                         this.cateArr = res.data.fatherList;
                         this.outDepArr = res.data.outDepList;
 
@@ -160,6 +156,8 @@
                     this.bus.$emit('loading', false);
                     //加载表格数据
                     this.jqtable()
+                    this.getSortsList();
+
                 });
 
             },
