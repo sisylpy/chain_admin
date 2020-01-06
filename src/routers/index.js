@@ -17,8 +17,9 @@ import CkDepRouter from '../routers/background/ckDep'
 import StaffRouter from './background/ckUser'
 
 //产品管理
-import ProductsRouter from './goodsManagement/products'
+import StockRouter from './goodsManagement/stock'
 import DailyRouter from './goodsManagement/daily'
+import HandlingRouter from './goodsManagement/handling'
 
 
 //店铺管理
@@ -46,6 +47,11 @@ export default new Router({
         console.log(from);
 
     },
+
+
+
+
+
     routes: [
 
         GoodsRouter,
@@ -60,7 +66,8 @@ export default new Router({
         TodayOrderRouter,
         OutGoodsRouter,
 
-        ProductsRouter,
+        StockRouter,
+        HandlingRouter,
         DailyRouter,
 
         SupplierRouter,
@@ -71,6 +78,7 @@ export default new Router({
         },
         {
             path: '/index.html',
+            name: 'home',
             component: Home
         },
         {

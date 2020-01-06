@@ -51,12 +51,12 @@
 </template>
 
 <script>
-    import api from '../../../api/background/goods'
+    import api from '../../../../api/background/goods'
     import addGoods from '@/components/Background/Goods/AddGoods.vue'
 
     export default {
-        name: "ProductsTable",
-        props:['fatherId','fatherName','type'],
+        name: "StockTypeGoodsTable",
+        props:['fatherId','fatherName','goodsType'],
         components:{
           addGoods,
         },
@@ -69,6 +69,13 @@
             fatherName: function (newVal, oldVal) {
                 this.tableName= newVal;
 
+            },
+            goodsType: function (newVal, oldVal) {
+                this.tableName= newVal;
+                if(newVal == "stock"){
+                    this.getJqtableData(this.fatherId)
+
+                }
             },
 
 

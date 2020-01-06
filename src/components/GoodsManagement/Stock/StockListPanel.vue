@@ -8,7 +8,7 @@
                 <h5>负责订货商品的称重拣货</h5>
                 <div class="form-group"  style="background: yellow">
                     <select class="form-control select2"  data-placeholder="出库部门"
-                            style="width: 100%;" id="selectOutDepPro" >
+                            style="width: 100%;" id="selectOutDepProStock" >
                         <option ></option>
                         <option v-for="(item) in outDepArr" :value="item.depId" :key="item.depId"> {{item.depName}}</option>
                     </select>
@@ -21,7 +21,7 @@
                 <h5>商品类别</h5>
                 <div class="form-group"  style="background: yellow">
                     <select class="form-control select2"  data-placeholder="类别"
-                            style="width: 100%;" id="selectFatherPro" >
+                            style="width: 100%;" id="selectFatherProStock" >
                         <option ></option>
                         <option v-for="(item) in cateArr" :value="item.goodsId" > {{item.goodsName}}</option>
                     </select>
@@ -39,8 +39,8 @@
             <div class="panel-body  no-border no-padding">
                 <div class="box-body  no-padding">
 
-                    <table id="jqGrid"></table>
-                    <div id="jqGridPager"></div>
+                    <table id="jqGridStockPanel"></table>
+                    <div id="jqGridPagerStock"></div>
 
                 </div>
 
@@ -58,27 +58,17 @@
 
 <script>
     import api from '../../../api/goodsManagement/products'
-    import apid from '../../../api/background/ckDep'
 
     export default {
-        name: "ProductsStockPanel",
-        computed: {
+        name: "StockListPanel",
+        props:['stockType'],
 
-            stockType: {
-                get() {
-                    return this.$store.state.stock.stockType
-                },
-                set(value) {
-                    // this.$store.commit('orders/set_ORDERSDEPID', value)
-                },
-            },
-        },
         watch: {
 
             stockType: function (newVal, oldVal) {
                 console.log(newVal)
 
-                if (newVal === "productsStock") {
+                if (newVal === "stockGoods") {
                     console.log("meiyouma?")
                     this.getSortsList();
                     this.getJqtableData();
@@ -92,7 +82,7 @@
         data() {
             return {
                 page: 1,
-                limit: 20,
+                limit: 200,
                 goodsType: 0,
                 fatherId: -1,
                 depId: -1,
@@ -110,13 +100,13 @@
 
             // selcct 产品
 
-            $('#selectOutDepPro').on('change', function (e) {
+            $('#selectOutDepProStock').on('change', function (e) {
 
                 that.depId = $(this).val();
                 that.getJqtableData();
             });
 
-            $('#selectFatherPro').on('change', function (e) {
+            $('#selectFatherProStock').on('change', function (e) {
 
                 console.log("selfatheer")
                 that.fatherId = $(this).val();
@@ -146,9 +136,11 @@
             },
 
             getSortsList: function () {
+                this.bus.$emit('loading', true);
+
                 api.getOutDepAndCate(this.goodsType).then(res => {
                     if(res) {
-                        console.log(res)
+                        this.bus.$emit('loading', false);
                         this.cateArr = res.data.fatherList;
                         this.outDepArr = res.data.outDepList;
 
@@ -161,9 +153,11 @@
             getJqtableData: function(){
                 var data = "page=" + this.page + "&limit=" + this.limit  +
                     "&depId="+ this.depId + "&fatherId=" + this.fatherId + "&type="+ this.goodsType;
+                this.bus.$emit('loading', true);
+
                 api.getOutDepTypeGoodsList(data).then(res => {
                     this.goodsList = res.page.list;
-                    console.log(res.page)
+                    this.bus.$emit('loading', false);
                     //加载表格数据
                     this.jqtable()
                 });
@@ -183,15 +177,15 @@
                 var _this = this
 
                 //更新数据
-                $("#jqGrid").jqGrid('setGridParam',{
+                $("#jqGridStockPanel").jqGrid('setGridParam',{
                     datatype:'local',
                     data:this.goodsList,//newData是符合格式要求的重新加载的数据
                     page:this.currPage//哪一页的值
                 }).trigger("reloadGrid");
 
-                $("#jqGrid").jqGrid('setLabel', '0', '序号', 'labelstyle');
+                $("#jqGridStockPanel").jqGrid('setLabel', '0', '序号', 'labelstyle');
 
-                $("#jqGrid").jqGrid(
+                $("#jqGridStockPanel").jqGrid(
                     {
                         data: _this.goodsList,
                         datatype: "local",
@@ -235,7 +229,7 @@
                         autowidth: true,
                         autoScroll: true,
                         multiselect: false,
-                        pager: "#jqGridPager",
+                        pager: "#jqGridPagerStock",
                         jsonReader: {
                             root: "page.list",
                             page: this.currPage,

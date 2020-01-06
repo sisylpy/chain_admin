@@ -38,6 +38,7 @@
                             navTitle: name
                         }
                     })
+                    console.log(this.$store)
                     this.$store.dispatch('pageHeader/setNavTitle', name)
 
 

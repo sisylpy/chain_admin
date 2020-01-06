@@ -3,23 +3,23 @@
 
     <div>
 
-        <div class="box box-primary " style="min-height: 600px;">
-            <div class="box-header with-border">
-                <div class="row">
-                    <div class="col-md-3">
+        <div class=" " style="min-height: 600px;">
+            <div class=" with-border">
+                <div class="row flex-row">
+                    <!--<div class="col-md-3">-->
 
-                        <div class="form-group">
-                            <label>送货日期:</label>
-                            <div class="input-group date">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" class="form-control pull-right" id="datepicker"
-                                       data-format="MM月dd日">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
+                        <!--<div class="form-group">-->
+                            <!--<label>送货日期:</label>-->
+                            <!--<div class="input-group date">-->
+                                <!--<div class="input-group-addon">-->
+                                    <!--<i class="fa fa-calendar"></i>-->
+                                <!--</div>-->
+                                <!--<input type="text" class="form-control pull-right" id="datepicker"-->
+                                       <!--data-format="MM月dd日">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="col-md-4">
                         <div class="form-group">
 
                             <label>订货店铺:</label>
@@ -36,9 +36,7 @@
                         </div>
 
                     </div>
-                </div>
 
-                <div class="row flex-row">
                     <div class="col-md-4">
                         <!-- 单列，双列，三列-->
                         <label>订单显示:</label>
@@ -66,11 +64,15 @@
 
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <button class="btn-default btn-sm" @click="saveGoods">保存订单</button>
+                    <div class="col-md-4">
+                        <button class="btn-default btn-lg" @click="saveGoods">保存订单</button>
                     </div>
 
                 </div>
+
+
+
+
 
             </div>
 

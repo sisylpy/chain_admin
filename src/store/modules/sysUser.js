@@ -1,5 +1,5 @@
 // import { getToken, setToken, removeToken } from '@/utils/auth'
-import api from '@/api/user'
+// import api from '@/api/user'
 
 
 const sysUser = {
@@ -42,24 +42,24 @@ const sysUser = {
         //     })
         // },
         // 获取用户信息
-        GetUserInfo ({ commit }) {
-            return new Promise((resolve, reject) => {
-                api.getUserInfo().then(res => {
-                    // console.log(res)
-                    if (res.code === 0) {
-                        // setToken(res.token)
-                        // commit('SET_TOKEN', res.token);
-                        commit('SET_USER', res.user);
-                        // commit('SET_NAME', res.data.name)
-                        // commit('SET_AVATAR', res.data.avatar)
-                        // commit('SET_ROLES', res.data.role)
-                    }
-                    resolve(res)
-                }).catch(error => {
-                    reject(error)
-                })
-            })
-        },
+        // GetUserInfo ({ commit }) {
+        //     return new Promise((resolve, reject) => {
+        //         api.getUserInfo().then(res => {
+        //             // console.log(res)
+        //             if (res.code === 0) {
+        //                 // setToken(res.token)
+        //                 // commit('SET_TOKEN', res.token);
+        //                 commit('SET_USER', res.user);
+        //                 // commit('SET_NAME', res.data.name)
+        //                 // commit('SET_AVATAR', res.data.avatar)
+        //                 // commit('SET_ROLES', res.data.role)
+        //             }
+        //             resolve(res)
+        //         }).catch(error => {
+        //             reject(error)
+        //         })
+        //     })
+        // },
         //
         // // 登出
         LogOut ({ commit, state }) {

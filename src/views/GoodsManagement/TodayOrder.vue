@@ -3,33 +3,30 @@
 
         <PageHeader/>
 
-        <section>
+        <div class="content">
 
-            <div class="nav-tabs-custom no-border pull-left" style="width: 100%;">
+            <div class="nav-tabs-custom no-border">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#replaceOrder" data-toggle="tab" @click='changeTodayOrderType("replace")'>代下单</a></li>
                     <li><a href="#storeOrder" data-toggle="tab" @click='changeTodayOrderType("today")'>今日申请</a></li>
                 </ul>
-            </div>
 
-            <div class="tab-content  no-border" style="float: left; width: 100%;">
 
-                <div class="active tab-pane no-border" id="replaceOrder" style="padding: 20px;">
+            <div class="tab-content  no-border">
+
+                <div class="active tab-pane no-border" id="replaceOrder">
                     <ReplaceOrder :orderType="orderType"/>
 
                 </div>
 
                 <div class="tab-pane no-border table-responsive mailbox-messages " id="storeOrder">
                     <StoreApplys :orderType="orderType"/>
-
                 </div>
 
-
-
+            </div>
             </div>
 
-
-        </section>
+        </div>
     </div>
 
 
@@ -52,6 +49,7 @@
         },
 
         mounted() {
+
 
         },
 

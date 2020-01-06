@@ -53,9 +53,9 @@ export default {
     /**
      * 获取类别商品
      */
-    getCateGoods() {
+    getCateGoods(data) {
       return request({
-          url: "sys/ckgoods/cateList",
+          url: "sys/ckgoods/cateListByType/"+data,
           method: 'get',
       })
     },

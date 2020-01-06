@@ -1,8 +1,8 @@
 export default {
 
-    path: '/products',
-    name: 'products',
-    component: () => import('@/views/GoodsManagement/Products'),
+    path: '/handling',
+    name: 'handling',
+    component: () => import('@/views/GoodsManagement/Handling'),
     children: [
 
         // {

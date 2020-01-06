@@ -10,7 +10,7 @@ export default {
      */
     purchaseGoods(data) {
         return request({
-            url: 'sys/ckgoods/getPurchase/'+data,
+            url: 'sys/ckgoods/getTypePurchase/'+data,
             method: 'get',
         })
     },

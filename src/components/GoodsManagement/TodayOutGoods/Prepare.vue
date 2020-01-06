@@ -107,7 +107,6 @@
 
 <script>
     import api from '@/api/goodsManagement/outGoods'
-    import apig from '@/api/background/goods'
 
     export default {
         name: "Prepare",
@@ -223,39 +222,39 @@
                 });
             });
 
-            $('#apply_table').on('dblclick', 'input[name=plan]' ,function (e) {
-                $(this).removeAttr("disabled");
-                $(this).focus();
-
-
-            })
-
-            $('#apply_table').on('keyup', 'input[name=plan]', function (e) {
-
-                if (e.keyCode == 13) {
-                    // var newPrice = $(this).val();
-                    console.log(e.currentTarget.id)
-
-
-                   var goodsId = e.currentTarget.id;
-                    var goods = {
-                       goodsId:  goodsId,
-                        planPurchase: $(this).val(),
-                    }
-
-                    apig.updateGoods(goods).then(res =>{
-                        if(res.code == 0){
-                            that.getApplysAndSortsData();
-
-                            $(e.currentTarget).blur();
-                            $(e.currentTarget).attr("disabled")
-
-                        }
-                    })
-
-
-                }
-            });
+            // $('#apply_table').on('dblclick', 'input[name=plan]' ,function (e) {
+            //     $(this).removeAttr("disabled");
+            //     $(this).focus();
+            //
+            //
+            // })
+            //
+            // $('#apply_table').on('keyup', 'input[name=plan]', function (e) {
+            //
+            //     if (e.keyCode == 13) {
+            //         // var newPrice = $(this).val();
+            //         console.log(e.currentTarget.id)
+            //
+            //
+            //        var goodsId = e.currentTarget.id;
+            //         var goods = {
+            //            goodsId:  goodsId,
+            //             planPurchase: $(this).val(),
+            //         }
+            //
+            //         apig.updateGoods(goods).then(res =>{
+            //             if(res.code == 0){
+            //                 that.getApplysAndSortsData();
+            //
+            //                 $(e.currentTarget).blur();
+            //                 $(e.currentTarget).attr("disabled")
+            //
+            //             }
+            //         })
+            //
+            //
+            //     }
+            // });
 
         },
 
@@ -373,10 +372,13 @@
                 var test = $('#test').html();
                 window.document.body.innerHTML = test
                 window.print();
+
                 var ch = `<div style="width: 100%; height: 100%; background: gray;position: fixed; left:0; top:0;">
-                            <button id="successPrint">打印成功</button>
-                            <button id="cancelPrint">打印失败</button>
+                            <button id="successPrint">打印成功1</button>
+                            <button id="cancelPrint">打印失败1</button>
                             </div>`
+
+
                 $('body').append(ch)
 
             },

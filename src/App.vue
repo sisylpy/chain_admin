@@ -172,7 +172,7 @@
         created: function () {
             this.getMenuList();
             this.getUser();
-            this.getSessionStorage();
+            // this.getSessionStorage();
 
         },
         data:function () {
@@ -203,6 +203,8 @@
 
 
             getSessionStorage: function(){
+                console.log(sessionStorage);
+                console.log("sessionssttttrage!!")
 
                 if (sessionStorage.getItem("store") ) {
                     this.$store.replaceState(Object.assign({}, this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
@@ -211,10 +213,20 @@
                     sessionStorage.setItem("store",JSON.stringify(this.$store.state))
                 })
             },
+
             getUser: function () {
-                this.$store.dispatch('sysUser/GetUserInfo').then(res => {
-                    if(res) {
-                        this.user =res.user;
+                // this.$store.dispatch('sysUser/GetUserInfo').then(res => {
+                //     if(res) {
+                //         this.user =res.user;
+                //     }
+                // })
+                api.getUserInfo().then(res => {
+
+                    if(res.user) {
+                        console.log(res)
+                    }else {
+                        window.location.href = 'login.html'
+
                     }
                 })
 

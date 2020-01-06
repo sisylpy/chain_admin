@@ -6,7 +6,7 @@
         <div class="col-md-2">
             <div class="box  box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">订货店铺</h3>
+                    <!--<h3 class="box-title">订货店铺</h3>-->
                 </div>
 
                 <div class="box-body no-padding">
@@ -94,7 +94,7 @@
                         <td v-else-if="item.applyStatus ===2 "><span class="label label-success">出货完成</span></td>
                         <td>{{(item.applyTime).slice(12)}}</td>
                         <td v-if="item.applyStatus === 0">
-                            <i class="fa fa-trash-o" @click="delApply(item.applyId)"></i>
+                            <i class="fa fa-trash-o" @click="delApply(item.applyId, index)" ></i>
                         </td>
                         <td v-else>
                         </td>
@@ -140,6 +140,7 @@
                 if (newVal == "today") {
                     this.getApplyStoreList();
                     this.getStoreApplys();
+
                 }
             }
 
@@ -158,6 +159,7 @@
                             this.bus.$emit('loading', false);
                             this.applyStoreArr = res.data;
                             this.storeId = res.data[0].storeId;
+                            this.isactive= 0;
                             this.getStoreApplys()
                         }
                     })
@@ -198,15 +200,24 @@
                     })
             },
 
-            delApply: function (id) {
-                console.log(id);
+            delApply: function (id, index) {
+                var len = $('tr').eq(index).siblings().length;
+                console.log(len);
+                console.log($('tr').eq(index).siblings())
+
                 this.bus.$emit('loading', true);
+
 
                 api.delateApplyById(id)
                     .then(res => {
                         if (res) {
                             this.bus.$emit('loading', false);
+                            if(len == 0){
+                                console.log("shi 0 le")
+                                this.isactive = 0;
+                                this.getApplyStoreList();
 
+                            }
                             this.getStoreApplys();
                         }
                     })

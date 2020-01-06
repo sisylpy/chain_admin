@@ -27,7 +27,8 @@
                                         <th style="width: 10px">#</th>
                                         <th>商品</th>
                                         <th>采购数量</th>
-                                        <th>申请店铺</th>
+                                        <th>订货数量</th>
+                                        <th>订货店铺</th>
                                         <th style="width: 80px"> </th>
                                     </tr>
                                     </thead>
@@ -36,6 +37,7 @@
                                     <tr v-for="(goods, index) in item.goodsList">
                                         <td>{{index + 1}}</td>
                                         <td>{{goods.goodsName}}</td>
+                                        <td>{{goods.planPurchase}}</td>
                                         <td>{{goods.todayQuantity}}{{goods.applyStandardName}}</td>
                                         <td>
                                             <div class="flex-row">
@@ -73,20 +75,23 @@
 
 
     export default {
-        name: "PurchaseOrder",
+        name: "HandlingOrder",
         components: {
 
         },
         data() {
             return {
-                arr: []
+                arr: [],
+                goodsType: 1,
+
             }
         },
-        props:['dailyType'],
+        props:['handlingType'],
         watch: {
 
-            dailyType: function (newVal) {
-                if (newVal == "purchaseOrder") {
+            handlingType: function (newVal) {
+                if (newVal == "handlingOrder") {
+                    console.log("handlinglm????????")
                     this.getPurchaseOrder()
                 }
             }
@@ -101,10 +106,12 @@
 
         methods: {
             getPurchaseOrder:function () {
-                api.purchaseGoods("0").then(res => {
+                this.bus.$emit('loading', true);
+                api.purchaseGoods(this.goodsType).then(res => {
                     if (res.data) {
                         console.log(res.data);
                         this.arr = res.data;
+                        this.bus.$emit('loading', false);
                     }
                 })
             }

@@ -15,9 +15,9 @@
                                 <li class="active"><a href="#dailyGoods" data-toggle="tab"
                                                       @click="changeDailyPanel('dailyGoods')">日采产品</a></li>
                                 <li><a href="#purchaseOrder" data-toggle="tab"
-                                       @click="changeDailyPanel('purchaseOrder')">采购单</a></li>
+                                       @click="changeDailyPanel('dailyOrder')">采购单</a></li>
                                 <li><a href="#purchaseAnalyst" data-toggle="tab"
-                                       @click="changeDailyPanel('purchaseAnalyst')">采购分析</a></li>
+                                       @click="changeDailyPanel('dailyAnalyst')">采购分析</a></li>
                             </ul>
                             <div class="tab-content">
 
@@ -27,7 +27,7 @@
                                 <!-- /.tab-pane -->
 
                                 <div class="tab-pane" id="purchaseOrder">
-                                    <PurchaseOrder :dailyType="dailyType"/>
+                                    <DailyOrder :dailyType="dailyType"/>
                                 </div>
 
                                 <div class="tab-pane" id="purchaseAnalyst">
@@ -59,14 +59,14 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
 
-    import PurchaseOrder from '@/components/GoodsManagement/Daily/PurchaseOrder'
+    import DailyOrder from '@/components/GoodsManagement/Daily/DailyOrder'
     import DailyGoodsPanel from '@/components/GoodsManagement/Daily/DailyGoodsPanel'
 
     export default {
         name: "Daily",
         components: {
             PageHeader,
-            PurchaseOrder,
+            DailyOrder,
             DailyGoodsPanel,
         },
         data() {
@@ -88,10 +88,10 @@
                 console.log(data)
                 if (data === "dailyGoods") {
                     this.dailyType = "dailyGoods"
-                } else if (data === "purchaseOrder") {
-                    this.dailyType = "purchaseOrder"
-                } else if (data === "purchaseAnalyst") {
-                    this.dailyType = "purchaseOrder"
+                } else if (data === "dailyOrder") {
+                    this.dailyType = "dailyOrder"
+                } else if (data === "dailyAnalyst") {
+                    this.dailyType = "dailyOrder"
                 }
             },
 

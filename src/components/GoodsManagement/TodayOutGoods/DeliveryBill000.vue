@@ -244,10 +244,13 @@
                     $('#page1').append(header);
 
 
-                    var left = `<div class="left" style="float: left; background: pink;width: 50%; "></div>`
+                    var left = `<div class="left" style="float: left; background: pink;width: 33%; "></div>`
                     $('.applyBody:eq(0)').append(left);
 
-                    var right = `<div class="right" style="float: left;width: 50%;  background: yellow;"></div>`
+                    var middle = `<div class="middle" style="float: left; background: greenyellow;width: 33%; "></div>`
+                    $('.applyBody:eq(0)').append(middle);
+
+                    var right = `<div class="right" style="float: left;width: 33%;  background: yellow;"></div>`
                     $('.applyBody:eq(0)').append(right);
 
                     for (var j = 0; j < arr.length; j++) {
@@ -295,10 +298,11 @@
                         $('.applyBody:eq(' + newi + ')').append(header);
 
 
-                        var left = `<div class="left" style="float: left; background: pink;width: 50%; "></div>`
+                        var left = `<div class="left" style="float: left; background: pink;width: 33%; "></div>`
                         $('.applyBody:eq(' + newi + ')').append(left);
-
-                        var right = `<div class="right" style="float: left;width: 50%;  background: yellow;"></div>`
+                        var middle = `<div class="middle" style="float: left; background: greenyellow;width: 33%; "></div>`
+                        $('.applyBody:eq(0)').append(middle);
+                        var right = `<div class="right" style="float: left;width: 33%;  background: yellow;"></div>`
                         $('.applyBody:eq(' + newi + ')').append(right);
 
                         for (var j = i * totalGoods - totalGoods; j < i * totalGoods; j++) {
@@ -378,7 +382,7 @@
 
 
                 var ch = `<div style="z-index: 9999; width:100%; height:100%;  background:gray;position: absolute; margin-right:20px; margin-top:100px;">
-                            <button id="sucPrint">打印成功</button>
+                            <button id="sucPrint">打印成功1</button>
                             <button id="noPrint">打印失败</button>
                             </div>`
                 $('body').append(ch)

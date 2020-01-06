@@ -9,7 +9,7 @@
                 <h5>负责订货商品的称重拣货</h5>
                 <div class="form-group"  style="background: yellow">
                     <select class="form-control select2"  data-placeholder="出库部门"
-                            style="width: 100%;" id="selectOutDepDaily" >
+                            style="width: 100%;" id="selectOutDepHandling" >
                         <option ></option>
                         <option v-for="(item) in outDepArr" :value="item.depId"> {{item.depName}}</option>
                     </select>
@@ -22,7 +22,7 @@
                 <h5>商品类别</h5>
                 <div class="form-group"  style="background: yellow">
                     <select class="form-control select2"  data-placeholder="类别"
-                            style="width: 100%;" id="selectFatherDaily" >
+                            style="width: 100%;" id="selectFatherHandling" >
                         <option ></option>
                         <option v-for="(item) in cateArr" :value="item.goodsId" > {{item.goodsName}}</option>
                     </select>
@@ -40,8 +40,8 @@
             <div class="panel-body  no-border no-padding">
                 <div class="box-body  no-padding">
 
-                    <table id="jqGridDailyPanel"></table>
-                    <div id="jqGridPagerDaily"></div>
+                    <table id="jqGridHandlingPanel"></table>
+                    <div id="jqGridPagerHandlingPanel"></div>
 
                 </div>
 
@@ -59,16 +59,17 @@
 
 <script>
     import api from '../../../api/goodsManagement/products'
+    import apid from '../../../api/background/ckDep'
     import apig from '@/api/background/goods'
 
     export default {
-        name: "DailyGoodsPanel",
-        props:['dailyType'],
+        name: "HandlingGoodsPanel",
+        props:['handlingType'],
         watch: {
 
             dailyType: function (newVal) {
-                if (newVal == "dailyGoods") {
-                    this.getSortsList()
+                if (newVal == "handlingGoods") {
+                    // this.getSortsList()
                     this.getJqtableData();
                 }
             }
@@ -78,8 +79,8 @@
         data() {
             return {
                 page: 1,
-                limit: 200,
-                goodsType: 2,
+                limit: 20,
+                goodsType: 1,
                 fatherId: -1,
                 depId: -1,
                 goodsList:[],
@@ -94,13 +95,13 @@
             $('.select2').select2();
 
             // selcct 产品
-            $('#selectOutDepDaily').on('change', function (e) {
+            $('#selectOutDepHandling').on('change', function (e) {
 
                 that.depId = $(this).val();
                 that.getJqtableData();
             });
 
-            $('#selectFatherDaily').on('change', function (e) {
+            $('#selectFatherHandling').on('change', function (e) {
 
                 console.log("selfatheer")
                 that.fatherId = $(this).val();
@@ -111,7 +112,7 @@
 
 
             //修改采购数量
-            $('#jqGridDailyPanel').on('dblclick', 'input[name=plan]' ,function (e) {
+            $('#jqGridHandlingPanel').on('dblclick', 'input[name=plan]' ,function (e) {
                 console.log("doubleleleleele")
                 $(this).removeAttr("disabled");
                 $(this).focus();
@@ -119,7 +120,7 @@
 
             })
 
-            $('#jqGridDailyPanel').on('keyup', 'input[name=plan]', function (e) {
+            $('#jqGridHandlingPanel').on('keyup', 'input[name=plan]', function (e) {
 
                 if (e.keyCode == 13) {
                     // var newPrice = $(this).val();
@@ -151,28 +152,14 @@
         methods: {
 
 
-
-            //
-            // queryFatherGoods: function(event) {
-            //     var $this = $(event.currentTarget);
-            //     this.fatherId = $this.attr('fatherId');
-            //     this.fatherName = $this.html();
-            //     this.getJqtableData(this.depId, this.fatherId)
-            //     $('#dropdownMenu1').html( this.fatherName+`<span class="caret"></span>`)
-            //
-            // },
-
             getSortsList: function () {
                 // this.bus.$emit('loading', true);
-
                 api.getOutDepAndCate(this.goodsType).then(res => {
                     if(res) {
-                        console.log(res)
+                        // this.bus.$emit('loading', false);
                         this.cateArr = res.data.fatherList;
                         this.outDepArr = res.data.outDepList;
                         // this.getJqtableData();
-                        // this.bus.$emit('loading', false);
-
 
                     }
                 })
@@ -181,17 +168,19 @@
 
             //获取表格数据
             getJqtableData: function(){
-                var data = "page=" + this.page + "&limit=" + this.limit  +
-                    "&depId="+ this.depId + "&fatherId=" + this.fatherId + "&type="+ this.goodsType;
+                console.log("init getgetJqtableData")
                 this.bus.$emit('loading', true);
 
+                var data = "page=" + this.page + "&limit=" + this.limit  +
+                    "&depId="+ this.depId + "&fatherId=" + this.fatherId + "&type="+ this.goodsType;
                 api.getOutDepTypeGoodsList(data).then(res => {
                     this.goodsList = res.page.list;
                     console.log(res.page)
                     //加载表格数据
                     this.jqtable()
                     this.bus.$emit('loading', false);
-                    this.getSortsList();
+                    this.getSortsList()
+
 
                 });
 
@@ -203,21 +192,21 @@
                 console.log("jqtable?????")
 
                 // 清空jqGrid表格数据
-                $("#jqGridDailyPanel").jqGrid("clearGridData")
+                $("#jqGrid").jqGrid("clearGridData")
 
                 // 初始化jqgrid
                 var _this = this
 
                 //更新数据
-                $("#jqGridDailyPanel").jqGrid('setGridParam',{
+                $("#jqGridHandlingPanel").jqGrid('setGridParam',{
                     datatype:'local',
                     data:this.goodsList,//newData是符合格式要求的重新加载的数据
                     page:this.currPage//哪一页的值
                 }).trigger("reloadGrid");
 
-                $("#jqGridDailyPanel").jqGrid('setLabel', '0', '序号', 'labelstyle');
+                $("#jqGridHandlingPanel").jqGrid('setLabel', '0', '序号', 'labelstyle');
 
-                $("#jqGridDailyPanel").jqGrid(
+                $("#jqGridHandlingPanel").jqGrid(
                     {
                         data: _this.goodsList,
                         datatype: "local",
@@ -234,7 +223,7 @@
                                 }},
                             {label: '采购数量', name: 'planPurchase', width: 120, formatter: function(value, options, row){
                                 if(value){
-                                    return "<input style='width: 60%' disabled id="+row.goodsId+" value=  "+value+" name='plan'/>"+row.purStandardName+"";
+                                    return "<input style='width: 60%' disabled id="+row.goodsId+" value=  "+value+" name='plan' />"+row.purStandardName+"";
                                 }else {
                                     return "<input style='width: 60%' disabled id="+row.goodsId+" placeholder='0' name='plan'/>" + row.purStandardName+" "
                                 }
@@ -253,7 +242,7 @@
                         autowidth: true,
                         autoScroll: true,
                         multiselect: false,
-                        pager: "#jqGridPagerDaily",
+                        pager: "#jqGridPagerHandlingPanel",
                         jsonReader: {
                             root: "page.list",
                             page: this.currPage,

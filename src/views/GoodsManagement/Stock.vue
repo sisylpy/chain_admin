@@ -12,8 +12,8 @@
                     <div class="content">
                         <div class="nav-tabs-justified">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#productsStock" data-toggle="tab" @click="changeStockPanel('productsStock')">产品库存</a></li>
-                                <li><a href="#inStock" data-toggle="tab"  @click="changeStockPanel('inStock')">产品入库</a></li>
+                                <li class="active"><a href="#productsStock" data-toggle="tab" @click="changeStockPanel('stockGoods')">商品</a></li>
+                                <li><a href="#inStock" data-toggle="tab"  @click="changeStockPanel('inStock')">商品入库</a></li>
                                 <li><a href="#stockBill" data-toggle="tab"  @click="changeStockPanel('stockBill')">入库单据</a></li>
                                 <li><a href="#stockLog" data-toggle="tab"  @click="changeStockPanel('stockLog')">店铺出货日志</a></li>
                                 <li><a href="#stockCount" data-toggle="tab"  @click="changeStockPanel('stockCount')">盘库</a></li>
@@ -21,7 +21,7 @@
                             <div class="tab-content">
 
                                 <div class="active tab-pane" id="productsStock">
-                                    <ProductsStockPanel/>
+                                    <StockListPanel :stockType="stockType"/>
                                 </div>
                                 <!-- /.tab-pane -->
 
@@ -68,9 +68,9 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
 
-    import NewBillPanel from '@/components/GoodsManagement/Products/NewBillPanel'
-    import HistoryBillPanel from '@/components/GoodsManagement/Products/HistoryBillPanel'
-    import ProductsStockPanel from '@/components/GoodsManagement/Products/ProductsStockPanel'
+    import NewBillPanel from '@/components/GoodsManagement/Stock/NewBillPanel'
+    import HistoryBillPanel from '@/components/GoodsManagement/Stock/HistoryBillPanel'
+    import StockListPanel from '@/components/GoodsManagement/Stock/StockListPanel'
 
     export default {
         name: "Products",
@@ -78,29 +78,34 @@
             PageHeader,
             NewBillPanel,
             HistoryBillPanel,
-            ProductsStockPanel,
+            StockListPanel,
         },
 
         mounted() {
-            this.$store.state.stock.stockType = 'productsStock';
 
         },
+        data(){
+            return{
+                stockType: "stockGoods"
+
+            }
+    },
 
         methods: {
 
             //点击出货部门的三大业务
             changeStockPanel: function (data) {
-                if (data === "productsStock") {
-                    this.$store.dispatch('stock/set_STOCKTYPE', data)
+                if (data === "stockGoods") {
+                    this.stockType = data;
                 } else if (data === "inStock") {
-                    this.$store.dispatch('stock/set_STOCKTYPE', data)
+                    this.stockType = data;
                 }
                 else if (data === "stockBill") {
-                    this.$store.dispatch('stock/set_STOCKTYPE', data)
+                    this.stockType = data;
                 } else if (data === "stockLog") {
-                    this.$store.dispatch('stock/set_STOCKTYPE', data)
+                    this.stockType = data;
                 } else if (data === "stockCount") {
-                    this.$store.dispatch('stock/set_STOCKTYPE', data)
+                    this.stockType = data;
                 }
             },
 

@@ -5,6 +5,28 @@ const webpack = require('webpack');
 module.exports = {
 
     chainWebpack: config => {
+
+        //发布模式
+        config.when(process.env.NODE_ENV === 'production', config =>{
+
+            config.set('externals', {
+                Vue: 'Vue',
+                'Router':'VueRouter',
+                "axios": 'axios',
+                "moment" : "moment"
+
+            })
+
+        })
+
+        // //开发模式
+        // config.when(process.env.NODE_ENV === 'development', config =>{
+        //
+        //
+        // })
+
+
+
         config.plugin('provide').use(webpack.ProvidePlugin, [{
             $: 'jquery',
             jquery: 'jquery',
@@ -22,10 +44,7 @@ module.exports = {
         hotOnly: false,
         proxy: {
             '/sys': {
-                // target: 'http://localhost:8080/chainPro_war_exploded',
                 target: 'http://localhost:8080/chainPro_war_exploded/',
-
-                //http://localhost:8080/chainPro_war_exploded/
                 changeOrigin: true
             }
         }
@@ -36,10 +55,7 @@ module.exports = {
     },
 
     pages: {
-        apply: {
-            entry: 'src/apply.js',
-            template: 'public/apply.html'
-        },
+
         login: {
             entry: 'src/login.js',
             template: 'public/login.html'
@@ -49,6 +65,7 @@ module.exports = {
             template: 'public/index.html'
         }
     },
+
 
 
 

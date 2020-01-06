@@ -6,11 +6,9 @@
 
         <div class="box-body">
 
-
-
             <div class="col-md-2 category">
-                <a @click="importGoods" class="btn btn-primary btn-block margin-bottom">导入</a>
-                <a @click="downloadGoods" class="btn btn-primary btn-block margin-bottom">导出</a>
+                <!--<a @click="importGoods" class="btn btn-primary btn-block margin-bottom">导入</a>-->
+                <!--<a @click="downloadGoods" class="btn btn-primary btn-block margin-bottom">导出</a>-->
 
                 <!--<a class="btn btn-primary btn-block margin-bottom" @click="addCate">添加产品类别</a>-->
 
@@ -29,8 +27,9 @@
                                     <li><a  @click="addCate">新增</a></li>
                                     <li><a href="#">修改</a></li>
                                     <li><a href="#">删除</a></li>
-                                    <!--<li class="divider"></li>-->
-                                    <!--<li><a href="#">Separated link</a></li>-->
+                                    <li class="divider"></li>
+                                    <li><a @click="importGoods">导入</a></li>
+                                    <li><a @click="downloadGoods" >导出</a></li>
                                 </ul>
                             </div>
 
@@ -52,13 +51,10 @@
                     </div>
                     <!-- /.box-body -->
                 </div>
-
             </div>
             <!-- /.col -->
             <div class="col-md-10">
-
-                <GoodsTable :fatherId="fatherId" :fatherName="fatherName" :type="type"/>
-                <!--<router-viewer/>-->
+                <DailyTypeGoodsTable :fatherId="fatherId" :fatherName="fatherName" :goodsType="goodsType"/>
             </div>
 
         </div>
@@ -69,15 +65,17 @@
 </template>
 
 <script>
-    import GoodsTable from '@/components/Background/Goods/GoodsTable.vue'
-    import api from '../../../api/background/goods'
+    import DailyTypeGoodsTable from '@/components/Background/Goods/Daily/DailyTypeGoodsTable.vue'
+    import api from '../../../../api/background/goods'
     import importGoods from '@/components/Background/Goods/ImportGoods.vue'
 
     export default {
-        name: "GoodsPanel",
+        name: "DailyTypeGoodsPanel",
+        props:['goodsType'],
+
 
         components: {
-            GoodsTable,
+            DailyTypeGoodsTable,
             importGoods
         },
         data() {
@@ -89,26 +87,27 @@
                 fatherName: "",
                 page: 1,
                 limit: 20,
-                type: "",
+                type: "2",
             }
         },
         watch: {
-            type: function(newVal){
+            goodsType: function(newVal){
                 console.log("watch....")
-                this.getCateGoods(newVal)
+                if(newVal == "daily"){
+                    this.getCateGoods(newVal)
+
+                }
             },
         },
 
         mounted() {
-            this.getCateGoods(1);
-
 
         },
         methods: {
 
             getCateGoods: function(){
 
-                api.getCateGoods().then(res => {
+                api.getCateGoods(this.type).then(res => {
                     if (res) {
                         console.log(res)
                         this.fatherId = res.data[0].goodsId;

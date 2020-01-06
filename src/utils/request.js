@@ -1,6 +1,5 @@
 import axios from 'axios'
 import config from '../config/index' // 路径配置
-import {Message, Loading} from 'element-ui'
 
 // 创建axios 实例
 const service = axios.create({
@@ -22,8 +21,7 @@ service.interceptors.request.use(
         config.withCredentials = true;
 
 
-        //加载动画
-        statLoading();
+
 
 
         // if(sessionStorage.getItem('token')){
@@ -56,8 +54,7 @@ service.interceptors.response.use(
         // 这里处理一些response 正常放回时的逻辑
 
 
-        //关闭动画
-        endLoading();
+
 
         return res
     },
@@ -68,17 +65,6 @@ service.interceptors.response.use(
     }
 )
 
-let loading;
-function statLoading() {
-    loading = Loading.service({
-        lock: true,
-        text: "jia zai zhong...",
-        background: 'rgba(0,0,0,0.7)'
-    })
-}
-function endLoading() {
-    loading.close()
-}
 
 
 

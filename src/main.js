@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import VueCompositionAPI from './App'
+
 import App from './App.vue'
 import router from './routers/index'
 import store from '../src/store/index'
@@ -6,10 +8,8 @@ import moment from 'moment'
 
 import './adminlte/basic.css'
 import './adminlte/basic'
-import Print from '@/utils/print'
 
-
-Vue.use(Print);
+Vue.use(VueCompositionAPI)
 Vue.prototype.bus = new Vue;
 
 Vue.config.productionTip = true

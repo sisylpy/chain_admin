@@ -6,9 +6,11 @@
     "serve": "vue-cli-service serve",
     "test": "vue-cli-service serve --mode test",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "report": "vue-cli-service build --report"
   },
   "dependencies": {
+    "@vue/composition-api": "^0.3.4",
     "admin-lte": "^v2.4.18",
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
@@ -27,6 +29,7 @@
     "@vue/cli-plugin-eslint": "^3.11.0",
     "@vue/cli-service": "^3.11.0",
     "babel-eslint": "^10.0.1",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "element-ui": "^2.12.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
