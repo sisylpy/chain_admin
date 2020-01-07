@@ -97,7 +97,7 @@
 
 
             <!-- 打印机内容载体-->
-            <div style="display: none" id="test"></div>
+            <div style="display: none" id="testParpare"></div>
 
         </div>
     </div>
@@ -138,11 +138,13 @@
 
                 storeArr: [],
                 outDepArr: [],
+                dateTime: new Date().toLocaleDateString(),
 
             }
         },
 
         mounted() {
+
             var that = this;
 
             //获取产品和分店数据
@@ -203,11 +205,10 @@
                     console.log("success!!")
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:8080/chainPro_war_exploded/sys/ckapplys/applysPrintSuccess/",
+                        url: "https://grainservice.club:8080/chainOrder/sys/ckapplys/applysPrintSuccess/",
                         data: JSON.stringify(applyArr),
                         dataType: 'json',
                         success: function (data) {
-
                             if (data.code == 0) {
                                 window.location.reload();
                                 that.getPrintMax();
@@ -222,39 +223,6 @@
                 });
             });
 
-            // $('#apply_table').on('dblclick', 'input[name=plan]' ,function (e) {
-            //     $(this).removeAttr("disabled");
-            //     $(this).focus();
-            //
-            //
-            // })
-            //
-            // $('#apply_table').on('keyup', 'input[name=plan]', function (e) {
-            //
-            //     if (e.keyCode == 13) {
-            //         // var newPrice = $(this).val();
-            //         console.log(e.currentTarget.id)
-            //
-            //
-            //        var goodsId = e.currentTarget.id;
-            //         var goods = {
-            //            goodsId:  goodsId,
-            //             planPurchase: $(this).val(),
-            //         }
-            //
-            //         apig.updateGoods(goods).then(res =>{
-            //             if(res.code == 0){
-            //                 that.getApplysAndSortsData();
-            //
-            //                 $(e.currentTarget).blur();
-            //                 $(e.currentTarget).attr("disabled")
-            //
-            //             }
-            //         })
-            //
-            //
-            //     }
-            // });
 
         },
 
@@ -298,7 +266,7 @@
                 $.ajax({
                     cache: true,
                     type: "get",
-                    url: "http://localhost:8080/chainPro_war_exploded/sys/ckapplys/getGatherApplys",
+                    url: "https://grainservice.club:8080/chainOrder/sys/ckapplys/getGatherApplys",
                     data: data,
                     dataType: 'json',
                     success: function (data) {
@@ -329,20 +297,20 @@
                 console.log(this.printMax)
                 var printTimes = parseInt(this.printMax) + 1
 
-                var header = `<h2 class="header" id="title" style="text-align: center;" printmax=` + this.printMax + `>今天第` + printTimes + `次打印</h2>`
-                $('#test').append(header);
+                var header = `<h3>`+ this.dateTime +`</h3><h3 class="header" id="title" style="text-align: center;" printmax=` + this.printMax + `>凉菜出货单</h3>`
+                $('#testParpare').append(header);
 
                 var applysArr = this.printArr;
 
                 for (var i = 0; i < applysArr.length; i++) {
 
                     var oneGoods = `<div class="goods-applys" style="width: 100%; display: inline-block"></div>`
-                    $('#test').append(oneGoods);
+                    $('#testParpare').append(oneGoods);
 
                     var goodsName = applysArr[i]['goodsName'];
                     var totalNumber = applysArr[i]['totalNumber'];
                     var applyStandardName = applysArr[i]['applyStandardName'];
-                    var h3 = `<h3 style=" width: 100%">` + goodsName + `:  ` + totalNumber + applyStandardName + `</h3>`
+                    var h3 = `<div style=" width: 100%; line-height: 30px; font-size: 18px;margin-top: 10px;">` + goodsName + `:  ` + totalNumber + applyStandardName + `</div>`
 
                     $('.goods-applys:eq(' + i + ')').append(h3);
                     var row = `<div class="goods-applys-row" style=" width: 100%;display: inline-block;"></div>`
@@ -355,23 +323,48 @@
                         var applyId = applys[j].applyId;
                         var printLabel = applys[j]['storeEntity']['printLabel'];
                         var applyNumber = applys[j]['applyNumber'];
-                        var oneApply = `<div class="one-goods-apply" id=` + applyId + ` style="display: inline-block; width: 30%;line-height: 30px;font-size: 20px;margin-bottom: 10px">` + printLabel + applyNumber + applyStandardName + `</div>`
+                        var oneApply = `<div class="one-goods-apply" id=` + applyId + `
+                        style="display: inline-block; width: 30%;line-height: 30px;font-size: 16px;color:green;">`
+                            + printLabel + ": "+applyNumber + applyStandardName + `____________</div>`
 
                         $('.goods-applys-row:eq(' + i + ')').append(oneApply);
 
                         $('.one-goods-apply').css({
                             "color": "red",
-                            "line-height": "45px",
-                            "border-bottom": "1px solid #eee",
+                            "line-height": "30px",
                             "background": "gray",
                         })
                     }
                 }
 
 
-                var test = $('#test').html();
-                window.document.body.innerHTML = test
-                window.print();
+                var printStr = "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'>" +
+                    "<style media=\"print\">" +
+                    "    @page {" +
+                    "      size: auto;  /* auto is the initial value */\n" +
+                    "      margin: 0mm; /* this affects the margin in the printer settings */\n" +
+                    "    }" +
+                    "</style>" +
+                    "</head><body style='margin: 0;margin-top: 20px; padding-left: 3%; padding-left: 3%'>";
+                // var str = document.getElementById('#testParpare').innerHTML;
+                var str =$('#testParpare').html();
+
+                    printStr = printStr + str + "</body></html>";
+
+
+                var pwin = window.open("Print.htm", "print"); //如果是本地测试，需要先新建Print.htm，如果是在域中使用，则不需要
+                pwin.document.write(printStr);
+                pwin.document.close();     //这句很重要，没有就无法实现
+                pwin.print();
+
+
+
+
+                //
+
+                // var test = $('#test').html();
+                // window.document.body.innerHTML = test
+                // window.print();
 
                 var ch = `<div style="width: 100%; height: 100%; background: gray;position: fixed; left:0; top:0;">
                             <button id="successPrint">打印成功1</button>

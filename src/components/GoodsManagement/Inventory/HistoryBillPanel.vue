@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import api from '../../../api/goodsManagement/products'
+import api from '../../../api/goodsManagement/inventory'
 
     export default {
         name: "HistoryBill",

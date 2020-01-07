@@ -239,7 +239,7 @@
 <script>
 
     import apito from '@/api/goodsManagement/todayOrder'
-    import api from '@/api/goodsManagement/products'
+    import api from '@/api/goodsManagement/inventory'
 
 
     export default {
@@ -637,10 +637,10 @@
                 var md4 = $('#body').children().length;
                 var applysArr = [];
 
-                if ($("#datepicker").data("datepicker").getDate()) {
-                    console.log($("#datepicker").data("datepicker").getDate().toLocaleString())
-
-                }
+                // if ($("#datepicker").data("datepicker").getDate()) {
+                //     console.log($("#datepicker").data("datepicker").getDate().toLocaleString())
+                //
+                // }
 
                 var storeId = $('#replaceStore').val();
                 if (storeId) {

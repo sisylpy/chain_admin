@@ -3,6 +3,7 @@ import request from '@/utils/request'
 export default {
 
 
+
     /**
      * 出货部门获取商品列表
      */
@@ -39,6 +40,17 @@ export default {
     queryGoodsWithPinyin(data) {
         return request({
             url: 'sys/ckgoods/queryPinyin/' +data,
+            method: 'get',
+        })
+    },
+
+
+    /**
+     * 查询未入库的入库单
+     */
+    queryInDepBills(data) {
+        return request ({
+            url: 'sys/ckinbill/listByInDepId/' + data,
             method: 'get',
         })
     },

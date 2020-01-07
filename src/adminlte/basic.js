@@ -1,12 +1,10 @@
 import './libs/jquery.min'
 import './libs/jquery-ui'
-import './plugins/layer/layer'
 import './libs/bootstrap.min'
 import '../../node_modules/admin-lte/bower_components/select2/dist/js/select2.full'
 import './libs/jquery.slimscroll.min'
 import './libs/fastclick.min'
 import './libs/app'
-import './plugins/layer/layer'
 import './js/iframe'
 import './plugins/jqgrid/grid.locale-cn'
 import './plugins/jqgrid/jquery.jqGrid.min'
@@ -33,3 +31,4 @@ import '../utils/jquery.modal'
 // bootstrap datepicker
 // <script src="../../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 // import '../../node_modules/admin-lte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepick'
+// import './plugins/layer/layer'

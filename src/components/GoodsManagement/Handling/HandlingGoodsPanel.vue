@@ -58,7 +58,7 @@
 </template>
 
 <script>
-    import api from '../../../api/goodsManagement/products'
+    import api from '../../../api/goodsManagement/inventory'
     import apid from '../../../api/background/ckDep'
     import apig from '@/api/background/goods'
 

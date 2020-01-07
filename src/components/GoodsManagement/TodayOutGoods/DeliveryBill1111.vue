@@ -95,7 +95,7 @@
                 </div>
 
             </div>
-            <div style="display: none" id="test"></div>
+            <div style="display: none" id="testDelivery"></div>
 
 
         </div>
@@ -224,61 +224,124 @@
 
                 var arr = this.deliveryArr;
                 var arrLen = this.deliveryArr.length;
-                var totalGoods = 20;
+                var totalGoods = 36;
                 var totalPriPage = Math.ceil(arrLen / totalGoods);
                 console.log(totalPriPage)
                 console.log("kankan totalPage!!!!")
 
                 if (totalPriPage <= 1) {
 
-                    var applyBody = `<div id="page1" class="applyBody" style="position: relative;"></div>`
-                    $('#test').append(applyBody);
 
-                    var header = `<div class="header" style="position:relative; width: 100%;">
-                        <div style="float: left; width: 100%; background: #f0ad4e; font-size: 30px;">` + this.storeName + `</div>
-                            <div style="float: left; width: 100%;" >
-                              <div style="float: left; width: 50%; margin-left: 25%;background: yellow;text-align: center;">`+this.storeName + this.date + ` 出库单</div>
-                              <div style="float:left; background: green; margin-right: 50px;">第1页 共1页</div>
+                    var applyBody = `<div id="page1" class="applyBody" style="position: relative; width: 100%; background: gainsboro;"></div>`
+                    $('#testDelivery').append(applyBody);
+
+                    var header = `<div class="header" style="width: 100%;float:left;">
+                        <div style="width: 94%; background: #f0ad4e; font-size: 26px; float:left;">` + this.storeName + `</div>
+
+                            <div style=" width: 94%;line-height: 36px;  float:left; font-size: 14px; " >
+                            <div style="width: 20%; float: left; margin-left: 5%; background: green;">总金额：`+this.totalCost+`元</div>
+
+                            <div style="float: left; width: 50%; background: yellow;text-align: center;">`+this.storeName + this.date + ` 出库单</div>
+
+                            <div style="float: left; background: green; margin-right: 50px;">第1页 共1页</div>
                             </div>
                           </div>`;
                     $('#page1').append(header);
 
+                    var content =  `<div class="content_bill" style="width: 100%;float: left; "></div>`
 
-                    var left = `<div class="left" style="float: left; background: pink;width: 33%; "></div>`
-                    $('.applyBody:eq(0)').append(left);
+                    $('#page1').append(content);
 
-                    var middle = `<div class="middle" style="float: left; background: greenyellow;width: 33%; "></div>`
-                    $('.applyBody:eq(0)').append(middle);
+                    var left = `<div class="left_bill" style="float: left; background: pink;width: 33%;"></div>`
+                    $('.content_bill:eq(0)').append(left);
 
-                    var right = `<div class="right" style="float: left;width: 33%;  background: yellow;"></div>`
-                    $('.applyBody:eq(0)').append(right);
+                    var oneTitle = `<div style="box-sizing: border-box; float:left; width: 100%; background: yellow; line-height: 30px; text-align: center;font-size: 12px;border-bottom: 1px solid gray;border-top: 1px solid gray;">
+                                <div style="box-sizing: border-box; float:left; width: 35%; border-right: 1px solid gray; border-left: 1px solid gray;">商品</div>
+                                <div style="box-sizing: border-box; float:left; width: 20%; border-right: 1px solid gray; ">数量</div>
+                                <div style="box-sizing: border-box; float:left; width: 20%; border-right: 1px solid gray; ">单价</div>
+                                <div style="box-sizing: border-box; float:left; width: 25%; border-right: 1px solid gray; ">小计</div>
+                                </div>`;
+                    $('.left_bill:eq(0)').append(oneTitle);
+
+
+
+                    var middle = `<div class="middle_bill" style="float: left; background: greenyellow;width: 33%;"></div>`
+                    $('.content_bill:eq(0)').append(middle);
+
+                    var oneTitle = `<div style="box-sizing: border-box; float:left; width: 100%; background: yellow; line-height: 30px; text-align: center;font-size: 12px;border-bottom: 1px solid gray;border-top: 1px solid gray;">
+                                <div style="box-sizing: border-box; float:left; width: 35%; border-right: 1px solid gray; ">商品</div>
+                                <div style="box-sizing: border-box; float:left; width: 20%; border-right: 1px solid gray; ">数量</div>
+                                <div style="box-sizing: border-box; float:left; width: 20%; border-right: 1px solid gray; ">单价</div>
+                                <div style="box-sizing: border-box; float:left; width: 25%; border-right: 1px solid gray; ">小计</div>
+                                </div>`;
+                    $('.middle_bill:eq(0)').append(oneTitle);
+
+
+                    var right = `<div class="right_bill" style="float: left;width: 33%;  background: #a6e1ec; "></div>`
+                    $('.content_bill:eq(0)').append(right);
+
+                    var oneTitle = `<div style="box-sizing: border-box; float:left; width: 100%; background: yellow; line-height: 30px; text-align: center;font-size: 12px;border-bottom: 1px solid gray;border-top: 1px solid gray;">
+                                <div style="box-sizing: border-box;float:left; width: 35%; border-right: 1px solid gray; ">商品</div>
+                                <div style="box-sizing: border-box;float:left; width: 20%; border-right: 1px solid gray; ">数量</div>
+                                <div style="box-sizing: border-box;float:left; width: 20%; border-right: 1px solid gray; ">单价</div>
+                                <div style="box-sizing: border-box;float:left; width: 25%; border-right: 1px solid gray; ">小计</div>
+                                </div>`;
+                    $('.right_bill:eq(0)').append(oneTitle);
+
+
+
 
                     for (var j = 0; j < arr.length; j++) {
 
-                        if (j < totalGoods / 2) {
-                            var oneItem = `<div class="oneItem" style="background: red; display: flex; flex-flow: row nowrap;"></div>`
-                            $('.left:eq(0)').append(oneItem);
+                        if (j < totalGoods / 3) {
 
-                            var quantity = `<div>` + arr[j]['quantity'] + `</div>`
-                            var discountPrice = `<div>` + arr[j]['discountPrice'] + `</div>`
-                            var goodsName = `<div>` + arr[j]['goodsEntity']['goodsName'] + `</div>`
+
+                            var oneItem = `<div class="oneItem" style="background: red;float: left;width: 100%; border-bottom: 1px solid gray;
+                                                                        line-height: 24px; text-align: center;font-size: 11px;"></div>`
+                            $('.left_bill:eq(0)').append(oneItem);
+
+                            var goodsName =     `<div style="word-break:keep-all;box-sizing: border-box;float: left; width: 35%; border-right: 1px solid gray;border-left: 1px solid gray; " >` + arr[j]['goodsEntity']['goodsName'] + `</div>`
+                            var quantity =      `<div style="word-break:keep-all;box-sizing: border-box;float: left; width: 20%; border-right: 1px solid gray; " >` + arr[j]['quantity'] + `</div>`
+                            var discountPrice = `<div style="word-break:keep-all;box-sizing: border-box;float: left; width: 20%; border-right: 1px solid gray; " >` + arr[j]['discountPrice'] + `</div>`
+                            var subTotal =      `<div style="word-break:keep-all;box-sizing: border-box;float: left; width: 25%; border-right: 1px solid gray; " >` + arr[j]['subTotal'] + `</div>`;
 
                             $('.oneItem:eq(' + j + ')').append(goodsName);
-                            $('.oneItem:eq(' + j + ')').append(discountPrice);
                             $('.oneItem:eq(' + j + ')').append(quantity);
+                            $('.oneItem:eq(' + j + ')').append(discountPrice);
+                            $('.oneItem:eq(' + j + ')').append(subTotal);
+
+                        } else if( totalGoods / 3 <= j && j < totalGoods /3 * 2){
+
+                            var oneItem = `<div class="oneItem" style="background: rebeccapurple;float: left;width: 100%; border-bottom: 1px solid gray;
+                                                                        line-height: 24px; text-align: center;font-size: 11px;"></div>`
+                            $('.middle_bill:eq(0)').append(oneItem);
+
+                            var goodsName =     `<div style="word-break:keep-all;box-sizing: border-box;float: left; width: 35%; border-right: 1px solid gray; " >` + arr[j]['goodsEntity']['goodsName'] + `</div>`
+                            var quantity =      `<div style="word-break:keep-all;box-sizing: border-box;float: left; width: 20%; border-right: 1px solid gray; " >` + arr[j]['quantity'] + `</div>`
+                            var discountPrice = `<div style="word-break:keep-all;box-sizing: border-box;float: left; width: 20%; border-right: 1px solid gray; " >` + arr[j]['discountPrice'] + `</div>`
+                            var subTotal =      `<div style="word-break:keep-all;box-sizing: border-box;float: left; width: 25%; border-right: 1px solid gray; " >` + arr[j]['subTotal'] + `</div>`;
+
+                            $('.oneItem:eq(' + j + ')').append(goodsName);
+                            $('.oneItem:eq(' + j + ')').append(quantity);
+                            $('.oneItem:eq(' + j + ')').append(discountPrice);
+                            $('.oneItem:eq(' + j + ')').append(subTotal);
+
                         } else {
 
+                            var oneItem = `<div class="oneItem" style="background: deeppink;float: left;width: 100%; border-bottom: 1px solid gray;
+                                                                        line-height: 24px; text-align: center;font-size: 11px;"></div>`
+                            $('.right_bill:eq(0)').append(oneItem);
 
-                            var oneItem = `<div class="oneItem" style=" display: flex; flex-flow: row nowrap;"></div>`
-                            $('.right:eq(0)').append(oneItem);
-
-                            var quantity = `<div>` + arr[j]['quantity'] + `</div>`
-                            var discountPrice = `<div>` + arr[j]['discountPrice'] + `</div>`
-                            var goodsName = `<div>` + arr[j]['goodsEntity']['goodsName'] + `</div>`
+                            var goodsName =     `<div style="word-break:keep-all;box-sizing: border-box;float: left; width: 35%; border-right: 1px solid gray; " >` + arr[j]['goodsEntity']['goodsName'] + `</div>`
+                            var quantity =      `<div style="word-break:keep-all;box-sizing: border-box;float: left; width: 20%; border-right: 1px solid gray; " >` + arr[j]['quantity'] + `</div>`
+                            var discountPrice = `<div style="word-break:keep-all;box-sizing: border-box;float: left; width: 20%; border-right: 1px solid gray; " >` + arr[j]['discountPrice'] + `</div>`
+                            var subTotal =      `<div style="word-break:keep-all;box-sizing: border-box;float: left; width: 25%; border-right: 1px solid gray; " >` + arr[j]['subTotal'] + `</div>`;
 
                             $('.oneItem:eq(' + j + ')').append(goodsName);
-                            $('.oneItem:eq(' + j + ')').append(discountPrice);
                             $('.oneItem:eq(' + j + ')').append(quantity);
+                            $('.oneItem:eq(' + j + ')').append(discountPrice);
+                            $('.oneItem:eq(' + j + ')').append(subTotal);
+
 
                         }
                     }
@@ -286,16 +349,17 @@
                 } else {
 
                     for (var i = 1; i <= totalPriPage; i++) {
-                        console.log("dayu 20 ge le;")
+                        console.log("dayu 36 ge le;")
                         var newi = i - 1
 
                         var applyBody = `<div id="page` + i + `"style="position: relative; "><div  class="applyBody"  style="page-break-after:always"></div></div>`
-                        $('#test').append(applyBody);
+                        $('#testDelivery').append(applyBody);
 
                         var header = `<div class="header" style="display: flex; flex-flow: row nowrap; align-items: flex-start;" >
 <div style="margin-right: 30px;">店铺:` + this.storeName + `</div> <div style="margin-right: 30px;">日期:` + this.date + `</div>
 <div>第` + i + `页 共` + totalPriPage + `页</div> </div>`;
-                        $('.applyBody:eq(' + newi + ')').append(header);
+                        // $('.applyBody:eq(' + newi + ')').append(header);
+                        $('#'+"page"+i).append(header);
 
 
                         var left = `<div class="left" style="float: left; background: pink;width: 33%; "></div>`
@@ -342,10 +406,7 @@
 
                             }
 
-
                         }
-
-
                     }
                 }
 
@@ -357,7 +418,7 @@
                     "      margin: 0mm; /* this affects the margin in the printer settings */\n" +
                     "    }" +
                     "</style>" +
-                    "</head><body >";
+                    "</head><body style='margin: 0;margin-top: 20px; padding-left: 3%; padding-left: 3%'>";
                 var content = "";
                 for (var m = 0; m < totalPriPage; m++) {
                     var newm = m + 1;
@@ -381,9 +442,10 @@
                 // window.print();
 
 
-                var ch = `<div style="z-index: 9999; width:100%; height:100%;  background:gray;position: absolute; margin-right:20px; margin-top:100px;">
-                            <button id="sucPrint">打印成功1</button>
-                            <button id="noPrint">打印失败</button>
+                var ch = `<div style="z-index: 9999; width:100%; height:100%;
+ background: gray;position: fixed; left:0; top:0;">
+                            <button id="sucPrint">打印成功2</button>
+                            <button id="noPrint">打印失败2</button>
                             </div>`
                 $('body').append(ch)
             },
@@ -420,10 +482,8 @@
                         this.bus.$emit('loading', false);
                         this.deliveryArr = res.data.stockList;
                         this.totalCost = res.data.total;
-
                     }
                 });
-
 
             },
 

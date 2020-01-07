@@ -14,7 +14,7 @@
                             <ul class="nav nav-tabs">
                                 <li class="active"><a href="#productsStock" data-toggle="tab" @click="changeStockPanel('stockGoods')">商品</a></li>
                                 <li><a href="#inStock" data-toggle="tab"  @click="changeStockPanel('inStock')">商品入库</a></li>
-                                <li><a href="#stockBill" data-toggle="tab"  @click="changeStockPanel('stockBill')">入库单据</a></li>
+                                <li><a href="#inDepBill" data-toggle="tab"  @click="changeStockPanel('inDepBill')">入库单据</a></li>
                                 <li><a href="#stockCount" data-toggle="tab"  @click="changeStockPanel('stockCount')">盘库</a></li>
                             </ul>
                             <div class="tab-content">
@@ -28,9 +28,9 @@
                                     <NewBillPanel/>
                                 </div>
 
-                                <div class="tab-pane" id="stockBill">
-                                    <!--<HistoryBillPanel :depId="depId" :depName="depName" ref="child"/>-->
-                                    stockBill
+                                <div class="tab-pane" id="inDepBill">
+
+                                    <InDepBillPanel />
                                 </div>
 
 
@@ -63,8 +63,8 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
 
+    import InDepBillPanel from '@/components/GoodsManagement/Inventory/InDepBillPanel'
     import NewBillPanel from '@/components/GoodsManagement/Inventory/NewBillPanel'
-    import HistoryBillPanel from '@/components/GoodsManagement/Inventory/HistoryBillPanel'
     import StockListPanel from '@/components/GoodsManagement/Inventory/StockListPanel'
 
     export default {
@@ -72,8 +72,8 @@
         components: {
             PageHeader,
             NewBillPanel,
-            HistoryBillPanel,
             StockListPanel,
+            InDepBillPanel,
         },
 
         mounted() {

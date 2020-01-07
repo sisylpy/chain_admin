@@ -9,13 +9,13 @@ module.exports = {
         //发布模式
         config.when(process.env.NODE_ENV === 'production', config =>{
 
-            config.set('externals', {
-                Vue: 'Vue',
-                'Router':'VueRouter',
-                "axios": 'axios',
-                "moment" : "moment"
-
-            })
+          // config.set('externals', {
+          //       Vue: 'Vue',
+          //       // 'Router':'VueRouter',
+          //       "axios": 'axios',
+          //       "moment" : "moment"
+          //
+          //   })
 
         })
 
@@ -44,7 +44,7 @@ module.exports = {
         hotOnly: false,
         proxy: {
             '/sys': {
-                target: 'http://localhost:8080/chainPro_war_exploded/',
+                target: 'https://grainservice.club:8080/chainOrder/',
                 changeOrigin: true
             }
         }

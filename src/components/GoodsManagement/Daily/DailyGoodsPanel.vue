@@ -58,7 +58,7 @@
 </template>
 
 <script>
-    import api from '../../../api/goodsManagement/products'
+    import api from '../../../api/goodsManagement/inventory'
     import apig from '@/api/background/goods'
 
     export default {

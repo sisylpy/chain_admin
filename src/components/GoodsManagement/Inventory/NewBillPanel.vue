@@ -4,13 +4,22 @@
 
             <!-- Default panel contents -->
                 <div class="row flex-row">
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
                         <label>入库日期:</label>
                         <div> {{new Date().toLocaleDateString()}}</div>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
                         <label>总金额:</label>
                         <div id="inTotal">0.0元</div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label>选择部门</label>
+                        <select class="form-control select2" data-placeholder="选择部门"
+                                style="width: 100%;" ref="selectDep">
+                            <option></option>
+                            <option v-for="(item) in depArr" :value="item.depId">{{item.depName}}</option>
+                        </select>
                     </div>
 
                     <div class="form-group col-md-3">
@@ -21,7 +30,7 @@
                             <option v-for="(item) in supArr" :value="item.supplierId">{{item.supplierName}}</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-danger" @click="saveGoods">
                             保存
                         </button>
@@ -61,8 +70,9 @@
 </template>
 
 <script>
-    import api from '../../../api/goodsManagement/products'
+    import api from '../../../api/goodsManagement/inventory'
     import apisu from '@/api/supplier/supplier'
+    import apid from '@/api/background/ckDep'
 
 
     export default {
@@ -71,6 +81,8 @@
         mounted() {
 
             this.getAll();
+            this.getOutDep();
+
             var indexGoods = 6;
 
             //初始化5条输入商品
@@ -230,11 +242,8 @@
                     }else{
                         console.log($(input))
                         $(input).val("");
-
                     }
-
                     $('#search_result').remove();
-
                 }
             })
 
@@ -282,11 +291,12 @@
                        var sub =  $(allSub).eq(i).html();
                       if(sub){
                           total = Number(total) + Number(sub);
-                          console.log(total);
                       }
 
                    }
-                   console.log($('#inTotal'))
+                   total =  total.toFixed(1);
+
+                    console.log($('#inTotal'))
                    $('#inTotal').html(total + "元");
                 }
 
@@ -354,9 +364,21 @@
                 subBillArr: [],
                 goodsTotal: 5,
                 supArr: [],
+                depType: '1',
+                depArr: []
             }
         },
         methods: {
+            getOutDep:function(){
+              apid.getOutDepList(this.depType).then(res => {
+                  console.log(res)
+                  if(res) {
+                      this.depArr = res.data;
+                  }
+
+              })
+            },
+
 
             initFiveGoods: function () {
                 var body = $('#body ul');
@@ -411,47 +433,55 @@
                 var $ul = $('#body').children().children()
                 var subBills = [];
                 let optionV = this.$refs.select.value;
+                let optinvD = this.$refs.selectDep.value;
                 console.log(optionV)
 
 
                 for (var i = 0; i < liCount; i++) {
                     var li = $($ul).children().eq(i);
                     var goodsName = $(li).find('.goodsName').val();
-                    var goodsId = $(li).find('.goodsName').attr('id');
+                    var goodsId = $(li).find('.goodsName').attr('goodsid');
                     var goodsQuantity = $(li).find('.quantity').val();
                     var unitPrice = $(li).find('.price').val();
+                    var subTotal = $(li).find('.subTotal').html();
+                    var billSum = $('#inTotal').html();
+
+                    billSum = billSum.substring(0, billSum.lastIndexOf('元'));
 
 
                     if (goodsName.length > 0 && goodsQuantity.length > 0) {
                         var subbill = {
                             sGoodsId: goodsId,
                             inQuantity: goodsQuantity,
-                            unitPrice: unitPrice
-
+                            unitPrice: unitPrice,
+                            inSubTotal: subTotal
                         }
                         subBills.push(subbill)
                     }
                 }
 
-                console.log(subBills)
-                console.log(this)
 
-                this.subBillArr = subBills;
-                this.bill = {
-                    inDepId: this.depId,
-                    inSupplierId: optionV,
-                    subBillEntities: subBills,
+                if(subBills.length > 0 && optionV && optinvD && billSum) {
 
-                }
-                this.bus.$emit('loading', true);
-                api.saveInBill(this.bill).then(res => {
-                    if (res.code == 0) {
-                        this.bus.$emit('loading', true);
-                        window.location.reload();
-                    }else {
-                        this.bus.$emit('loading', true);
+                    this.subBillArr = subBills;
+                    this.bill = {
+                        inSupplierId: optionV,
+                        subBillEntities: subBills,
+                        inDepId: optinvD,
+                        billSum: billSum
+
                     }
-                })
+                    this.bus.$emit('loading', true);
+                    api.saveInBill(this.bill).then(res => {
+                        if (res.code == 0) {
+                            this.bus.$emit('loading', true);
+                            window.location.reload();
+                        }else {
+                            this.bus.$emit('loading', true);
+                        }
+                    })
+                }
+
 
 
             },

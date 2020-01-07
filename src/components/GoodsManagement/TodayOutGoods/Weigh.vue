@@ -58,7 +58,7 @@
                                     {{outApply.storeEntity.printLabel}}  {{outApply.applyNumber}}{{item.applyStandardName}}
                                 </div >
 
-                                <input type="text" class="outQuantity"
+                                <input type="number" class="outQuantity"
                                        style="float: left; width:30% ;font-size: 18px;margin-left: 10px;border:none; border-bottom:1px solid #ddd">
                                 <div style="float: left; line-height: 30px;padding: 5px">{{item.purStandardName}}</div>
                             </div>

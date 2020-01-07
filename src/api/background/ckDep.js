@@ -2,6 +2,7 @@ import request from '@/utils/request'
 
 export default {
 
+
     /**
      * 获取出货部门列表
      * @param data
@@ -22,6 +23,7 @@ export default {
             data
         })
     }
+
 
 
 
