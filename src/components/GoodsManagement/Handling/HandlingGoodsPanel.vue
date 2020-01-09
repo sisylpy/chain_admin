@@ -79,7 +79,7 @@
         data() {
             return {
                 page: 1,
-                limit: 20,
+                limit: 200,
                 goodsType: 1,
                 fatherId: -1,
                 depId: -1,

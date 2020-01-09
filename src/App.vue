@@ -56,6 +56,7 @@
         <div class="content-wrapper" style="min-height: unset">
 
                 <router-view/>
+
         </div>
         <!-- /.content-wrapper -->
 
@@ -161,6 +162,7 @@
     import menuItem from './components/MenuItem'
     import tips from '@/components/common/tips'
     import loading from '@/components/common/loading'
+
     export default {
         name: "adminlte",
         components: {
@@ -296,5 +298,7 @@
         justify-content: flex-start;
         align-items: center;
     }
+
+
 
 </style>

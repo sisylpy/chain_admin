@@ -38,12 +38,49 @@
                 <!--<th>出货数量</th>-->
                 <!--</tr>-->
 
-                <div>
+                <div id="store_mode">
+                    <button @click="changeStoreData" class="btn-sm">storeApplys</button>
+                    <div class="row" v-for="(item, index) in storeApplyArr" :key="">
+                        <div style="display: flex;flex-flow: row nowrap; justify-content: space-between; align-items: center;margin-bottom: 10px;">
+                            <h4 style="">{{item.store.storeName}}</h4>
+                            <text>sym:</text>
+                            <input type="text" value="拌料">
+                            <input type="number" placeholder="数量">
+                            <button class="btn-primary btn-sm" style="margin-right: 40px;" @click.stop="saveOneQutantity(index)">保存</button>
+
+                        </div>
+                        <div class="store-apply" style="padding: 0;width: 100%; ">
+                            <div v-for="(outApply) in item.applys" :key="outApply.applyId" class="one-apply col-md-4"
+                                 style="position: relative; padding: 0;display: flex;flex-flow: row nowrap; justify-items: flex-start;align-items: center;">
+                                <input type="hidden" :id="outApply.applyId" class="apply-id">
+                                <input type="hidden" :inStoreId="outApply.applyStoreId" class="store-id">
+                                <input type="hidden" :goodsId="item.goodsId" class="goods-id">
+                                <input type="hidden" :price="item.price" class="price">
+                                <input type="hidden" :outdepid="outApply.outDepId" class="out-dep-id">
+                                <div style="line-height: 30px;padding: 5px; float: left; ">
+                                    {{outApply.ckGoodsEntity.goodsName}}  {{outApply.applyNumber}}{{item.applyStandardName}}
+                                </div >
+
+                                <input type="number" class="outQuantity"
+                                       style="float: left; width:30% ;font-size: 18px;margin-left: 10px;border:none; border-bottom:1px solid #ddd">
+                                <div style="float: left; line-height: 30px;padding: 5px">{{item.purStandardName}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+
+                <div id="apply_mode">
                     <!--<td>-->
+
                     <div class="row" v-for="(item, index) in outApplyArr" :key="">
-                        <div style="display: flex;flex-flow: row nowrap; justify-items: flex-start;align-items: center;">
-                            <h4 style="margin-right: 10px;">{{item.goodsName}}</h4>
-                            <button @click="saveOneQutantity(index)">保存</button>
+                        <div style="display: flex;flex-flow: row nowrap; justify-content: space-between; align-items: center;margin-bottom: 10px;">
+                            <h4 style="">{{item.goodsName}}</h4>
+                            <button class="btn-primary btn-sm" style="margin-right: 40px;" @click.stop="saveOneQutantity(index)">保存</button>
 
                         </div>
                         <div class="store-apply" style="padding: 0;width: 100%; ">
@@ -102,7 +139,8 @@
                 outApplyArr: [],
                 fatherId: "",
                 fatherIndex: "0",
-                itemIndex: "0"
+                itemIndex: "0" ,
+                storeApplyArr: []
 
 
             }
@@ -149,6 +187,20 @@
         },
 
         methods: {
+            changeStoreData:function(){
+
+                api.getWeighApplyForSomb(this.fatherId).then(res => {
+                    if(res) {
+                        console.log(res)
+                        this.storeApplyArr = res.data;
+                        $('#apply_mode').hide();
+                    }
+                })
+
+
+
+
+            },
 
             getApplysByFatherId: function(fatherId, index, itemIndex){
                 this.fatherId = fatherId;
@@ -158,6 +210,7 @@
                 api.getApplysForWeighByFatherId(this.fatherId)
                     .then(res => {
                         if(res) {
+                            console.log(res.data)
                             this.outApplyArr = res.data;
                             $('.fatherGoods').css('color', '#3f3f3f')
                             $('.my-treeview').eq(this.fatherIndex).children().find('.fatherGoods').eq(this.itemIndex).css('color','red')
@@ -189,17 +242,12 @@
 
                 var $applyIds = $('.store-apply').eq(index).find('.apply-id')
                 console.log(index)
-                console.log($('.store-apply').eq(index))
-                // var $applyIds = $('.apply-id');
 
                 if($applyIds.length > 0) {
                     for (var i = 0; i < $applyIds.length; i++) {
                         var quantity = $('.outQuantity:eq(' + i + ')').val();
                         var price =  $('.price:eq(' + i + ')').attr("price");
 
-                        console.log("----->>>>>>>>>>>")
-                        console.log(quantity);
-                        console.log(price);
                         var subTotal = (Number(quantity) * Number(price)).toFixed(1);
                         console.log(subTotal)
                         console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<,")
@@ -219,22 +267,26 @@
                         }
 
                     }
-                    console.log(outQuantityArr)
-                    this.bus.$emit('loading', true);
+                    if(outQuantityArr.length > 0 ){
+                        console.log(outQuantityArr)
 
-                    api.saveOutQuantity(outQuantityArr).then(res => {
-                        if (res) {
-                            this.bus.$emit('loading', false);
+                        this.bus.$emit('loading', true);
 
-                            $('.outQuantity').val("");
+                        api.saveOutQuantity(outQuantityArr).then(res => {
+                            if (res) {
+                                this.bus.$emit('loading', false);
 
-                            if($(apply).parent().siblings().length > 0){
-                                this.getApplysByFatherId(this.fatherId,this.fatherIndex, this.itemIndex);
-                            }else {
-                                this.getApplysAndSortsData();
+                                $('.outQuantity').val("");
+
+                                if($(apply).parent().siblings().length > 0){
+                                    this.getApplysByFatherId(this.fatherId,this.fatherIndex, this.itemIndex);
+                                }else {
+                                    this.getApplysAndSortsData();
+                                }
                             }
-                        }
-                    })
+                        })
+                    }
+
                 }
 
 

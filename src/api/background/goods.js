@@ -59,6 +59,13 @@ export default {
           method: 'get',
       })
     },
+
+    deleteOne(data) {
+        return request({
+            url: "sys/ckgoods/deleteOne/"+data,
+            method: 'get',
+        })
+    },
     /**
      * 删除商品
      */

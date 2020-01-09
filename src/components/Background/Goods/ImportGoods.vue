@@ -49,7 +49,7 @@
 
             },
             downloadTMP: function () {
-                window.open("https://grainservice.club:8080/chainOrder/sys/ckgoods/downloadExcelTMP")
+                window.open("http://localhost:8080/chainPro_war_exploded/sys/ckgoods/downloadExcelTMP")
 
             },
 

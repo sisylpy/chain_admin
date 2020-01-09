@@ -83,6 +83,7 @@ export default new Router({
         },
         {
             path: '/addCategory',
+            name: 'addCategory',
             component: () => import('@/components/Background/Goods/AddCategory'),
         },
         {

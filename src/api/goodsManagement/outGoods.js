@@ -3,8 +3,22 @@ import request from '@/utils/request'
 export default {
 
 
+    /**======= Weigh 接口=======
+     */
 
-     /**======= Weigh 接口=======
+
+    /**
+     * 获取分店申请
+     */
+    getWeighApplyForSomb(data){
+        return request({
+            url: 'sys/ckapplys/getSymbolizeWeighByFatherId/'+data,
+            method: 'get',
+        })
+    },
+
+
+
     /**
      * 根据fatherId获取gather申请
      */

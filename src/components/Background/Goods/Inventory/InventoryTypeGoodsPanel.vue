@@ -4,6 +4,8 @@
 
         </div>
 
+
+
         <div class="box-body">
 
             <div class="col-md-2 category">
@@ -17,7 +19,7 @@
 
                     <div class="box-header with-border">
 
-                        <h3 class="box-title">大类</h3>
+                        <h3 class="box-title">库存商品</h3>
 
                         <div class="box-tools">
                             <div class="btn-group">
@@ -65,18 +67,20 @@
 </template>
 
 <script>
-    import StockTypeGoodsTable from '@/components/Background/Goods/Stock/StockTypeGoodsTable.vue'
+    import StockTypeGoodsTable from '@/components/Background/Goods/Inventory/InventoryTypeGoodsTable.vue'
     import api from '../../../../api/background/goods'
     import importGoods from '@/components/Background/Goods/ImportGoods.vue'
+    import AddGoods from '@/components/Background/Goods/AddGoods.vue'
 
     export default {
-        name: "StockTypeGoodsPanel",
+        name: "InventoryTypeGoodsPanel",
         props:['goodsType'],
 
 
         components: {
             StockTypeGoodsTable,
-            importGoods
+            importGoods,
+            AddGoods
         },
         data() {
             return{
@@ -128,7 +132,8 @@
 
 
             addCate: function () {
-                this.$router.push('/addCategory')
+                this.$router.push({ name: 'addCategory', params: { type: "0", typeName: "库存商品" }})
+
             },
 
             importGoods: function () {
@@ -136,7 +141,7 @@
             },
 
             downloadGoods: function () {
-                window.open("https://grainservice.club:8080/chainOrder/sys/ckgoods/downloadExcel")
+                window.open("http://localhost:8080/chainPro_war_exploded/sys/ckgoods/downloadExcel")
             }
 
 
@@ -149,4 +154,5 @@
     .category{
         padding-left: 0;
     }
+
 </style>

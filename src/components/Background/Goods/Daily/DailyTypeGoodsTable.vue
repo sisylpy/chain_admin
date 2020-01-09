@@ -12,10 +12,11 @@
                         <i class="fa fa-wrench"></i></button>
                     <ul class="dropdown-menu" role="menu">
 
-                        <li><a @click="add" data-toggle="modal" data-target="#modal-warning">新增</a></li>
-                        <li><a @click="update" data-toggle="modal" data-target="#modal-warning">修改</a></li>
-                        <li><a data-toggle="modal" data-target="#modal-warning" @click="del">删除</a></li>
-
+                        <li><a @click="add">新增</a></li>
+                        <li><a @click="updateDaily">修改</a></li>
+                        <li><a @click="del">删除</a></li>
+                        <li class="divider"></li>
+                        <li><a  v-if='goodsList.length > 0'  :click="delOne">删除列表</a></li>
                         <!--<li class="divider"></li>-->
 
                     </ul>
@@ -43,7 +44,7 @@
         <!--<table id="jqGrid"></table>-->
         <!--<div id="jqGridPager"></div>-->
 
-        <router-view @submit-add="appendToList"></router-view>
+        <AddGoods :fatherName="fatherName" :fatherId="fatherId" :goodsType="goodsType"   :addGoods="addGoods" @submit-add="appendToList"/>
 
     </section>
 
@@ -52,13 +53,13 @@
 
 <script>
     import api from '../../../../api/background/goods'
-    import addGoods from '@/components/Background/Goods/AddGoods.vue'
+    import AddGoods from '@/components/Background/Goods/Daily/AddGoodsDaily.vue'
 
     export default {
         name: "DailyTypeGoodsTable",
         props:['fatherId','fatherName','goodsType'],
         components:{
-          addGoods,
+            AddGoods,
         },
 
         watch: {
@@ -84,9 +85,11 @@
         data() {
             return {
                 page: 1,
-                limit: 20,
+                limit: 100,
                 goodsList: [],
                 tableName: "没有数据，请刷新页面",
+                addGoods: 0,
+
             }
         },
 
@@ -101,12 +104,20 @@
             //     that.clientHeight = `${document.documentElement.clientHeight}px`;
             // }
 
-            $(window).resize(function(){
-                $("#jqGrid").setGridWidth($('#jqbody').width());
-            });
+            // $(window).resize(function(){
+            //     $("#jqGrid").setGridWidth($('#jqbody').width());
+            // });
         },
 
         methods: {
+
+            delOne:function(){
+                api.deleteOne(this.fatherId).then(res => {
+                    if(res.code == 0){
+
+                    }
+                })
+            },
 
 
             appendToList: function() {
@@ -159,10 +170,12 @@
                             {label: '产品名称', name: 'goodsName', width: 120},
                             {label: '采购规格', name: 'purStandardName', width: 80},
                             {label: '申请规格', name: 'applyStandardName', width: 80},
-                            {label: '出货部门', name: 'depEntity.depName', width: 80},
-                            // {label: '报警重量', name: 'alarmWeight', width: 80},
-                            // {label: '保质期天数', name: 'quality_period', width: 80},
+                            {label: '出货部门', name: 'outDepEntity.depName', width: 80},
+                            {label: '采购部门', name: 'purDepEntity.depName', width: 80},
                             {label: '零售价格', name: 'price', width: 80},
+                            {label: '拼音', name: 'pinyin', width: 120},
+                            {label: '简拼', name: 'headPinyin', width: 80},
+
                             {label: '采购规格库存', name: 'stockPurStandard', width: 110,
                                 formatter: function (value, options, rowData) {
                                     return name = rowData.stockPurStandard + rowData.purStandardName
@@ -171,35 +184,6 @@
                                 formatter: function (value, options, rowData) {
                                     return name = rowData.stockApplyStandard + rowData.applyStandardName
                                 }},
-
-                            //stockApplyStandard
-                            // {label: '商品排序', name: 'gSort', width: 80},
-                            // {
-                            //     label: '是否称重',
-                            //     name: 'isWeight',
-                            //     width: 80,
-                            //     formatter: function (value, options, rowData) {
-                            //         if (value === 1) {
-                            //             return '称重';
-                            //         } else {
-                            //             return '不称重';
-                            //         }
-                            //     }
-                            // },
-                            // {
-                            //     label: '产品状态',
-                            //     name: 'status',
-                            //     width: 80,
-                            //     formatter: function (value, options, rowData) {
-                            //         if (value === 1) {
-                            //             return '售卖中';
-                            //         } else if (value === 2) {
-                            //             return '断货';
-                            //         } else {
-                            //             return '停止销售'
-                            //         }
-                            //     }
-                            // }
                         ],
 
 
@@ -230,28 +214,30 @@
                         //     $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "scroll"});
                         // }
                     });
-
             },
 
 
             add: function () {
 
-                this.$router.push({
-                    name: '/Goods/addGoods',
-                    params: {
-                        fatherName: this.fatherName ,
-                        fatherId: this.fatherId,
-                    }
-                })
+                // this.$router.push({
+                //     name: 'addGoodsb',
+                //     params: {
+                //         fatherName: this.fatherName ,
+                //         fatherId: this.fatherId,
+                //     }
+                // })
+                $('#modal_daily').show();
             },
 
-            update: function (event) {
+            updateDaily: function (event) {
+                console.log("updateDailyl!!!!!!!")
                 var goodsId = this.getSelectedRow();
                 if (goodsId == null) {
                     return;
                 }
-                this.$router.push('/Goods/addGoods/' + goodsId)
-
+                this.addGoods = 1;
+                $('#modal_daily').show();
+                $('#modal_daily').attr('goodsid', goodsId);
             },
 
 
@@ -261,13 +247,12 @@
                     return;
                 }
 
-                var paramContent = this.getSelectedRowsContents("goodsName");
+                api.deleteGoods(goodsIds).then(res => {
+                    if(res) {
+                        this.appendToList();
+                        // this.$router.go(-1)
+                        // $('#modal-warning').modal('hide')
 
-                this.$router.push({
-                    name: '/op_assignGoods/madal_warning',
-                    params: {
-                        modal_title: "确定要删除" + paramContent + "吗？",
-                        goodsIds: goodsIds
                     }
                 })
 
@@ -281,10 +266,10 @@
 
             //选择一条记录
             getSelectedRow: function () {
-                var grid = $("#jqGrid");
+                var grid = $("#dailyTable");
                 var rowKey = grid.getGridParam("selrow");
                 if (!rowKey) {
-                    console.log("请选择一条记录a");
+                    console.log("请选择一条记录dailydkfjal");
                     return;
                 }
 
@@ -304,7 +289,7 @@
 
             //选择多条记录
             getSelectedRows: function () {
-                var grid = $("#jqGrid");
+                var grid = $("#dailyTable");
                 var rowKey = grid.getGridParam("selrow");
                 if (!rowKey) {
                     alert("请选择一条记录");
@@ -318,7 +303,7 @@
 
                 var ids = this.getSelectedRows();
 
-                var grid = $("#jqGrid");
+                var grid = $("#dailyTable");
                 var contents = [];
 
                 for (var i = 0; i < ids.length; i++) {

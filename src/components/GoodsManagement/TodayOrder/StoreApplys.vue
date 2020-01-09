@@ -26,6 +26,34 @@
 
         <div class="col-md-9" style="position: relative;">
 
+            <div class="box-tools pull-right">
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-wrench"></i></button>
+                    <ul class="dropdown-menu" role="menu">
+
+                        <li><a   data-toggle="modal" data-target="#modal_inventory"
+
+                        >inventory</a></li>
+                        <!--<li><a @click="update" data-toggle="modal" data-target="#modal-warning">修改</a></li>-->
+                        <!--<li><a data-toggle="modal" data-target="#modal-warning" @click="del">删除</a></li>-->
+
+                        <!--<li class="divider"></li>-->
+
+                    </ul>
+                </div>
+
+
+                <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i-->
+                <!--class="fa fa-minus"></i>-->
+                <!--</button>-->
+                <!--<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-success">-->
+                <!--Launch Success Modal-->
+                <!--</button>-->
+            </div>
+
+        >inventory</a>
             <div class="" style="float: left; height: 100%; width:100%;">
 <!--<button class="btn btn-default btn-sm checkbox-toggle">aa</button>-->
                 <div style="float: right;" v-if="currPage < totalPage">{{(currPage - 1) * limit + 1}}-{{limit *
@@ -105,6 +133,7 @@
                 <div style="margin-left: 10px;" v-else>今天没有订货！</div>
             </div>
         </div>
+        <AddGoods />
 
 
     </div>
@@ -115,6 +144,7 @@
 <script>
 
     import api from '@/api/goodsManagement/todayOrder'
+    import AddGoods from '@/components/Background/Goods/AddGoods.vue'
 
     export default {
         name: "StoreApplys",
@@ -133,7 +163,9 @@
         },
         props: ['orderType'],
 
-
+        components:{
+            AddGoods,
+        },
         watch: {
 
             orderType: function (newVal) {

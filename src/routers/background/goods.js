@@ -6,7 +6,7 @@ export default {
     children: [
         {
             path: 'addGoods',
-            name: '/Goods/addGoods',
+            name: 'addGoods',
             component: () => import('@/components/Background/Goods/AddGoods'),
 
         },

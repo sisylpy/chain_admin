@@ -4,6 +4,7 @@ export default {
 
 
 
+
     /**
      * 出货部门获取商品列表
      */
@@ -44,6 +45,17 @@ export default {
         })
     },
 
+
+    /**
+     * 入库单入库
+     */
+    inDepBillReceive(data){
+        return request ({
+            url: 'sys/ckinbill/update' ,
+            method: 'post',
+            data
+        })
+    },
 
     /**
      * 查询未入库的入库单

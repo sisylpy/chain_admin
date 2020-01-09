@@ -44,7 +44,7 @@ module.exports = {
         hotOnly: false,
         proxy: {
             '/sys': {
-                target: 'https://grainservice.club:8080/chainOrder/',
+                target: 'http://localhost:8080/chainPro_war_exploded/',
                 changeOrigin: true
             }
         }

@@ -2,17 +2,17 @@
 const modeUrlObj = {
   // 生产环境
   'production': {
-    baseURL: 'https://grainservice.club:8080/chainOrder/',
+    baseURL: 'http://localhost:8080/chainPro_war_exploded/',
     authBaseURL: ''
   },
   // 开发环境
   'development': {
-    baseURL: 'https://grainservice.club:8080/chainOrder/',
+    baseURL: 'http://localhost:8080/chainPro_war_exploded/',
     authBaseURL: ''
   },
   // 测试环境
   'test': {
-    baseURL: 'https://grainservice.club:8080/chainOrder/',
+    baseURL: 'http://localhost:8080/chainPro_war_exploded/',
     authBaseURL: ''
   }
 }

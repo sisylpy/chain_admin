@@ -14,6 +14,8 @@ import '../../node_modules/moment/moment'
 import '../../node_modules/admin-lte/bower_components/bootstrap-daterangepicker/daterangepicker'
 //datepicker
 import '../../node_modules/admin-lte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker'
+// import '../../node_modules/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min'
+// import '../../node_modules/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min'
 
 import './plugins/iCheck/icheck.min'
 
@@ -32,3 +34,6 @@ import '../utils/jquery.modal'
 // <script src="../../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 // import '../../node_modules/admin-lte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepick'
 // import './plugins/layer/layer'
+//<!-- DataTables -->
+// <script src="../../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+// <script src="../../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>

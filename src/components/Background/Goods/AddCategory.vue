@@ -6,18 +6,18 @@
         <section class="content container-fluid">
 
             <div class="panel panel-default" id="rrapp" v-cloak>
-                <div class="panel-heading">添加新商品类别</div>
+                <div class="panel-heading">添加{{typeName}}类别</div>
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <div class="col-sm-2 control-label">商品类别名称</div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="ckGoods.goodsName" placeholder="商品类别名称" value="name"/>
+                        <div class="col-sm-4 control-label">{{typeName}}类别名称</div>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" v-model="ckGoods.goodsName" placeholder="类别名称" value="name"/>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-2 control-label">商品排序</div>
-                        <div class="col-sm-10">
+                        <div class="col-sm-4 control-label">商品排序</div>
+                        <div class="col-sm-8">
                             <input type="text" class="form-control" v-model="ckGoods.gSort" placeholder="商品排序" value="sort"/>
                         </div>
                     </div>
@@ -48,8 +48,10 @@
           return{
               ckGoods: {
                   fatherId: 0,
+                  type: this.$route.params.type
 
-              }
+              },
+              typeName: this.$route.params.typeName
           }
         },
 
@@ -64,7 +66,7 @@
                 console.log(this.ckGoods);
                 console.log(JSON.stringify(this.ckGoods))
 
-                api.saveGoods(JSON.stringify(this.ckGoods)).then(res => {
+                api.saveGoods(this.ckGoods).then(res => {
                     this.$router.go(-1)
                 })
 

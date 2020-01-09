@@ -2,12 +2,11 @@
 
     <!-- model-applycommit-->
 
-    <div class="my-modal-back" id="modal_inventory">
+    <div class="my-modal-back" id="modal_daily">
         <div class="my-modal">
             <div class="">
-                <div>{{title}}</div>
                 <div class="">
-                    <button type="button" @click="close" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="memberWxNameApply">{{fatherName}}</h4>
                 </div>
@@ -39,6 +38,7 @@
                         </div>
 
 
+
                         <div class="form-group">
                             <div class="col-sm-2 control-label">出货部门</div>
                             <div class="col-sm-10">
@@ -47,20 +47,12 @@
                                 </select>
                             </div>
                         </div>
+
+
                         <div class="form-group">
-                            <div class="col-sm-2 control-label">采购部门</div>
-                            <div class="col-sm-10">
-                                <select class="form-control" v-model="ckGoods.purDepId" @change="selectOutDep">
-                                    <option :value="item.depId" v-for="item in outDepArr">{{item.depName}}</option>
-                                </select>
-                            </div>
-                        </div>
-
-
-                            <div class="form-group">
                             <div class="col-sm-2 control-label">零售价格</div>
                             <div class="col-sm-10">
-                                <input class="form-control" type="number" v-model="ckGoods.price"/>
+                                <input class="form-control" v-model="ckGoods.price"/>
                             </div>
                         </div>
 
@@ -68,7 +60,7 @@
 
                 </div>
                 <div class="my-modal-footer">
-                    <button type="button" class="btn btn-sm btn-default" @click="close">关闭</button>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" >关闭</button>
                     <button type="button" class="btn btn-sm btn-primary"  @click="saveOrUpdate">确定</button>
                 </div>
             </div>
@@ -81,46 +73,51 @@
 </template>
 
 <script>
-    import api from '../../../api/background/goods'
-    import apio from '../../../api/background/ckDep'
+    import api from '@/api/background/goods'
+    import apio from '@/api/background/ckDep'
 
     export default {
-        name: "AddGoods",
+        name: "AddGoodsDaily",
         data() {
             return {
 
+                title: "新增",
                 ckGoods: {
                     outDepId: '',
+                    type: 2
 
                 },
                 selectedStatus: 1,
                 outDepArr: [],
-                title:"新增"
 
             }
         },
-        props:['fatherId','fatherName','goodsType', 'addGoods'],
+        props:['fatherId','fatherName','goodsType',  'addGoods'],
         mounted(){
+            var that = this;
+
+            // $('#modal_inventory').on('show.bs.modal', function (e) {
+            //     that.fatherName = $(e.relatedTarget).attr('fathername');
+            //     that.fatherId = $(e.relatedTarget).attr('fatherid');
+            //
+            // })
 
         },
         watch: {
             fatherId: function(newVal,oldVal){
                 this.fatherId = newVal
                 this.ckGoods.fatherId = newVal;
+
             },
             fatherName: function (newVal, oldVal) {
 
-            },
-            goodsType: function(newVal,oldVal){
-                this.goodsType = newVal
-                this.ckGoods.type = newVal;
             },
             addGoods: function (newVal, oldVal) {
                 console.log(newVal);
 
                 if(newVal == 1) {
-                    console.log("shi 1")
-                    var goodsId = $('#modal_inventory').attr('goodsid');
+                    console.log("shi new dkfalsjldasj;lkyeayayyay")
+                    var goodsId = $('#modal_daily').attr('goodsid');
 
                     console.log(goodsId)
                     if ( goodsId!= null) {
@@ -134,17 +131,18 @@
         },
         created: function () {
 
-
+            if (this.goodsId != null) {
+                this.title = "修改";
+                this.getInfo(this.goodsId);
+            }
             this.getOutDepData();
+
+
 
         },
         components: {},
 
         methods: {
-            close:function(){
-                $('#modal_inventory').hide();
-
-            },
             selectOutDep: function (e) {
                 console.log(this.ckGoods.outDepId);
 
@@ -180,8 +178,8 @@
 
                 if (this.ckGoods.goodsId) {
 
-                    api.updateGoods(JSON.stringify(this.ckGoods)).then(res => {
-                        $('#modal_inventory').hide();
+                    api.updateGoods(this.ckGoods).then(res => {
+                        $('#modal_daily').hide();
                         this.$emit('submit-add');
 
 
@@ -193,7 +191,7 @@
 
                     api.saveGoods(this.ckGoods).then(res => {
                         if(res.code == 0) {
-                            $('#modal_inventory').hide();
+                            $('#modal_daily').hide();
                             //
                             this.$emit('submit-add');
                         }

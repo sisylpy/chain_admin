@@ -1,9 +1,8 @@
 <template>
     <div class="">
-
         <PageHeader/>
 
-            <div class="content">
+            <section class="content">
 
                     <div class="nav-tabs-custom no-border">
 
@@ -17,7 +16,7 @@
                         <div class="tab-content no-padding">
 
                             <div class="chart tab-pane active " id="stock" style="position: relative;">
-                                <StockTypeGoodsPanel :goodsType="goodsType"/>
+                                <InventoryTypeGoodsPanel :goodsType="goodsType"/>
                             </div>
 
                             <div class="chart tab-pane" id="handling">
@@ -30,14 +29,18 @@
 
                         </div>
                     </div>
-            </div>
+
+
+
+
+            </section>
 
     </div>
 </template>
 
 <script>
     import PageHeader from '@/components/PageHeader.vue'
-    import StockTypeGoodsPanel from '@/components/Background/Goods/Stock/StockTypeGoodsPanel.vue'
+    import InventoryTypeGoodsPanel from '@/components/Background/Goods/Inventory/InventoryTypeGoodsPanel.vue'
     import HandlingTypeGoodsPanel from '@/components/Background/Goods/Handling/HandlingTypeGoodsPanel.vue'
     import DailyTypeGoodsPanel from '@/components/Background/Goods/Daily/DailyTypeGoodsPanel.vue'
 
@@ -54,11 +57,12 @@
 
         components: {
             PageHeader,
-            StockTypeGoodsPanel,
+            InventoryTypeGoodsPanel,
             HandlingTypeGoodsPanel,
-            DailyTypeGoodsPanel
+            DailyTypeGoodsPanel,
 
-        },
+
+    },
         methods: {
             //点击产品类别
             onclick(data) {
@@ -79,4 +83,6 @@
     display: block;
     border: none;
 }
+
+
 </style>

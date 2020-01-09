@@ -14,7 +14,7 @@
                     </div>
 
                     <div class="form-group col-md-3">
-                        <label>选择部门</label>
+                        <label>选择入库部门</label>
                         <select class="form-control select2" data-placeholder="选择部门"
                                 style="width: 100%;" ref="selectDep">
                             <option></option>

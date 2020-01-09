@@ -194,17 +194,17 @@
                     inStoreId: inStoreId,
                     total: total
                 };
-                // $.ajax({
-                //     type: "POST",
-                //     url: "https://grainservice.club:8080/chainOrder/sys/ckstockbill/deliveryPrintSuccess/",
-                //     data: JSON.stringify(bill),
-                //     dataType: 'json',
-                //     success: function (data) {
-                //         if (data.code == 0) {
-                //             window.location.reload();
-                //         }
-                //     }
-                // })
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8080/chainPro_war_exploded/sys/ckstockbill/deliveryPrintSuccess/",
+                    data: JSON.stringify(bill),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 0) {
+                            window.location.reload();
+                        }
+                    }
+                })
             });
 
             //取消打印
@@ -413,9 +413,7 @@
 
                             if (j < arrLen) {
 
-
                                 if (j < (i - 1) * totalGoods + totalGoods / 3 ){
-
 
                                     var oneItem = `<div class="oneItem" style="background: red;float: left;width: 100%; border-bottom: 1px solid gray;
                                                                         line-height: 24px; text-align: center;font-size: 11px;"></div>`
@@ -433,9 +431,7 @@
 
 
                                 } else if(j >= (i - 1) * totalGoods + totalGoods / 3 &&  j < ((i - 1) * totalGoods + totalGoods / 3) * 2){
-                                    console.log("dayinjjjjjjjjjjjjjj====")
-                                    console.log(j)
-                                    console.log( arr[j]['goodsEntity']['goodsName'])
+
                                     var oneItem = `<div class="oneItem" style="background: rebeccapurple;float: left;width: 100%; border-bottom: 1px solid gray;
                                                                         line-height: 24px; text-align: center;font-size: 11px;"></div>`
                                     $('.middle_bill:eq('+ newi +')').append(oneItem);
@@ -451,11 +447,7 @@
                                     $('.oneItem:eq(' + j + ')').append(subTotal);
 
                                 } else {
-                                    console.log("disanhang!!!!======>>>>>")
 
-                                    console.log(j)
-                                    console.log($('.right_bill:eq('+ newi +')'))
-                                    console.log("over!!!@")
                                     var oneItem = `<div class="oneItem" style="background: deeppink;float: left;width: 100%; border-bottom: 1px solid gray;
                                                                         line-height: 24px; text-align: center;font-size: 11px;"></div>`
                                     $('.right_bill:eq('+ newi +')').append(oneItem);
@@ -515,7 +507,7 @@
 
 
                 var ch = `<div style="z-index: 9999; width:100%; height:100%;
- background: gray;position: fixed; left:0; top:0;">
+                                       background: gray;position: fixed; left:0; top:0;">
                             <button id="sucPrint">打印成功2</button>
                             <button id="noPrint">打印失败2</button>
                             </div>`

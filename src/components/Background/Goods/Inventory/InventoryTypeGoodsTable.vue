@@ -1,68 +1,63 @@
 <template>
 
     <!--<section class="content container-fluid">-->
-    <section class="content container-fluid box box-primary" id="jqbody">
 
-        <div class="box-header with-border">
-            <h3 class="box-title">{{tableName}}</h3>
+    <div>
+        <section class="content container-fluid box box-primary" id="jqbody">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{tableName}}</h3>
 
-            <div class="box-tools pull-right">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-wrench"></i></button>
-                    <ul class="dropdown-menu" role="menu">
+                <div class="box-tools pull-right">
 
-                        <li><a @click="add" data-toggle="modal" data-target="#modal-warning">新增</a></li>
-                        <li><a @click="update" data-toggle="modal" data-target="#modal-warning">修改</a></li>
-                        <li><a data-toggle="modal" data-target="#modal-warning" @click="del">删除</a></li>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-wrench"></i></button>
+                        <ul class="dropdown-menu" role="menu">
 
-                        <!--<li class="divider"></li>-->
+                            <li><a   @click="add">新增</a></li>
+                            <li><a @click="update">修改</a></li>
+                            <li><a  @click="del">删除</a></li>
+                            <li class="divider"></li>
+                            <li><a  v-if='goodsList.length > 0'  :click="delOne">删除列表</a></li>
 
-                    </ul>
+                        </ul>
+                    </div>
+
                 </div>
 
-
-                <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i-->
-                        <!--class="fa fa-minus"></i>-->
-                <!--</button>-->
             </div>
 
-        </div>
-        <div class="box-body no-padding">
-            <table id="jqGrid"></table>
-            <div id="jqGridPager"></div>
-        </div>
+            <div class="box-body no-padding">
+                <table id="jqGrid"></table>
+                <div id="jqGridPager"></div>
+            </div>
 
-        <!--<div class="grid-btn">-->
-            <!--<a class="btn btn-default" @click="add" data-toggle="modal" data-target="#modal-warning" >新增</a>-->
-            <!--<a type="button" class="btn btn-default" @click="update" data-toggle="modal" data-target="#modal-warning">修改</a>-->
-            <!--<a class="btn btn-default " data-toggle="modal" data-target="#modal-warning" @click="del">删除</a>-->
 
-        <!--</div>-->
 
-        <!--<table id="jqGrid"></table>-->
-        <!--<div id="jqGridPager"></div>-->
 
-        <router-view @submit-add="appendToList"></router-view>
+            <AddGoods :fatherName="fatherName" :fatherId="fatherId" :goodsType="goodsType" :addGoods="addGoods" @submit-add="appendToList "/>
 
-    </section>
+        </section>
 
+    </div>
 
 </template>
 
 <script>
     import api from '../../../../api/background/goods'
-    import addGoods from '@/components/Background/Goods/AddGoods.vue'
+    import AddGoods from '@/components/Background/Goods/AddGoods.vue'
 
     export default {
-        name: "StockTypeGoodsTable",
+
+        name: "InventoryTypeGoodsTable",
         props:['fatherId','fatherName','goodsType'],
         components:{
-          addGoods,
+            AddGoods
         },
 
         watch: {
             fatherId: function(newVal,oldVal){
+                this.fatherId = newVal
                 this.getJqtableData(newVal)
 
             },
@@ -74,7 +69,6 @@
                 this.tableName= newVal;
                 if(newVal == "stock"){
                     this.getJqtableData(this.fatherId)
-
                 }
             },
 
@@ -83,29 +77,27 @@
         data() {
             return {
                 page: 1,
-                limit: 20,
+                limit: 100,
                 goodsList: [],
                 tableName: "没有数据，请刷新页面",
+                addGoods: 0,
+
+
             }
         },
 
-        mounted() {
-            // 动态设置背景图的高度为浏览器可视区域高度
 
-            // 首先在Virtual DOM渲染数据时，设置下背景图的高度．
-            // this.clientHeight.height = `${document.documentElement.clientHeight}px`;
-            // 然后监听window的resize事件．在浏览器窗口变化时再设置下背景图高度．
-            // const that = this;
-            // window.onresize = function temp() {
-            //     that.clientHeight = `${document.documentElement.clientHeight}px`;
-            // }
-
-            $(window).resize(function(){
-                $("#jqGrid").setGridWidth($('#jqbody').width());
-            });
-        },
 
         methods: {
+
+            delOne:function(){
+              api.deleteOne(this.fatherId).then(res => {
+                  if(res.code == 0){
+
+                  }
+              })
+            },
+
 
 
             appendToList: function() {
@@ -158,10 +150,12 @@
                             {label: '产品名称', name: 'goodsName', width: 120},
                             {label: '采购规格', name: 'purStandardName', width: 80},
                             {label: '申请规格', name: 'applyStandardName', width: 80},
-                            {label: '出货部门', name: 'depEntity.depName', width: 80},
-                            // {label: '报警重量', name: 'alarmWeight', width: 80},
-                            // {label: '保质期天数', name: 'quality_period', width: 80},
+                            {label: '出货部门', name: 'outDepEntity.depName', width: 80},
+                            {label: '采购部门', name: 'purDepEntity.depName', width: 80},
                             {label: '零售价格', name: 'price', width: 80},
+                            {label: '拼音', name: 'pinyin', width: 120},
+                            {label: '简拼', name: 'headPinyin', width: 80},
+
                             {label: '采购规格库存', name: 'stockPurStandard', width: 110,
                                 formatter: function (value, options, rowData) {
                                     return name = rowData.stockPurStandard + rowData.purStandardName
@@ -171,34 +165,7 @@
                                     return name = rowData.stockApplyStandard + rowData.applyStandardName
                                 }},
 
-                            //stockApplyStandard
-                            // {label: '商品排序', name: 'gSort', width: 80},
-                            // {
-                            //     label: '是否称重',
-                            //     name: 'isWeight',
-                            //     width: 80,
-                            //     formatter: function (value, options, rowData) {
-                            //         if (value === 1) {
-                            //             return '称重';
-                            //         } else {
-                            //             return '不称重';
-                            //         }
-                            //     }
-                            // },
-                            // {
-                            //     label: '产品状态',
-                            //     name: 'status',
-                            //     width: 80,
-                            //     formatter: function (value, options, rowData) {
-                            //         if (value === 1) {
-                            //             return '售卖中';
-                            //         } else if (value === 2) {
-                            //             return '断货';
-                            //         } else {
-                            //             return '停止销售'
-                            //         }
-                            //     }
-                            // }
+
                         ],
 
 
@@ -234,22 +201,30 @@
 
 
             add: function () {
+                // console.log("addd?")
+                //
+                // this.$router.push({
+                //     name: 'addGoods',
+                //     params: {
+                //         fatherName: this.fatherName ,
+                //         fatherId: this.fatherId,
+                //         typeName: "inventory"
+                //     }
+                // })
+                $('#modal_inventory').show();
 
-                this.$router.push({
-                    name: '/Goods/addGoods',
-                    params: {
-                        fatherName: this.fatherName ,
-                        fatherId: this.fatherId,
-                    }
-                })
             },
 
             update: function (event) {
                 var goodsId = this.getSelectedRow();
+                this.addGoods = 1;
                 if (goodsId == null) {
                     return;
                 }
-                this.$router.push('/Goods/addGoods/' + goodsId)
+
+                $('#modal_inventory').show();
+                $('#modal_inventory').attr('goodsid', goodsId);
+
 
             },
 
@@ -260,18 +235,30 @@
                     return;
                 }
 
-                var paramContent = this.getSelectedRowsContents("goodsName");
+                api.deleteGoods(goodsIds).then(res => {
+                    if(res) {
+                        this.appendToList();
+                        // this.$router.go(-1)
+                        // $('#modal-warning').modal('hide')
 
-                this.$router.push({
-                    name: '/op_assignGoods/madal_warning',
-                    params: {
-                        modal_title: "确定要删除" + paramContent + "吗？",
-                        goodsIds: goodsIds
                     }
                 })
+                var paramContent = this.getSelectedRowsContents("goodsName");
+
+                // this.$router.push({
+                //     name: '/op_assignGoods/madal_warning',
+                //     params: {
+                //         modal_title: "确定要删除" + paramContent + "吗？",
+                //         goodsIds: goodsIds
+                //     }
+                // })
 
             },
 
+
+            delGoods: function () {
+
+            },
             delFinished: function () {
                 console.log("delFinish");
                 this.jqtable()
@@ -343,9 +330,55 @@
 
 </script>
 
-<style scoped >
+<style >
     /*.content{*/
         /*background: #fff;*/
     /*}*/
+
+
+    .my-modal-back{
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(0,0,0,.5);
+        width: 100%;
+        height: 100%;
+        /*display: flex;*/
+        justify-content: center;
+        align-items: center;
+        z-index: 99999999;
+        display: none;
+
+    }
+    .my-modal {
+        position: relative;
+        width: 50%;
+        margin-left: 25%;
+
+        background: #fff;
+        padding: 20px;
+        /*color: #fff;*/
+        margin-top: 50px;
+
+
+    }
+
+
+
+    .my_modal_body {
+        /*padding: 130px;*/
+
+
+    }
+    .my-modal-footer{
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+        margin-right: 40px;
+        align-items: center;
+    }
+
 
 </style>

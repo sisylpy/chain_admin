@@ -175,37 +175,61 @@
             window.addEventListener("afterprint", function (event) {
                 console.log(event)
 
-                var $applys = $('body').children().find('.one-goods-apply');
-                var printMax = $('body').children('h2').attr('printmax');
-                console.log($('body').children('h2').attr('printmax'))
-                console.log(printMax);
+                // var $applys = $('body').children().find('.one-goods-apply');
+                // var printMax = $('body').children('h2').attr('printmax');
+                // console.log($('body').children('h2').attr('printmax'))
+                // console.log(printMax);
+                //
+                // var trs = $('tr');
+                //     console.log(trs.length);
+                //     console.log("trs.length up")
+                //
+                // var ids = [];
+                // for (var i = 0; i < $applys.length; i++) {
+                //     var id = $($applys[i]).attr('id');
+                //     ids.push(id)
+                // }
+                //
+                // var applyArr = [];
+                // for (var i = 0; i < ids.length; i++) {
+                //
+                //     var apply = {
+                //         applyId: ids[i],
+                //         pageNumber: parseInt(printMax) + 1
+                //     };
+                //     applyArr.push(apply);
+                // }
+            });
 
-                var trs = $('tr');
+                $('body').on('click', '#successPrint', function () {
+                    var $applys = $('body').children().find('.one-goods-apply');
+                    var printMax = $('body').children('h2').attr('printmax');
+                    console.log($('body').children('h2').attr('printmax'))
+                    console.log(printMax);
+
+                    var trs = $('tr');
                     console.log(trs.length);
                     console.log("trs.length up")
 
-                var ids = [];
-                for (var i = 0; i < $applys.length; i++) {
-                    var id = $($applys[i]).attr('id');
-                    ids.push(id)
-                }
+                    var ids = [];
+                    for (var i = 0; i < $applys.length; i++) {
+                        var id = $($applys[i]).attr('id');
+                        ids.push(id)
+                    }
 
-                var applyArr = [];
-                for (var i = 0; i < ids.length; i++) {
+                    var applyArr = [];
+                    for (var i = 0; i < ids.length; i++) {
 
-                    var apply = {
-                        applyId: ids[i],
-                        pageNumber: parseInt(printMax) + 1
-                    };
-                    applyArr.push(apply);
-                }
-
-
-                $('body').on('click', '#successPrint', function () {
+                        var apply = {
+                            applyId: ids[i],
+                            pageNumber: parseInt(printMax) + 1
+                        };
+                        applyArr.push(apply);
+                    }
                     console.log("success!!")
                     $.ajax({
                         type: "POST",
-                        url: "https://grainservice.club:8080/chainOrder/sys/ckapplys/applysPrintSuccess/",
+                        url: "http://localhost:8080/chainPro_war_exploded/sys/ckapplys/applysPrintSuccess/",
                         data: JSON.stringify(applyArr),
                         dataType: 'json',
                         success: function (data) {
@@ -221,7 +245,7 @@
                 $('body').on('click', '#cancelPrint', function () {
                     window.location.reload();
                 });
-            });
+
 
 
         },
@@ -266,7 +290,7 @@
                 $.ajax({
                     cache: true,
                     type: "get",
-                    url: "https://grainservice.club:8080/chainOrder/sys/ckapplys/getGatherApplys",
+                    url: "http://localhost:8080/chainPro_war_exploded/sys/ckapplys/getGatherApplys",
                     data: data,
                     dataType: 'json',
                     success: function (data) {
@@ -297,7 +321,7 @@
                 console.log(this.printMax)
                 var printTimes = parseInt(this.printMax) + 1
 
-                var header = `<h3>`+ this.dateTime +`</h3><h3 class="header" id="title" style="text-align: center;" printmax=` + this.printMax + `>凉菜出货单</h3>`
+                var header = `<h3>`+ this.dateTime +`</h3><h3 class="header" id="title" style="text-align: center;" printmax=` + this.printMax + `>出货单</h3>`
                 $('#testParpare').append(header);
 
                 var applysArr = this.printArr;
@@ -366,7 +390,8 @@
                 // window.document.body.innerHTML = test
                 // window.print();
 
-                var ch = `<div style="width: 100%; height: 100%; background: gray;position: fixed; left:0; top:0;">
+                var ch = `<div style="z-index: 9999; width:100%; height:100%;
+                                       background: gray;position: fixed; left:0; top:0;">
                             <button id="successPrint">打印成功1</button>
                             <button id="cancelPrint">打印失败1</button>
                             </div>`

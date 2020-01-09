@@ -127,7 +127,7 @@
 
 
             addCate: function () {
-                this.$router.push('/addCategory')
+                this.$router.push({ name: 'addCategory', params: { type: "2", typeName: "日采商品" }})
             },
 
             importGoods: function () {
@@ -135,7 +135,7 @@
             },
 
             downloadGoods: function () {
-                window.open("https://grainservice.club:8080/chainOrder/sys/ckgoods/downloadExcel")
+                window.open("http://localhost:8080/chainPro_war_exploded/sys/ckgoods/downloadExcel")
             }
 
 
